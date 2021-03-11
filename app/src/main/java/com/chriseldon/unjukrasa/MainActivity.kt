@@ -2,10 +2,62 @@ package com.chriseldon.unjukrasa
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.chriseldon.unjukrasa.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        if (savedInstanceState == null) {
+            setupNavigation()
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Now that BottomNavigationBar has restored its instance state
+        // and its selectedItemId, we can proceed with setting up the
+        // BottomNavigationBar with Navigation
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        val navGraphIds = listOf(
+            R.navigation.home_page,
+            R.navigation.topic_page,
+            R.navigation.message_page,
+            R.navigation.profile_page
+        )
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.navigation.home_page,
+                R.navigation.topic_page,
+                R.navigation.message_page,
+                R.navigation.profile_page
+            )
+        )
+
+        // Setup the bottom navigation view with a list of navigation graphs
+        val controller = binding.bottomNavigation.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_container,
+            intent = intent
+        )
+
+        // Whenever the selected controller changes, setup the action bar.
+        controller.observe(this, { navController ->
+            setupActionBarWithNavController(navController)
+        })
     }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">UnjukRasa</string>
+    <string name="beranda">Beranda</string>
+    <string name="topik">Topik</string>
+    <string name="pesan">Pesan</string>
+    <string name="profil">Profil</string>
 </resources>
