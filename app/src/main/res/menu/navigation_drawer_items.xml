@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_home_page"
+        android:title="@string/beranda"
+        android:icon="@drawable/ic_home_white_24dp" />
+    <item android:id="@+id/action_topic_page"
+        android:title="@string/topik"
+        android:icon="@drawable/ic_dashboard_white_24dp" />
+    <item android:id="@+id/action_message_page"
+        android:title="@string/pesan"
+        android:icon="@drawable/ic_paper_plane" />
+    <item android:id="@+id/action_profile_page"
+        android:title="@string/profil"
+        android:icon="@drawable/ic_perm_identity_white_24dp" />
+</menu>

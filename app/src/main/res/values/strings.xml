@@ -4,4 +4,6 @@
     <string name="topik">Topik</string>
     <string name="pesan">Pesan</string>
     <string name="profil">Profil</string>
+    <string name="open">Buka</string>
+    <string name="close">Tutup</string>
 </resources>
