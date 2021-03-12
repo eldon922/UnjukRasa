@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chriseldon.unjukrasa.databinding.FragmentHomePageBinding
 
 class HomePageFragment : Fragment() {
@@ -25,6 +26,20 @@ class HomePageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
+        binding.rvTrending.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = TrendingListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+        }
+
+        binding.rvActiveToday.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = ActiveTodayListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+        }
+
+        binding.rvRecommended.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.adapter = RecommendedListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+        }
     }
 
     override fun onDestroyView() {
