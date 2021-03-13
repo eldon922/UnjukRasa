@@ -1,17 +1,19 @@
 package com.chriseldon.unjukrasa
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.chriseldon.unjukrasa.databinding.ActivityMainBinding
+import com.chriseldon.unjukrasa.notification.NotificationActivity
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var binding: ActivityMainBinding
 
@@ -29,6 +31,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
+
+        binding.notificationButton.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
 
         val drawerToggle = ActionBarDrawerToggle(this, binding.drawer, R.string.open, R.string.close)
         binding.drawer.addDrawerListener(drawerToggle)
@@ -51,15 +58,6 @@ class MainActivity : AppCompatActivity() {
             R.navigation.topic_page,
             R.navigation.message_page,
             R.navigation.profile_page
-        )
-
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.navigation.home_page,
-                R.navigation.topic_page,
-                R.navigation.message_page,
-                R.navigation.profile_page
-            )
         )
 
         // Setup the bottom navigation view with a list of navigation graphs
