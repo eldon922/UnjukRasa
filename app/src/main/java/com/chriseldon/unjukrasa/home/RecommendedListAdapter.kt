@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chriseldon.unjukrasa.R
+import com.chriseldon.unjukrasa.databinding.RecommendedListItemBinding
 import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
 
 
@@ -16,7 +17,7 @@ class RecommendedListAdapter(private val dataSet: List<String>) :
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = TrendingListItemBinding.bind(view)
+        private val binding = RecommendedListItemBinding.bind(view)
 
         fun bind(text: String) {
 
@@ -27,7 +28,7 @@ class RecommendedListAdapter(private val dataSet: List<String>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.trending_list_item, viewGroup, false)
+            .inflate(R.layout.recommended_list_item, viewGroup, false)
 
         return ViewHolder(view)
     }

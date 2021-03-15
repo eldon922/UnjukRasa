@@ -30,13 +30,13 @@
                     android:layout_height="30dp"
                     android:background="@drawable/search_view_rounded_background"
                     app:iconifiedByDefault="false"
+                    app:queryBackground="@null"
+                    app:queryHint="Apa yang kamu keluhkan?"
+                    app:searchIcon="@null"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/notification_button"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:queryBackground="@null"
-                    app:queryHint="Apa yang kamu keluhkan?"
-                    app:searchIcon="@null" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/notification_button"

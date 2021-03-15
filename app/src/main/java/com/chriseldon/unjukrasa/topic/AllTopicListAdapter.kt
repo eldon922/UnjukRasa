@@ -1,23 +1,22 @@
-package com.chriseldon.unjukrasa.home
+package com.chriseldon.unjukrasa.topic
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.ActiveTodayListItemBinding
-import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
+import com.chriseldon.unjukrasa.databinding.AllTopicListItemBinding
 
 
-class ActiveTodayListAdapter(private val dataSet: List<String>) :
-    RecyclerView.Adapter<ActiveTodayListAdapter.ViewHolder>() {
+class AllTopicListAdapter(private val dataSet: List<String>) :
+    RecyclerView.Adapter<AllTopicListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ActiveTodayListItemBinding.bind(view)
+        private val binding = AllTopicListItemBinding.bind(view)
 
         fun bind(text: String) {
 
@@ -28,7 +27,7 @@ class ActiveTodayListAdapter(private val dataSet: List<String>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.active_today_list_item, viewGroup, false)
+            .inflate(R.layout.all_topic_list_item, viewGroup, false)
 
         return ViewHolder(view)
     }
