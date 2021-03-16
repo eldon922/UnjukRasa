@@ -6,4 +6,7 @@
     <string name="profil">Profil</string>
     <string name="open">Buka</string>
     <string name="close">Tutup</string>
+    <string name="mendukung">Mendukung (2)</string>
+    <string name="membuat">Membuat (1)</string>
+    <string name="ditandai">Ditandai (0)</string>
 </resources>
