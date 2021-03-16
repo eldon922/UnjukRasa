@@ -2,7 +2,9 @@ package com.chriseldon.unjukrasa.notification
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chriseldon.unjukrasa.databinding.ActivityNotificationBinding
+import com.chriseldon.unjukrasa.home.TrendingListAdapter
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -12,6 +14,11 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.rvNotification.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.adapter = NotificationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+        }
 
         setupToolbar()
     }
