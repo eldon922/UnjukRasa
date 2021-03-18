@@ -36,7 +36,7 @@ class TopicPageFragment : Fragment() {
 
         binding.rvMostVisitedSecond.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = MostVisitedTopicListAdapter(arrayListOf("6666", "7777", "8888", "9999", "10101010"))
+            this.adapter = MostVisitedTopicListAdapter(arrayListOf("6666", "7777", "8888", "9999", "10101010"), true)
         }
 
         binding.rvAll.apply {

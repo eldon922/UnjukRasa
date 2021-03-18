@@ -9,7 +9,10 @@ import com.chriseldon.unjukrasa.databinding.MostVisitedTopicListItemBinding
 import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
 
 
-class MostVisitedTopicListAdapter(private val dataSet: List<String>) :
+class MostVisitedTopicListAdapter(
+    private val dataSet: List<String>,
+    private val secondList: Boolean = false
+) :
     RecyclerView.Adapter<MostVisitedTopicListAdapter.ViewHolder>() {
 
     /**
@@ -19,7 +22,8 @@ class MostVisitedTopicListAdapter(private val dataSet: List<String>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = MostVisitedTopicListItemBinding.bind(view)
 
-        fun bind(text: String) {
+        fun bind(orderNumber: Int, text: String) {
+            binding.tvNumber.text = "$orderNumber. "
             binding.tvTopic.text = text
         }
     }
@@ -38,7 +42,7 @@ class MostVisitedTopicListAdapter(private val dataSet: List<String>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.bind(dataSet[position])
+        viewHolder.bind(if (secondList) position + 6 else position + 1, dataSet[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)
