@@ -31,9 +31,9 @@ class HomePageFragment : Fragment() {
             this.adapter = TrendingListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
         }
 
-        binding.rvActiveToday.apply {
+        binding.rvMostActiveToday.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = ActiveTodayListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+            this.adapter = MostActiveTodayListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
         }
 
         binding.rvRecommended.apply {

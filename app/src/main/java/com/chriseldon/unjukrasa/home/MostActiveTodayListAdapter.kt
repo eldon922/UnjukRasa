@@ -5,19 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.ActiveTodayListItemBinding
-import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
+import com.chriseldon.unjukrasa.databinding.MostActiveTodayListItemBinding
 
 
-class ActiveTodayListAdapter(private val dataSet: List<String>) :
-    RecyclerView.Adapter<ActiveTodayListAdapter.ViewHolder>() {
+class MostActiveTodayListAdapter(private val dataSet: List<String>) :
+    RecyclerView.Adapter<MostActiveTodayListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ActiveTodayListItemBinding.bind(view)
+        private val binding = MostActiveTodayListItemBinding.bind(view)
 
         fun bind(text: String) {
 
@@ -28,7 +27,7 @@ class ActiveTodayListAdapter(private val dataSet: List<String>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.active_today_list_item, viewGroup, false)
+            .inflate(R.layout.most_active_today_list_item, viewGroup, false)
 
         return ViewHolder(view)
     }
