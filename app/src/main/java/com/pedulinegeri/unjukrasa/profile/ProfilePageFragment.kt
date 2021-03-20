@@ -1,14 +1,13 @@
-package com.chriseldon.unjukrasa.profile
+package com.pedulinegeri.unjukrasa.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.FragmentProfilePageBinding
+import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 

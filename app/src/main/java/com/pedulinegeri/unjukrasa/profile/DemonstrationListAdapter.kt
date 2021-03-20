@@ -1,30 +1,25 @@
-package com.chriseldon.unjukrasa.topic
+package com.pedulinegeri.unjukrasa.profile
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.MostVisitedTopicListItemBinding
-import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
+import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.DemonstrationListItemBinding
 
 
-class MostVisitedTopicListAdapter(
-    private val dataSet: List<String>,
-    private val secondList: Boolean = false
-) :
-    RecyclerView.Adapter<MostVisitedTopicListAdapter.ViewHolder>() {
+class DemonstrationListAdapter(private val dataSet: List<String>) :
+    RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = MostVisitedTopicListItemBinding.bind(view)
+        private val binding = DemonstrationListItemBinding.bind(view)
 
-        fun bind(orderNumber: Int, text: String) {
-            binding.tvNumber.text = "$orderNumber. "
-            binding.tvTopic.text = text
+        fun bind(text: String) {
+
         }
     }
 
@@ -32,7 +27,7 @@ class MostVisitedTopicListAdapter(
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.most_visited_topic_list_item, viewGroup, false)
+            .inflate(R.layout.demonstration_list_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -42,7 +37,7 @@ class MostVisitedTopicListAdapter(
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.bind(if (secondList) position + 6 else position + 1, dataSet[position])
+        viewHolder.bind(dataSet[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)

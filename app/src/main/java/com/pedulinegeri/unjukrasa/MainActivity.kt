@@ -1,4 +1,4 @@
-package com.chriseldon.unjukrasa
+package com.pedulinegeri.unjukrasa
 
 import android.content.Intent
 import android.graphics.Rect
@@ -10,8 +10,8 @@ import android.widget.EditText
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import com.chriseldon.unjukrasa.databinding.ActivityMainBinding
-import com.chriseldon.unjukrasa.notification.NotificationActivity
+import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
+import com.pedulinegeri.unjukrasa.notification.NotificationActivity
 
 
 class MainActivity : AppCompatActivity() {

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "571880896906",
+    "project_id": "unjuk-rasa-indonesia",
+    "storage_bucket": "unjuk-rasa-indonesia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571880896906:android:92ec25bdf53b90dbf9b073",
+        "android_client_info": {
+          "package_name": "com.pedulinegeri.unjukrasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571880896906-o9o53ubsnk7e3rov4ahshcaqef2olf4o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pedulinegeri.unjukrasa",
+            "certificate_hash": "582d8580f5c23c8a232a4bc41a8317db6d2f139a"
+          }
+        },
+        {
+          "client_id": "571880896906-tasg1memm14j02tgmjs9qe3bjehhhfem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCii8JvA9T8v7QNOE0o6dCGDrJ430ef0mI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571880896906-tasg1memm14j02tgmjs9qe3bjehhhfem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

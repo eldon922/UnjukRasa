@@ -1,22 +1,22 @@
-package com.chriseldon.unjukrasa.profile
+package com.pedulinegeri.unjukrasa.message
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.DemonstrationListItemBinding
+import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.MessageListItemBinding
 
 
-class DemonstrationListAdapter(private val dataSet: List<String>) :
-    RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
+class MessageListAdapter(private val dataSet: List<String>) :
+    RecyclerView.Adapter<MessageListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = DemonstrationListItemBinding.bind(view)
+        private val binding = MessageListItemBinding.bind(view)
 
         fun bind(text: String) {
 
@@ -27,7 +27,7 @@ class DemonstrationListAdapter(private val dataSet: List<String>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.demonstration_list_item, viewGroup, false)
+            .inflate(R.layout.message_list_item, viewGroup, false)
 
         return ViewHolder(view)
     }

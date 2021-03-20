@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profile_page_screen"
-        android:name="com.chriseldon.unjukrasa.login.LoginPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.login.LoginPageFragment"
         android:label="Halaman Profil"
         tools:layout="@layout/fragment_profile_page" />
 

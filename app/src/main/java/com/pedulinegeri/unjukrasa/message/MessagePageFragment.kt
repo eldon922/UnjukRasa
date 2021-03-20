@@ -1,4 +1,4 @@
-package com.chriseldon.unjukrasa.message
+package com.pedulinegeri.unjukrasa.message
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chriseldon.unjukrasa.databinding.FragmentMessagePageBinding
-import com.chriseldon.unjukrasa.home.RecommendedListAdapter
+import com.pedulinegeri.unjukrasa.databinding.FragmentMessagePageBinding
 
 class MessagePageFragment : Fragment() {
 

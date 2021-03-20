@@ -1,4 +1,4 @@
-package com.chriseldon.unjukrasa.home
+package com.pedulinegeri.unjukrasa.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chriseldon.unjukrasa.databinding.FragmentHomePageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
 
 class HomePageFragment : Fragment() {
 

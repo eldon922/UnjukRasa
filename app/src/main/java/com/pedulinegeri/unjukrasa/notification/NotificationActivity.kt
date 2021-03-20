@@ -1,10 +1,9 @@
-package com.chriseldon.unjukrasa.notification
+package com.pedulinegeri.unjukrasa.notification
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chriseldon.unjukrasa.databinding.ActivityNotificationBinding
-import com.chriseldon.unjukrasa.home.TrendingListAdapter
+import com.pedulinegeri.unjukrasa.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {
 

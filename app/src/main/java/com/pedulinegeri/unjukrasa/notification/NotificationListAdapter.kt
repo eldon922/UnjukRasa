@@ -1,12 +1,11 @@
-package com.chriseldon.unjukrasa.notification
+package com.pedulinegeri.unjukrasa.notification
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.AllTopicListItemBinding
-import com.chriseldon.unjukrasa.databinding.NotificationListItemBinding
+import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.NotificationListItemBinding
 
 
 class NotificationListAdapter(private val dataSet: List<String>) :

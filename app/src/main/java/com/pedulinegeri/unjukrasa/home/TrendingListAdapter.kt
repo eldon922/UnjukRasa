@@ -1,11 +1,11 @@
-package com.chriseldon.unjukrasa.home
+package com.pedulinegeri.unjukrasa.home
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.chriseldon.unjukrasa.R
-import com.chriseldon.unjukrasa.databinding.TrendingListItemBinding
+import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.TrendingListItemBinding
 
 
 class TrendingListAdapter(private val dataSet: List<String>) :

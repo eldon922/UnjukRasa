@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.chriseldon.unjukrasa
+package com.pedulinegeri.unjukrasa
 
 import android.content.Intent
 import android.util.SparseArray

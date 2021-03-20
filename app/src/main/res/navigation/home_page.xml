@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home_page_screen"
-        android:name="com.chriseldon.unjukrasa.home.HomePageFragment"
+        android:name="com.pedulinegeri.unjukrasa.home.HomePageFragment"
         android:label="Halaman Beranda"
         tools:layout="@layout/fragment_home_page" />
 

@@ -1,4 +1,4 @@
-package com.chriseldon.unjukrasa
+package com.pedulinegeri.unjukrasa
 
 import org.junit.Test
 

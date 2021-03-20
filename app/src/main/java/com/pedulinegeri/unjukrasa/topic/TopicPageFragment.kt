@@ -1,15 +1,12 @@
-package com.chriseldon.unjukrasa.topic
+package com.pedulinegeri.unjukrasa.topic
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.chriseldon.unjukrasa.databinding.FragmentTopicPageBinding
-import com.chriseldon.unjukrasa.home.TrendingListAdapter
+import com.pedulinegeri.unjukrasa.databinding.FragmentTopicPageBinding
 
 class TopicPageFragment : Fragment() {
 
