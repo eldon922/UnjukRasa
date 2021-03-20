@@ -9,4 +9,9 @@
     <string name="mendukung">Mendukung (2)</string>
     <string name="membuat">Membuat (1)</string>
     <string name="ditandai">Ditandai (0)</string>
+    <string name="keluar">Keluar</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="tentang">Tentang</string>
+    <string name="daftar">Daftar</string>
+    <string name="masuk">Masuk</string>
 </resources>
