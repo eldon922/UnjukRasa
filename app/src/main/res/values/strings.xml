@@ -14,4 +14,7 @@
     <string name="tentang">Tentang</string>
     <string name="daftar">Daftar</string>
     <string name="masuk">Masuk</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
 </resources>

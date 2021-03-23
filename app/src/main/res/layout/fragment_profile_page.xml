@@ -18,25 +18,15 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"
         android:text="Arie Untung"
         android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/iv_person"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings_applications_white_24dp"
-        android:text="Pengaturan"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -44,7 +34,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/tv_name">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
