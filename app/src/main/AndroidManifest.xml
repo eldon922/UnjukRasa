@@ -21,6 +21,7 @@
         </activity>
         <activity android:name="com.pedulinegeri.unjukrasa.notification.NotificationActivity" />
         <activity android:name="com.pedulinegeri.unjukrasa.auth.SignUpActivity" />
+        <activity android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationActivity" />
     </application>
 
 </manifest>

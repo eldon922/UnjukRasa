@@ -84,7 +84,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.findItem(R.id.action_logout).isVisible = false
-                binding.bottomNavigation.selectedItemId = R.id.action_home_page
+//                TODO DEV
+//                binding.bottomNavigation.selectedItemId = R.id.action_home_page
             }
         })
     }

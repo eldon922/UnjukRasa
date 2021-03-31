@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,8 @@ import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.auth.SignUpActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
+import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
+import com.pedulinegeri.unjukrasa.home.ViewType
 
 
 class ProfilePageFragment : Fragment() {
@@ -38,6 +41,20 @@ class ProfilePageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
+        setupAuth()
+        setupTabLayout()
+
+        binding.rvDemonstration.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222"), ViewType.PROFILE)
+        }
+
+        binding.fabAdd.setOnClickListener {
+            Toast.makeText(requireContext(), "fab clicked!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupAuth() {
         // Checking user directly to Firebase, just in case account signed out in Firebase server
         if (FirebaseAuth.getInstance().currentUser == null) {
             // TODO DEV
@@ -53,27 +70,26 @@ class ProfilePageFragment : Fragment() {
             // TODO DEV
             authViewModel.signedIn()
         }
+    }
+
+    private fun setupTabLayout() {
+        val binding = fragmentBinding!!
 
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.text) {
                     resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111", "2222"))
+                        DemonstrationListAdapter(arrayListOf("1111", "2222"), ViewType.PROFILE)
                     resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111"))
+                        DemonstrationListAdapter(arrayListOf("1111"), ViewType.PROFILE)
                     resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf())
+                        DemonstrationListAdapter(arrayListOf(), ViewType.PROFILE)
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        binding.rvDemonstration.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222"))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
