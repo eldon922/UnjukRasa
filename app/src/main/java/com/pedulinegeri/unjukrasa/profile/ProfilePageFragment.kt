@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
@@ -30,7 +31,11 @@ class ProfilePageFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         fragmentBinding = FragmentProfilePageBinding.inflate(inflater, container, false)
         return fragmentBinding?.root
     }
@@ -45,12 +50,18 @@ class ProfilePageFragment : Fragment() {
 
         binding.rvDemonstration.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222"), ViewType.PROFILE)
+            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE)
         }
 
         binding.fabAdd.setOnClickListener {
             Toast.makeText(requireContext(), "fab clicked!", Toast.LENGTH_SHORT).show()
         }
+
+        binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) binding.fabAdd.hide() else if (dy < 0) binding.fabAdd.show()
+            }
+        })
     }
 
     private fun setupAuth() {
@@ -76,9 +87,10 @@ class ProfilePageFragment : Fragment() {
 
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.fabAdd.show()
                 when (tab.text) {
                     resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111", "2222"), ViewType.PROFILE)
+                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE)
                     resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
                         DemonstrationListAdapter(arrayListOf("1111"), ViewType.PROFILE)
                     resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =

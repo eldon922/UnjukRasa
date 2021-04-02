@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_text_overlay"
+            android:ellipsize="end"
             android:text="fdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkdsfdsafjkkds"
             android:textAlignment="center"
-                android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

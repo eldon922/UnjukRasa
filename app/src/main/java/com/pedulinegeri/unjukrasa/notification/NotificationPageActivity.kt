@@ -1,17 +1,17 @@
 package com.pedulinegeri.unjukrasa.notification
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pedulinegeri.unjukrasa.databinding.ActivityNotificationBinding
+import com.pedulinegeri.unjukrasa.databinding.ActivityNotificationPageBinding
 
 class NotificationPageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNotificationBinding
+    private lateinit var binding: ActivityNotificationPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNotificationBinding.inflate(layoutInflater)
+        binding = ActivityNotificationPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.rvNotification.apply {

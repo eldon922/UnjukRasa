@@ -10,19 +10,19 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.pedulinegeri.unjukrasa.databinding.ActivitySignUpBinding
+import com.pedulinegeri.unjukrasa.databinding.ActivitySignUpPageBinding
 
 
 class SignUpPageActivity : AppCompatActivity() {
 
     private val PICK_IMAGE = 1
-    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var binding: ActivitySignUpPageBinding
 
     private lateinit var profilePictureURI: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        binding = ActivitySignUpPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupToolbar()

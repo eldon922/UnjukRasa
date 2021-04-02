@@ -32,7 +32,6 @@ class DemonstrationListAdapter(private val dataSet: List<String>, private val vi
             binding.root.setOnClickListener {
                 val intent = Intent(view.context, DemonstrationPageActivity::class.java)
                 view.context.startActivity(intent)
-                Toast.makeText(view.context, text, Toast.LENGTH_SHORT).show()
             }
         }
     }
