@@ -27,7 +27,7 @@
             android:id="@+id/searchView2"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:background="@drawable/search_view_rounded_background"
+            android:background="@drawable/rounded_edge"
             app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

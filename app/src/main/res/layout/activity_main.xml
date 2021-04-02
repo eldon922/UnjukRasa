@@ -28,7 +28,7 @@
                     android:id="@+id/searchView"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/search_view_rounded_background"
+                    android:background="@drawable/rounded_edge"
                     app:iconifiedByDefault="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/notification_button"

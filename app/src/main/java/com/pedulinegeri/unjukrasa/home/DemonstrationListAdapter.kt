@@ -11,7 +11,7 @@ import com.pedulinegeri.unjukrasa.databinding.MostActiveTodayDemonstrationListIt
 import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationActivity
+import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity
 
 enum class ViewType {
     TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
@@ -20,10 +20,6 @@ enum class ViewType {
 class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val binding = when (viewType) {
             ViewType.TRENDING -> TrendingDemonstrationListItemBinding.bind(view)
@@ -34,17 +30,14 @@ class DemonstrationListAdapter(private val dataSet: List<String>, private val vi
 
         fun bind(text: String) {
             binding.root.setOnClickListener {
-                val intent = Intent(view.context, DemonstrationActivity::class.java)
+                val intent = Intent(view.context, DemonstrationPageActivity::class.java)
                 view.context.startActivity(intent)
                 Toast.makeText(view.context, text, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layout = when (this.viewType) {
             ViewType.TRENDING -> R.layout.trending_demonstration_list_item
             ViewType.MOST_ACTIVE -> R.layout.most_active_today_demonstration_list_item
@@ -52,21 +45,16 @@ class DemonstrationListAdapter(private val dataSet: List<String>, private val vi
             ViewType.PROFILE -> R.layout.profile_demonstration_list_item
         }
 
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(layout, viewGroup, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(layout, parent, false)
 
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.bind(dataSet[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataSet[position])
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
 }

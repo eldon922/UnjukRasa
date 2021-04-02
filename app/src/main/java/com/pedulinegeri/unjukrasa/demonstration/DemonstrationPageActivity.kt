@@ -2,9 +2,11 @@ package com.pedulinegeri.unjukrasa.demonstration
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayoutMediator
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.ActivityDemonstrationBinding
 
-class DemonstrationActivity : AppCompatActivity() {
+class DemonstrationPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDemonstrationBinding
 
@@ -14,6 +16,9 @@ class DemonstrationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+
+        binding.vpImages.adapter = DemonstrationImagesAdapter(listOf(R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar))
+        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
     }
 
     private fun setupToolbar() {

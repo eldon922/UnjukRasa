@@ -14,7 +14,7 @@ import androidx.core.view.GravityCompat
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
-import com.pedulinegeri.unjukrasa.notification.NotificationActivity
+import com.pedulinegeri.unjukrasa.notification.NotificationPageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         binding.notificationButton.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
+            val intent = Intent(this, NotificationPageActivity::class.java)
             startActivity(intent)
         }
 

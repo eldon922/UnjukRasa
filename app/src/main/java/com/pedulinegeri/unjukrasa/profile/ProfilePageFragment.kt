@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
@@ -18,7 +17,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
-import com.pedulinegeri.unjukrasa.auth.SignUpActivity
+import com.pedulinegeri.unjukrasa.auth.SignUpPageActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
 import com.pedulinegeri.unjukrasa.home.ViewType
@@ -101,7 +100,7 @@ class ProfilePageFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (response!!.isNewUser) {
-                    val intent = Intent(requireContext(), SignUpActivity::class.java)
+                    val intent = Intent(requireContext(), SignUpPageActivity::class.java)
                     startActivity(intent)
                 }
                 authViewModel.signedIn()

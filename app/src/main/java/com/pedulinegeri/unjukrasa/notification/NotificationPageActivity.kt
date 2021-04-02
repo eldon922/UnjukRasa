@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.databinding.ActivityNotificationBinding
 
-class NotificationActivity : AppCompatActivity() {
+class NotificationPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNotificationBinding
 

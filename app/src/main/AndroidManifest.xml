@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pedulinegeri.unjukrasa.notification.NotificationActivity" />
-        <activity android:name="com.pedulinegeri.unjukrasa.auth.SignUpActivity" />
-        <activity android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationActivity" />
+        <activity android:name="com.pedulinegeri.unjukrasa.notification.NotificationPageActivity" />
+        <activity android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageActivity" />
+        <activity android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity" />
     </application>
 
 </manifest>

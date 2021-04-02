@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pedulinegeri.unjukrasa.databinding.ActivitySignUpBinding
 
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpPageActivity : AppCompatActivity() {
 
     private val PICK_IMAGE = 1
     private lateinit var binding: ActivitySignUpBinding
