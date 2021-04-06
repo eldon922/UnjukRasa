@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigation() {
         val navGraphIds = listOf(
             R.navigation.home_page,
-            R.navigation.topic_page,
             R.navigation.message_page,
             R.navigation.profile_page
         )
