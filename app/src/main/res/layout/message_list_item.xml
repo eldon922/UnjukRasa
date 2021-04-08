@@ -26,7 +26,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/iv_person"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/iv_person" />
 
     <TextView
         android:id="@+id/textView7"
@@ -47,6 +47,6 @@
         android:text="12:35 PM"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

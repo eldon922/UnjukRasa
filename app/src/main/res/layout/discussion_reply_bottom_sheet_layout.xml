@@ -8,7 +8,7 @@
         android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="40dp"
+        android:paddingBottom="45dp"
         app:layout_constraintBottom_toTopOf="@+id/et_name"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -50,6 +50,12 @@
                 app:layout_constraintGuide_end="20dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/et_name" />
 
     <EditText
         android:id="@+id/et_name"
