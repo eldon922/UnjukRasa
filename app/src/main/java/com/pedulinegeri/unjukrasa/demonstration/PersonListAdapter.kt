@@ -1,31 +1,32 @@
-package com.pedulinegeri.unjukrasa.notification
+package com.pedulinegeri.unjukrasa.demonstration
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.NotificationListItemBinding
+import com.pedulinegeri.unjukrasa.databinding.MessageListItemBinding
+import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 
 
-class NotificationListAdapter(private val dataSet: List<String>) :
-    RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
+class PersonListAdapter(private val dataSet: List<String>) :
+    RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(private val binding: NotificationListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: PersonListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
-
+            binding.chipRole.text = text
         }
     }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val binding = NotificationListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = PersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding)
     }

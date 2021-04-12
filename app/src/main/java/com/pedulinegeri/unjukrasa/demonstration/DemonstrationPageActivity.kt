@@ -22,7 +22,7 @@ class DemonstrationPageActivity : AppCompatActivity() {
 
         setupToolbar()
 
-        binding.vpImages.adapter = DemonstrationImagesAdapter(listOf(R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar))
+        binding.vpImages.adapter = DemonstrationImageAdapter(listOf(R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar))
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
 
         binding.rvDiscussion.apply {
@@ -42,6 +42,16 @@ class DemonstrationPageActivity : AppCompatActivity() {
                 binding.fabShare.show()
                 binding.fabParticipate.show()
             }
+        }
+
+        binding.rvProgress.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.adapter = ProgressListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+        }
+
+        binding.rvPerson.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = PersonListAdapter(arrayListOf("Inisiator", "Koordinator", "Dukung", "Ikut", "Koordinator", "Koordinator"))
         }
     }
 

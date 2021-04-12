@@ -15,8 +15,7 @@ class MessageListAdapter(private val dataSet: List<String>) :
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = MessageListItemBinding.bind(view)
+    class ViewHolder(private val binding: MessageListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
 
@@ -26,10 +25,9 @@ class MessageListAdapter(private val dataSet: List<String>) :
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.message_list_item, viewGroup, false)
+        val binding = MessageListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
