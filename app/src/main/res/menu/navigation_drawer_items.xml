@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_create"
+        android:title="@string/inisiasi_unjuk_rasa"
+        android:icon="@drawable/ic_add_circle_outline_white_24dp" />
     <item android:id="@+id/action_login"
         android:title="@string/masuk"
         android:icon="@drawable/ic_login_white_24dp" />

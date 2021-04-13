@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
+import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 import com.pedulinegeri.unjukrasa.notification.NotificationPageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupNavigationDrawer()
+
+        // TODO DEV
+        val intent = Intent(this, NewDemonstrationPageActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupToolbar() {
@@ -57,12 +62,21 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavigationDrawer() {
         binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.title) {
+                resources.getString(R.string.inisiasi_unjuk_rasa) -> {
+                    val intent = Intent(this, NewDemonstrationPageActivity::class.java)
+                    startActivity(intent)
+                }
                 resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
                     R.id.action_profile_page
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(this).addOnSuccessListener {
                         authViewModel.signedOut()
                     }
+                    binding.bottomNavigation.selectedItemId = R.id.action_home_page
+
+                    // TODO DEV
+                    authViewModel.signedOut()
+
                 }
                 resources.getString(R.string.pengaturan) -> false
                 resources.getString(R.string.bantuan) -> false

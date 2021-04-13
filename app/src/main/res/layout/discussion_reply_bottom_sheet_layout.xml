@@ -8,7 +8,7 @@
         android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="45dp"
+        android:paddingBottom="46dp"
         app:layout_constraintBottom_toTopOf="@+id/et_name"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -53,7 +53,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.3dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/et_name" />
 

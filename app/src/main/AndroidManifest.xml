@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pedulinegeri.unjukrasa">
 
     <application
@@ -9,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UnjukRasa">
+        android:theme="@style/Theme.UnjukRasa"
+        tools:replace="android:theme">
         <activity
             android:name="com.pedulinegeri.unjukrasa.MainActivity"
             android:windowSoftInputMode="adjustPan">
@@ -23,6 +25,8 @@
         <activity android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageActivity" />
         <activity
             android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
 
