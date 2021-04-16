@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
+import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity
 import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 import com.pedulinegeri.unjukrasa.notification.NotificationPageActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigationDrawer()
 
         // TODO DEV
-        val intent = Intent(this, NewDemonstrationPageActivity::class.java)
+        val intent = Intent(this, DemonstrationPageActivity::class.java)
         startActivity(intent)
     }
 

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,7 @@ import com.pedulinegeri.unjukrasa.auth.SignUpPageActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
 import com.pedulinegeri.unjukrasa.home.ViewType
+import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 
 
 class ProfilePageFragment : Fragment() {
@@ -54,7 +54,8 @@ class ProfilePageFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener {
-            Toast.makeText(requireContext(), "fab clicked!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), NewDemonstrationPageActivity::class.java)
+            startActivity(intent)
         }
 
         binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -79,6 +80,8 @@ class ProfilePageFragment : Fragment() {
 
             // TODO DEV
             authViewModel.signedIn()
+            val intent = Intent(requireContext(), SignUpPageActivity::class.java)
+            startActivity(intent)
         }
     }
 

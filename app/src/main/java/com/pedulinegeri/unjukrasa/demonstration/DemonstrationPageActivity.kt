@@ -2,10 +2,12 @@ package com.pedulinegeri.unjukrasa.demonstration
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.Menu
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
@@ -14,6 +16,8 @@ import com.pedulinegeri.unjukrasa.databinding.ActivityDemonstrationPageBinding
 class DemonstrationPageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDemonstrationPageBinding
+
+    private lateinit var participateBottomSheetDialog: ParticipateBottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +57,26 @@ class DemonstrationPageActivity : AppCompatActivity() {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = PersonListAdapter(arrayListOf("Inisiator", "Koordinator", "Dukung", "Ikut", "Koordinator", "Koordinator"))
         }
+
+        binding.fabParticipate.setOnClickListener {
+            if (!this::participateBottomSheetDialog.isInitialized) {
+                participateBottomSheetDialog = ParticipateBottomSheetDialog()
+            }
+
+            participateBottomSheetDialog.show(supportFragmentManager, "ParticipateBottomSheet")
+        }
     }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Unjuk Rasa"
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.demonstration_page_items, menu)
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
