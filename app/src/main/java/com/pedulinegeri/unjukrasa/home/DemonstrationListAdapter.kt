@@ -21,7 +21,7 @@ enum class ViewType {
 class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.root.setOnClickListener {

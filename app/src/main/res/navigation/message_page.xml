@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/chat_page_screen"
-        android:name="com.pedulinegeri.unjukrasa.message.MessagePageFragment"
+        android:name="com.pedulinegeri.unjukrasa.message.MessageListPageFragment"
         android:label="Halaman Pesan"
-        tools:layout="@layout/fragment_message_page" />
+        tools:layout="@layout/activity_message_page" />
 
 </navigation>

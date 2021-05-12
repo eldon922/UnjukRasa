@@ -1,11 +1,13 @@
 package com.pedulinegeri.unjukrasa.message
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.MessageListItemBinding
+import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity
 
 
 class MessageListAdapter(private val dataSet: List<String>) :
@@ -18,7 +20,10 @@ class MessageListAdapter(private val dataSet: List<String>) :
     class ViewHolder(private val binding: MessageListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
-
+            binding.root.setOnClickListener {
+                val intent = Intent(binding.root.context, MessagePageActivity::class.java)
+                binding.root.context.startActivity(intent)
+            }
         }
     }
 
