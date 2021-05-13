@@ -45,7 +45,6 @@ class ProfilePageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
-        setupAuth()
         setupTabLayout()
 
         binding.rvDemonstration.apply {
@@ -63,26 +62,6 @@ class ProfilePageFragment : Fragment() {
                 if (dy > 0) binding.fabAdd.hide() else if (dy < 0) binding.fabAdd.show()
             }
         })
-    }
-
-    private fun setupAuth() {
-        // Checking user directly to Firebase, just in case account signed out in Firebase server
-        if (FirebaseAuth.getInstance().currentUser == null) {
-            // TODO DEV
-//            val providers = arrayListOf(AuthUI.IdpConfig.PhoneBuilder().setDefaultCountryIso("id").build())
-//            startActivityForResult(
-//                AuthUI.getInstance()
-//                    .createSignInIntentBuilder()
-//                    .setAvailableProviders(providers)
-//                    .build(),
-//                RC_SIGN_IN
-//            )
-
-            // TODO DEV
-            authViewModel.signedIn()
-            val intent = Intent(requireContext(), SignUpPageActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun setupTabLayout() {
@@ -104,26 +83,6 @@ class ProfilePageFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-                if (response!!.isNewUser) {
-                    val intent = Intent(requireContext(), SignUpPageActivity::class.java)
-                    startActivity(intent)
-                }
-                authViewModel.signedIn()
-            } else {
-                activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)!!.selectedItemId =
-                    R.id.action_home_page
-            }
-        }
     }
 
     override fun onDestroyView() {

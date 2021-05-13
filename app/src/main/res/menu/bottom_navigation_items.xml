@@ -9,4 +9,7 @@
     <item android:id="@+id/action_profile_page"
         android:title="@string/profil"
         android:icon="@drawable/ic_perm_identity_white_24dp" />
+    <item android:id="@+id/action_login_page"
+        android:title="@string/masuk"
+        android:icon="@drawable/ic_login_white_24dp" />
 </menu>

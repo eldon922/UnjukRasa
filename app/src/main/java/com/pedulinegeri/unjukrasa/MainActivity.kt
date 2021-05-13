@@ -37,10 +37,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupNavigationDrawer()
-
-        // TODO: dev
-        val intent = Intent(this, NewDemonstrationPageActivity::class.java)
-        startActivity(intent)
     }
 
     private fun setupToolbar() {
@@ -91,15 +87,26 @@ class MainActivity : AppCompatActivity() {
 
         authViewModel.isSignedIn.observe(this, { signedIn ->
             val drawerMenu = binding.navigationDrawer.menu
+            val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
                 drawerMenu.findItem(R.id.action_login).isVisible = false
                 drawerMenu.findItem(R.id.action_logout).isVisible = true
+
+                bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = true
+
+                binding.bottomNavigation.selectedItemId = R.id.action_profile_page
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.findItem(R.id.action_logout).isVisible = false
-//                TODO DEV
-//                binding.bottomNavigation.selectedItemId = R.id.action_home_page
+
+                bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = false
+
+                binding.bottomNavigation.selectedItemId = R.id.action_home_page
             }
         })
     }
@@ -116,7 +123,8 @@ class MainActivity : AppCompatActivity() {
         val navGraphIds = listOf(
             R.navigation.home_page,
             R.navigation.message_page,
-            R.navigation.profile_page
+            R.navigation.profile_page,
+            R.navigation.login_page
         )
 
         // Setup the bottom navigation view with a list of navigation graphs
