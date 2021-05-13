@@ -26,9 +26,7 @@
         <activity
             android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity" />
         <activity android:name=".message.MessagePageActivity" />
     </application>
 

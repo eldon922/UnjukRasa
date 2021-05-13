@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupNavigationDrawer()
+
+        // TODO: dev
+        val intent = Intent(this, NewDemonstrationPageActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupToolbar() {
