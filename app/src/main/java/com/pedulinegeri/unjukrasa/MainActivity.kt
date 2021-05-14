@@ -96,8 +96,6 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = true
-
-                binding.bottomNavigation.selectedItemId = R.id.action_profile_page
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.findItem(R.id.action_logout).isVisible = false
@@ -105,9 +103,9 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = false
-
-                binding.bottomNavigation.selectedItemId = R.id.action_home_page
             }
+
+            binding.bottomNavigation.selectedItemId = R.id.action_home_page
         })
     }
 
