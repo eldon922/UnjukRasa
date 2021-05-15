@@ -1,23 +1,16 @@
 package com.pedulinegeri.unjukrasa.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.auth.IdpResponse
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.firebase.auth.FirebaseAuth
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.auth.AuthViewModel
-import com.pedulinegeri.unjukrasa.auth.SignUpPageActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
 import com.pedulinegeri.unjukrasa.home.ViewType
@@ -26,10 +19,7 @@ import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 
 class ProfilePageFragment : Fragment() {
 
-    private val RC_SIGN_IN = 1
     private var fragmentBinding: FragmentProfilePageBinding? = null
-
-    private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
