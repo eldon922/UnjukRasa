@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".message.MessagePageActivity">
+    tools:context=".message.MessagePageFragment">
 
     <io.getstream.chat.android.ui.message.list.header.MessageListHeaderView
         android:id="@+id/messageListHeaderView"

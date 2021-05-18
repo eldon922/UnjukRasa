@@ -2,13 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/action_message_page"
-    app:startDestination="@id/chat_page_screen">
+    android:id="@id/navigation_message_page"
+    app:startDestination="@id/message_page_screen">
 
     <fragment
-        android:id="@+id/chat_page_screen"
+        android:id="@+id/message_page_screen"
         android:name="com.pedulinegeri.unjukrasa.message.MessageListPageFragment"
         android:label="Halaman Pesan"
-        tools:layout="@layout/activity_message_page" />
+        tools:layout="@layout/fragment_message_page" >
+        <action
+            android:id="@+id/action_go_to_navigation_notification_page"
+            app:destination="@id/navigation_notification_page"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_go_to_navigation_new_demonstration_page"
+            app:destination="@id/navigation_new_demonstration_page"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_message_page_screen_to_messagePageFragment"
+            app:destination="@id/messagePageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <include app:graph="@navigation/notification_page" />
+    <include app:graph="@navigation/new_demonstration_page" />
+    <fragment
+        android:id="@+id/messagePageFragment"
+        android:name="com.pedulinegeri.unjukrasa.message.MessagePageFragment"
+        android:label="MessagePageFragment" >
+        <argument
+            android:name="channel"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

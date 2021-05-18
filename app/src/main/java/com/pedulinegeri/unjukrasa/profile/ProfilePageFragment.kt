@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
@@ -14,7 +15,6 @@ import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
 import com.pedulinegeri.unjukrasa.home.ViewType
-import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 
 
 class ProfilePageFragment : Fragment() {
@@ -43,8 +43,7 @@ class ProfilePageFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener {
-            val intent = Intent(requireContext(), NewDemonstrationPageActivity::class.java)
-            startActivity(intent)
+            requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_new_demonstration_page)
         }
 
         binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {

@@ -2,9 +2,8 @@ package com.pedulinegeri.unjukrasa.home
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.pedulinegeri.unjukrasa.R
@@ -12,7 +11,6 @@ import com.pedulinegeri.unjukrasa.databinding.MostActiveTodayDemonstrationListIt
 import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity
 
 enum class ViewType {
     TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
@@ -25,8 +23,7 @@ class DemonstrationListAdapter(private val dataSet: List<String>, private val vi
 
         fun bind(text: String) {
             binding.root.setOnClickListener {
-                val intent = Intent(binding.root.context, DemonstrationPageActivity::class.java)
-                binding.root.context.startActivity(intent)
+                binding.root.findNavController().navigate(R.id.action_go_to_demonstrationPageFragment)
             }
         }
     }

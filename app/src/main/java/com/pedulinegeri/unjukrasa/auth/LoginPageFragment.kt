@@ -8,21 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.auth.AuthViewModel
-import com.pedulinegeri.unjukrasa.auth.SignUpPageActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentLoginPageBinding
-import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
-import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
-import com.pedulinegeri.unjukrasa.home.ViewType
-import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
 
 
 class LoginPageFragment : Fragment() {
@@ -48,7 +39,7 @@ class LoginPageFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener { setupAuth() }
 
-        setupAuth()
+//        setupAuth()
     }
 
     private fun setupAuth() {
@@ -66,8 +57,7 @@ class LoginPageFragment : Fragment() {
 
             // TODO DEV
             authViewModel.signedIn()
-            val intent = Intent(requireContext(), SignUpPageActivity::class.java)
-            startActivity(intent)
+            requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_login_page_screen_to_signUpPageFragment)
         }
     }
 
@@ -80,13 +70,13 @@ class LoginPageFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (response!!.isNewUser) {
-                    val intent = Intent(requireContext(), SignUpPageActivity::class.java)
-                    startActivity(intent)
+                    requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_login_page_screen_to_signUpPageFragment)
+                } else {
+                    authViewModel.signedIn()
                 }
-                authViewModel.signedIn()
             } else {
                 activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)!!.selectedItemId =
-                    R.id.action_home_page
+                    R.id.navigation_home_page
             }
         }
     }

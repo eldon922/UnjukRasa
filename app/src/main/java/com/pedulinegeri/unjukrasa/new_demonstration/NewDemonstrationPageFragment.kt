@@ -3,26 +3,41 @@ package com.pedulinegeri.unjukrasa.new_demonstration
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.ActivityNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 
 
-class NewDemonstrationPageActivity : AppCompatActivity() {
+class NewDemonstrationPageFragment : Fragment() {
 
-    private lateinit var binding: ActivityNewDemonstrationPageBinding
+    private var fragmentBinding: FragmentNewDemonstrationPageBinding? = null
     private val MEDIA_CODE = 1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityNewDemonstrationPageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        fragmentBinding = FragmentNewDemonstrationPageBinding.inflate(inflater, container, false)
+        return fragmentBinding?.root
+    }
 
-        setupToolbar()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = fragmentBinding!!
+
+        binding.toolbar.setNavigationOnClickListener { view ->
+            view.findNavController().navigateUp()
+        }
 
         binding.btnImage.setOnClickListener {
             val options: Options = Options.init()
@@ -82,25 +97,13 @@ class NewDemonstrationPageActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && resultCode == MEDIA_CODE) {
+        if (resultCode == AppCompatActivity.RESULT_OK && resultCode == MEDIA_CODE) {
             val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.new_demonstration_page_items, menu)
-        return true
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Inisiasi Unjuk Rasa"
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.pedulinegeri.unjukrasa.databinding.FragmentMessageListPageBinding
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.call.await
@@ -71,7 +72,8 @@ class MessageListPageFragment : Fragment() {
         // Note: the listener syntax used here requires Kotlin 1.4
         viewModel.bindView(binding.channelsView, this)
         binding.channelsView.setChannelItemClickListener { channel ->
-            startActivity(MessagePageActivity.newIntent(requireContext(), channel))
+            val action = MessageListPageFragmentDirections.actionMessagePageScreenToMessagePageFragment(channel.cid)
+            view.findNavController().navigate(action)
         }
     }
 

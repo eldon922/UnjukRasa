@@ -1,31 +1,45 @@
 package com.pedulinegeri.unjukrasa.auth
 
 import android.content.Intent
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.pedulinegeri.unjukrasa.databinding.ActivitySignUpPageBinding
+import com.pedulinegeri.unjukrasa.MainActivity
+import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
 
 
-class SignUpPageActivity : AppCompatActivity() {
+class SignUpPageFragment : Fragment() {
+
+    private var fragmentBinding: FragmentSignUpPageBinding? = null
 
     private val PICK_IMAGE = 1
-    private lateinit var binding: ActivitySignUpPageBinding
-
     private lateinit var profilePictureURI: Uri
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySignUpPageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        fragmentBinding = FragmentSignUpPageBinding.inflate(inflater, container, false)
+        return fragmentBinding?.root
+    }
 
-        setupToolbar()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = fragmentBinding!!
+
+        binding.toolbar.setNavigationOnClickListener { view ->
+            view.findNavController().navigateUp()
+        }
 
         binding.btnSignUp.setOnClickListener {
             val user = FirebaseAuth.getInstance().currentUser!!
@@ -83,30 +97,8 @@ class SignUpPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Daftar Pengguna Baru"
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(ev)
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
     }
 }

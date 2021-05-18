@@ -1,21 +1,20 @@
 package com.pedulinegeri.unjukrasa
 
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
-import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity
-import com.pedulinegeri.unjukrasa.notification.NotificationPageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,12 +38,21 @@ class MainActivity : AppCompatActivity() {
         setupNavigationDrawer()
     }
 
+    fun hideBar() {
+        binding.bottomNavigation.visibility = View.GONE
+        binding.toolbar.visibility = View.GONE
+    }
+
+    fun showBar() {
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.toolbar.visibility = View.VISIBLE
+    }
+
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
 
         binding.notificationButton.setOnClickListener {
-            val intent = Intent(this, NotificationPageActivity::class.java)
-            startActivity(intent)
+            findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_notification_page)
         }
 
         val drawerToggle =
@@ -59,16 +67,15 @@ class MainActivity : AppCompatActivity() {
         binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.title) {
                 resources.getString(R.string.inisiasi_unjuk_rasa) -> {
-                    val intent = Intent(this, NewDemonstrationPageActivity::class.java)
-                    startActivity(intent)
+                    findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_new_demonstration_page)
                 }
                 resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
-                    R.id.action_profile_page
+                    R.id.navigation_profile_page
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(this).addOnSuccessListener {
                         authViewModel.signedOut()
                     }
-                    binding.bottomNavigation.selectedItemId = R.id.action_home_page
+                    binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
 
                     // TODO DEV
                     authViewModel.signedOut()
@@ -93,19 +100,19 @@ class MainActivity : AppCompatActivity() {
                 drawerMenu.findItem(R.id.action_login).isVisible = false
                 drawerMenu.findItem(R.id.action_logout).isVisible = true
 
-                bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.findItem(R.id.action_logout).isVisible = false
 
-                bottomNavigationMenu.findItem(R.id.action_login_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.action_message_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.action_profile_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
             }
 
-            binding.bottomNavigation.selectedItemId = R.id.action_home_page
+//            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
         })
     }
 
@@ -131,7 +138,15 @@ class MainActivity : AppCompatActivity() {
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_container,
             intent = intent
-        )
+        ).value?.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.home_page_screen -> showBar()
+                R.id.message_page_screen -> showBar()
+                R.id.profile_page_screen -> showBar()
+                R.id.login_page_screen -> showBar()
+                else -> hideBar()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

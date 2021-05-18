@@ -1,31 +1,39 @@
 package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
-import android.view.Menu
-import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import android.view.*
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.ActivityDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
 
-class DemonstrationPageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDemonstrationPageBinding
+class DemonstrationPageFragment : Fragment() {
+
+    private var fragmentBinding: FragmentDemonstrationPageBinding? = null
 
     private lateinit var participateBottomSheetDialog: ParticipateBottomSheetDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityDemonstrationPageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        fragmentBinding = FragmentDemonstrationPageBinding.inflate(inflater, container, false)
+        return fragmentBinding?.root
+    }
 
-        setupToolbar()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = fragmentBinding!!
+
+        binding.toolbar.setNavigationOnClickListener { view ->
+            view.findNavController().navigateUp()
+        }
 
         binding.vpImages.adapter = DemonstrationImageAdapter(listOf(R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar))
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
@@ -64,7 +72,7 @@ class DemonstrationPageActivity : AppCompatActivity() {
                 participateBottomSheetDialog = ParticipateBottomSheetDialog()
             }
 
-            participateBottomSheetDialog.show(supportFragmentManager, "ParticipateBottomSheet")
+            participateBottomSheetDialog.show(parentFragmentManager, "ParticipateBottomSheet")
         }
 
         binding.fabShare.setOnClickListener {
@@ -79,36 +87,8 @@ class DemonstrationPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Unjuk Rasa"
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.demonstration_page_items, menu)
-        return true
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(ev)
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
     }
 }

@@ -21,13 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pedulinegeri.unjukrasa.notification.NotificationPageActivity" />
-        <activity android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageActivity" />
-        <activity
-            android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageActivity" />
-        <activity android:name=".message.MessagePageActivity" />
     </application>
 
 </manifest>

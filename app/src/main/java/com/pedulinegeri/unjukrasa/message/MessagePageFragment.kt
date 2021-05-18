@@ -1,35 +1,48 @@
 package com.pedulinegeri.unjukrasa.message
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.getstream.sdk.chat.viewmodel.MessageInputViewModel
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel
-import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.Mode.Normal
-import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.Mode.Thread
-import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.State.NavigateUp
-import com.pedulinegeri.unjukrasa.databinding.ActivityMessagePageBinding
-import io.getstream.chat.android.client.models.Channel
+import com.pedulinegeri.unjukrasa.MainActivity
+import com.pedulinegeri.unjukrasa.databinding.FragmentMessagePageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 import io.getstream.chat.android.ui.message.input.viewmodel.bindView
 import io.getstream.chat.android.ui.message.list.header.viewmodel.MessageListHeaderViewModel
 import io.getstream.chat.android.ui.message.list.header.viewmodel.bindView
 import io.getstream.chat.android.ui.message.list.viewmodel.bindView
 import io.getstream.chat.android.ui.message.list.viewmodel.factory.MessageListViewModelFactory
 
-class MessagePageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMessagePageBinding
+class MessagePageFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMessagePageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private var fragmentBinding: FragmentMessagePageBinding? = null
+    private val args: MessagePageFragmentArgs by navArgs()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        fragmentBinding = FragmentMessagePageBinding.inflate(inflater, container, false)
+        return fragmentBinding?.root
+    }
 
-        val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = fragmentBinding!!
+
+        val cid = checkNotNull(args.channel) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
 
@@ -51,11 +64,11 @@ class MessagePageActivity : AppCompatActivity() {
         // Note: the observe syntax used here requires Kotlin 1.4
         messageListViewModel.mode.observe(this) { mode ->
             when (mode) {
-                is Thread -> {
+                is MessageListViewModel.Mode.Thread -> {
                     messageListHeaderViewModel.setActiveThread(mode.parentMessage)
                     messageInputViewModel.setActiveThread(mode.parentMessage)
                 }
-                Normal -> {
+                MessageListViewModel.Mode.Normal -> {
                     messageListHeaderViewModel.resetThread()
                     messageInputViewModel.resetThread()
                 }
@@ -69,25 +82,19 @@ class MessagePageActivity : AppCompatActivity() {
 
         // Step 5 - Handle navigate up state
         messageListViewModel.state.observe(this) { state ->
-            if (state is NavigateUp) {
-                finish()
+            if (state is MessageListViewModel.State.NavigateUp) {
+                view.findNavController().navigateUp()
             }
         }
 
         // Step 6 - Handle back button behaviour correctly when you're in a thread
-        val backHandler = {
-            messageListViewModel.onEvent(MessageListViewModel.Event.BackButtonPressed)
-        }
-        binding.messageListHeaderView.setBackButtonClickListener(backHandler)
-        onBackPressedDispatcher.addCallback(this) {
-            backHandler()
+        binding.messageListHeaderView.setBackButtonClickListener{
+            view.findNavController().navigateUp()
         }
     }
 
-    companion object {
-        private const val CID_KEY = "key:cid"
-
-        fun newIntent(context: Context, channel: Channel): Intent =
-            Intent(context, MessagePageActivity::class.java).putExtra(CID_KEY, channel.cid)
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
     }
 }
