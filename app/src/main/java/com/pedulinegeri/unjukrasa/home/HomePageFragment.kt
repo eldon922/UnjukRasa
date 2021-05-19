@@ -9,6 +9,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
+import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.ViewType
 
 class HomePageFragment : Fragment() {
 

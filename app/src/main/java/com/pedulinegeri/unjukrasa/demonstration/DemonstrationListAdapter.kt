@@ -1,10 +1,8 @@
-package com.pedulinegeri.unjukrasa.home
+package com.pedulinegeri.unjukrasa.demonstration
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.pedulinegeri.unjukrasa.R

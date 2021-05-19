@@ -12,21 +12,21 @@
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_main_screen_to_navigation_notification_page"
-            app:destination="@id/navigation_notification_page"
+            app:destination="@id/notificationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_main_screen_to_navigation_new_demonstration_page"
-            app:destination="@id/navigation_new_demonstration_page"
+            app:destination="@id/newDemonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_main_screen_to_navigation_demonstration_page"
-            app:destination="@id/navigation_demonstration_page"
+            app:destination="@id/demonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
@@ -39,13 +39,25 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
-    <include app:graph="@navigation/notification_page" />
-    <include app:graph="@navigation/new_demonstration_page" />
-    <include app:graph="@navigation/demonstration_page" />
     <fragment
         android:id="@+id/signUpPageFragment"
         android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageFragment"
         android:label="fragment_sign_up_page"
         tools:layout="@layout/fragment_sign_up_page" />
+    <fragment
+        android:id="@+id/notificationPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.notification.NotificationPageFragment"
+        android:label="fragment_notification_page"
+        tools:layout="@layout/fragment_notification_page" />
+    <fragment
+        android:id="@+id/newDemonstrationPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
+        android:label="fragment_new_demonstration_page"
+        tools:layout="@layout/fragment_new_demonstration_page" />
+    <fragment
+        android:id="@+id/demonstrationPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
+        android:label="fragment_demonstration_page"
+        tools:layout="@layout/fragment_demonstration_page" />
 
 </navigation>

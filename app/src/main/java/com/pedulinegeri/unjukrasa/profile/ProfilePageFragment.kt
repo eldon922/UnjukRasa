@@ -1,6 +1,5 @@
 package com.pedulinegeri.unjukrasa.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
-import com.pedulinegeri.unjukrasa.home.DemonstrationListAdapter
-import com.pedulinegeri.unjukrasa.home.ViewType
+import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.ViewType
 
 
 class ProfilePageFragment : Fragment() {
