@@ -11,20 +11,6 @@
         android:label="Halaman Pesan"
         tools:layout="@layout/fragment_message_page" >
         <action
-            android:id="@+id/action_go_to_navigation_notification_page"
-            app:destination="@id/navigation_notification_page"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_go_to_navigation_new_demonstration_page"
-            app:destination="@id/navigation_new_demonstration_page"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_message_page_screen_to_messagePageFragment"
             app:destination="@id/messagePageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
@@ -32,8 +18,6 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
-    <include app:graph="@navigation/notification_page" />
-    <include app:graph="@navigation/new_demonstration_page" />
     <fragment
         android:id="@+id/messagePageFragment"
         android:name="com.pedulinegeri.unjukrasa.message.MessagePageFragment"

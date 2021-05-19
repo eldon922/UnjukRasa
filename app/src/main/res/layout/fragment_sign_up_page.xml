@@ -17,7 +17,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_detail_back_no_circle"
             app:title="Daftar Pengguna Baru" />
 
     </com.google.android.material.appbar.AppBarLayout>

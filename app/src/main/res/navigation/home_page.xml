@@ -9,35 +9,6 @@
         android:id="@+id/home_page_screen"
         android:name="com.pedulinegeri.unjukrasa.home.HomePageFragment"
         android:label="Halaman Beranda"
-        tools:layout="@layout/fragment_home_page" >
-        <action
-            android:id="@+id/action_go_to_navigation_notification_page"
-            app:destination="@id/navigation_notification_page"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_go_to_demonstrationPageFragment"
-            app:destination="@id/demonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_go_to_navigation_new_demonstration_page"
-            app:destination="@id/navigation_new_demonstration_page"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-    </fragment>
-
-    <include app:graph="@navigation/notification_page" />
-    <fragment
-        android:id="@+id/demonstrationPageFragment"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
-        android:label="DemonstrationPageFragment" />
-    <include app:graph="@navigation/new_demonstration_page" />
+        tools:layout="@layout/fragment_home_page" />
 
 </navigation>

@@ -2,168 +2,39 @@ package com.pedulinegeri.unjukrasa
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
-import com.firebase.ui.auth.AuthUI
-import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
-    private val authViewModel: AuthViewModel by viewModels()
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupToolbar()
-
-        if (savedInstanceState == null) {
-            setupBottomNavigation()
-        }
-
-        setupNavigationDrawer()
-    }
-
-    fun hideBar() {
-        binding.bottomNavigation.visibility = View.GONE
-        binding.toolbar.visibility = View.GONE
-    }
-
-    fun showBar() {
-        binding.bottomNavigation.visibility = View.VISIBLE
-        binding.toolbar.visibility = View.VISIBLE
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-
-        binding.notificationButton.setOnClickListener {
-            findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_notification_page)
-        }
-
         val drawerToggle =
             ActionBarDrawerToggle(this, binding.drawer, R.string.open, R.string.close)
         binding.drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    private fun setupNavigationDrawer() {
-        binding.navigationDrawer.setNavigationItemSelectedListener {
-            when (it.title) {
-                resources.getString(R.string.inisiasi_unjuk_rasa) -> {
-                    findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_new_demonstration_page)
-                }
-                resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
-                    R.id.navigation_profile_page
-                resources.getString(R.string.keluar) -> {
-                    AuthUI.getInstance().signOut(this).addOnSuccessListener {
-                        authViewModel.signedOut()
-                    }
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
-
-                    // TODO DEV
-                    authViewModel.signedOut()
-
-                }
-                resources.getString(R.string.pengaturan) -> false
-                resources.getString(R.string.bantuan) -> false
-                resources.getString(R.string.tentang) -> false
-                else -> false
-            }
-
-            binding.drawer.close()
-
-            true
-        }
-
-        authViewModel.isSignedIn.observe(this, { signedIn ->
-            val drawerMenu = binding.navigationDrawer.menu
-            val bottomNavigationMenu = binding.bottomNavigation.menu
-
-            if (signedIn) {
-                drawerMenu.findItem(R.id.action_login).isVisible = false
-                drawerMenu.findItem(R.id.action_logout).isVisible = true
-
-                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
-            } else {
-                drawerMenu.findItem(R.id.action_login).isVisible = true
-                drawerMenu.findItem(R.id.action_logout).isVisible = false
-
-                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
-            }
-
-//            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
-        })
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
-        setupBottomNavigation()
-    }
-
-    private fun setupBottomNavigation() {
-        val navGraphIds = listOf(
-            R.navigation.home_page,
-            R.navigation.message_page,
-            R.navigation.profile_page,
-            R.navigation.login_page
-        )
-
-        // Setup the bottom navigation view with a list of navigation graphs
-        binding.bottomNavigation.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_container,
-            intent = intent
-        ).value?.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.home_page_screen -> showBar()
-                R.id.message_page_screen -> showBar()
-                R.id.profile_page_screen -> showBar()
-                R.id.login_page_screen -> showBar()
-                else -> hideBar()
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                binding.drawer.open()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onBackPressed() {
         if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
             binding.drawer.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            if (findNavController(R.id.nav_host_container_main).currentDestination?.id != R.id.signUpPageFragment) {
+                super.onBackPressed()
+            }
         }
     }
 

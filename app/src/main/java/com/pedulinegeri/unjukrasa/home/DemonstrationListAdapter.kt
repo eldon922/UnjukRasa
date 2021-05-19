@@ -3,6 +3,7 @@ package com.pedulinegeri.unjukrasa.home
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -16,14 +17,14 @@ enum class ViewType {
     TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
 }
 
-class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType) :
+class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType, private val mainNavController: NavController) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
-    class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.root.setOnClickListener {
-                binding.root.findNavController().navigate(R.id.action_go_to_demonstrationPageFragment)
+                mainNavController.navigate(R.id.action_main_screen_to_navigation_demonstration_page)
             }
         }
     }

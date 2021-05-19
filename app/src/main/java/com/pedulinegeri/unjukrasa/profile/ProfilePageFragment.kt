@@ -39,11 +39,11 @@ class ProfilePageFragment : Fragment() {
 
         binding.rvDemonstration.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE)
+            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE, requireActivity().findNavController(R.id.nav_host_container_main))
         }
 
         binding.fabAdd.setOnClickListener {
-            requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_go_to_navigation_new_demonstration_page)
+            requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
         }
 
         binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -61,11 +61,14 @@ class ProfilePageFragment : Fragment() {
                 binding.fabAdd.show()
                 when (tab.text) {
                     resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE)
+                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE, requireActivity().findNavController(
+                            R.id.nav_host_container_main))
                     resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111"), ViewType.PROFILE)
+                        DemonstrationListAdapter(arrayListOf("1111"), ViewType.PROFILE, requireActivity().findNavController(
+                            R.id.nav_host_container_main))
                     resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf(), ViewType.PROFILE)
+                        DemonstrationListAdapter(arrayListOf(), ViewType.PROFILE, requireActivity().findNavController(
+                            R.id.nav_host_container_main))
                 }
             }
 

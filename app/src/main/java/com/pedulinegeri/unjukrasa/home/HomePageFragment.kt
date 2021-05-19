@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
 
 class HomePageFragment : Fragment() {
@@ -28,17 +30,20 @@ class HomePageFragment : Fragment() {
 
         binding.rvTrending.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.TRENDING)
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.TRENDING, requireActivity().findNavController(
+                R.id.nav_host_container_main))
         }
 
         binding.rvMostActiveToday.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.MOST_ACTIVE)
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.MOST_ACTIVE, requireActivity().findNavController(
+                R.id.nav_host_container_main))
         }
 
         binding.rvRecommended.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.RECOMMENDED)
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.RECOMMENDED, requireActivity().findNavController(
+                R.id.nav_host_container_main))
         }
     }
 

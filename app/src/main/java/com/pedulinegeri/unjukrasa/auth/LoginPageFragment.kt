@@ -57,7 +57,7 @@ class LoginPageFragment : Fragment() {
 
             // TODO DEV
             authViewModel.signedIn()
-            requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_login_page_screen_to_signUpPageFragment)
+            requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_signUpPageFragment)
         }
     }
 
@@ -70,7 +70,7 @@ class LoginPageFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (response!!.isNewUser) {
-                    requireActivity().findNavController(R.id.nav_host_container).navigate(R.id.action_login_page_screen_to_signUpPageFragment)
+                    requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_signUpPageFragment)
                 } else {
                     authViewModel.signedIn()
                 }
