@@ -8,7 +8,6 @@ import android.widget.EditText
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.navigation.findNavController
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,9 +31,7 @@ class MainActivity : AppCompatActivity() {
         if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
             binding.drawer.closeDrawer(GravityCompat.START)
         } else {
-            if (findNavController(R.id.nav_host_container_main).currentDestination?.id != R.id.signUpPageFragment) {
-                super.onBackPressed()
-            }
+            super.onBackPressed()
         }
     }
 

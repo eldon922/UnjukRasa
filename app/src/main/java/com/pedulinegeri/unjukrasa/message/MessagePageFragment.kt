@@ -83,13 +83,13 @@ class MessagePageFragment : Fragment() {
         // Step 5 - Handle navigate up state
         messageListViewModel.state.observe(this) { state ->
             if (state is MessageListViewModel.State.NavigateUp) {
-                view.findNavController().navigateUp()
+                requireActivity().onBackPressed()
             }
         }
 
         // Step 6 - Handle back button behaviour correctly when you're in a thread
         binding.messageListHeaderView.setBackButtonClickListener{
-            view.findNavController().navigateUp()
+            requireActivity().onBackPressed()
         }
     }
 

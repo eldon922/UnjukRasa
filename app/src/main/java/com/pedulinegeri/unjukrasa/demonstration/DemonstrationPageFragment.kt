@@ -32,7 +32,7 @@ class DemonstrationPageFragment : Fragment() {
         val binding = fragmentBinding!!
 
         binding.toolbar.setNavigationOnClickListener { view ->
-            view.findNavController().navigateUp()
+            requireActivity().onBackPressed()
         }
 
         binding.vpImages.adapter = DemonstrationImageAdapter(listOf(R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar, R.drawable.cat_caviar))

@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +39,7 @@ class SignUpPageFragment : Fragment() {
         val binding = fragmentBinding!!
 
         binding.toolbar.setNavigationOnClickListener { view ->
-            view.findNavController().navigateUp()
+            requireActivity().onBackPressed()
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -86,6 +87,10 @@ class SignUpPageFragment : Fragment() {
 //                        Log.d("Firebase", "User profile updated.")
 //                    }
 //                }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback {
+            return@addCallback
         }
     }
 

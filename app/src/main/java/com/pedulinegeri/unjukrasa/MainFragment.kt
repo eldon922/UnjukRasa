@@ -1,13 +1,16 @@
 package com.pedulinegeri.unjukrasa
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -56,18 +59,6 @@ class MainFragment : Fragment() {
         mainViewModel.bottomNavState = binding.bottomNavigation.selectedItemId
     }
 
-    fun hideBar() {
-        val binding = fragmentBinding!!
-        binding.bottomNavigation.visibility = View.GONE
-        binding.toolbar.visibility = View.GONE
-    }
-
-    fun showBar() {
-        val binding = fragmentBinding!!
-        binding.bottomNavigation.visibility = View.VISIBLE
-        binding.toolbar.visibility = View.VISIBLE
-    }
-
     private fun setupToolbar() {
         val binding = fragmentBinding!!
         (requireActivity() as MainActivity).setSupportActionBar(binding.toolbar)
@@ -78,6 +69,11 @@ class MainFragment : Fragment() {
 
         binding.hamIcon.setOnClickListener {
             (requireActivity() as MainActivity).binding.drawer.open()
+        }
+
+        findNavController().addOnDestinationChangedListener { _, _, _ ->
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
         }
     }
 
@@ -151,15 +147,7 @@ class MainFragment : Fragment() {
             fragmentManager = childFragmentManager,
             containerId = R.id.nav_host_container,
             intent = requireActivity().intent
-        ).value?.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.home_page_screen -> showBar()
-                R.id.message_page_screen -> showBar()
-                R.id.profile_page_screen -> showBar()
-                R.id.login_page_screen -> showBar()
-                else -> hideBar()
-            }
-        }
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

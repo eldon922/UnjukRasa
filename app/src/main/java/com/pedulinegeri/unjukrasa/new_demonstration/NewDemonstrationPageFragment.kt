@@ -1,25 +1,33 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 
 
 class NewDemonstrationPageFragment : Fragment() {
 
     private var fragmentBinding: FragmentNewDemonstrationPageBinding? = null
     private val MEDIA_CODE = 1
+
+    private lateinit var imageAdapter: NewDemonstrationImageAdapter
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,22 +44,83 @@ class NewDemonstrationPageFragment : Fragment() {
         val binding = fragmentBinding!!
 
         binding.toolbar.setNavigationOnClickListener { view ->
-            view.findNavController().navigateUp()
+            requireActivity().onBackPressed()
         }
 
         binding.btnImage.setOnClickListener {
             val options: Options = Options.init()
                 .setRequestCode(MEDIA_CODE) //Request code for activity results
-                .setCount(3) //Number of images to restict selection count
+                .setCount(1) //Number of images to restict selection count
                 .setFrontfacing(false) //Front Facing camera on start
-                .setSpanCount(4) //Span count for gallery min 1 & max 5
-                .setMode(Options.Mode.All) //Option to select only pictures or videos or both
-                .setVideoDurationLimitinSeconds(30) //Duration for video recording
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_PORTRAIT) //Orientaion
-                .setPath("/pix/images") //Custom Path For media Storage
+                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
 
             Pix.start(this, options)
         }
+
+        setupDescriptionEditor()
+
+        imageAdapter = NewDemonstrationImageAdapter(arrayListOf())
+        binding.vpImages.adapter = imageAdapter
+        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
+
+        binding.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.action_start) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Mulai Unjuk Rasa")
+                    .setMessage("Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
+                    }
+                    .setNegativeButton(android.R.string.cancel, null).show()
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Keluar")
+                .setMessage("Apakah kamu yakin ingin keluar? Draft akan disimpan dan bisa diakses kembali di lain waktu")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
+                }
+                .setNegativeButton(android.R.string.cancel, null).show()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        onBackPressedCallback.remove()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
+            val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+
+            imageAdapter.addImage(returnValue!![0])
+            val binding = fragmentBinding!!
+            binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
+        }
+    }
+
+    override fun onDestroyView() {
+        fragmentBinding = null
+        super.onDestroyView()
+    }
+
+    private fun setupDescriptionEditor() {
+        val binding = fragmentBinding!!
 
         binding.reDescription.setEditorHeight(200)
         binding.reDescription.setEditorFontSize(16)
@@ -93,17 +162,5 @@ class NewDemonstrationPageFragment : Fragment() {
         binding.reDescription.setOnFocusChangeListener { _, focused ->
             binding.hsvEditor.visibility = if (focused) View.VISIBLE else View.GONE
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK && resultCode == MEDIA_CODE) {
-            val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-        }
-    }
-
-    override fun onDestroyView() {
-        fragmentBinding = null
-        super.onDestroyView()
     }
 }
