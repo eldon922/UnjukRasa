@@ -1,22 +1,20 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import com.google.android.material.tabs.TabLayoutMediator
-import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
 
@@ -60,9 +58,20 @@ class NewDemonstrationPageFragment : Fragment() {
 
         setupDescriptionEditor()
 
-        imageAdapter = NewDemonstrationImageAdapter(arrayListOf())
+        imageAdapter = NewDemonstrationImageAdapter(childFragmentManager)
         binding.vpImages.adapter = imageAdapter
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
+        binding.vpImages.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                if (position == 0) {
+                    binding.intoTabLayout.visibility = View.GONE
+                } else {
+                    binding.intoTabLayout.visibility = View.VISIBLE
+                }
+            }
+        })
 
         binding.toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.action_start) {
@@ -77,6 +86,11 @@ class NewDemonstrationPageFragment : Fragment() {
             }
 
             return@setOnMenuItemClickListener true
+        }
+
+        binding.etYoutubeVideo.addTextChangedListener {
+            binding.vpImages.setCurrentItem(0, false)
+            imageAdapter.changeYoutubeVideo(binding.etYoutubeVideo.text.takeLast(11).toString())
         }
     }
 
