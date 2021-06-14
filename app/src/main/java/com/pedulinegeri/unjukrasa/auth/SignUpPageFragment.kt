@@ -1,6 +1,7 @@
 package com.pedulinegeri.unjukrasa.auth
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -9,9 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fxn.pix.Options
+import com.fxn.pix.Pix
 import com.google.firebase.auth.FirebaseAuth
 import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
@@ -22,8 +27,8 @@ class SignUpPageFragment : Fragment() {
 
     private var fragmentBinding: FragmentSignUpPageBinding? = null
 
-    private val PICK_IMAGE = 1
-    private lateinit var profilePictureURI: Uri
+    private val MEDIA_CODE = 1
+    private lateinit var profilePictureURI: String
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
@@ -41,32 +46,17 @@ class SignUpPageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
-        binding.toolbar.setNavigationOnClickListener { view ->
-            requireActivity().onBackPressed()
-        }
-
         binding.btnSignUp.setOnClickListener {
-            val user = FirebaseAuth.getInstance().currentUser!!
-
-            user.updateEmail(binding.etEmail.text.toString())
-
+            findNavController().navigateUp()
+//            val user = FirebaseAuth.getInstance().currentUser!!
+//
+//            user.updateEmail(binding.etEmail.text.toString())
+//
 //            val storage = Firebase.storage
 //            val storageRef = storage.reference
 //            val mountainsRef = storageRef.child("mountains.jpg")
 //            val mountainImagesRef = storageRef.child("images/mountains.jpg")
-
-            val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-            getIntent.type = "image/*"
-
-            val pickIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            pickIntent.type = "image/*"
-
-            val chooserIntent = Intent.createChooser(getIntent, "Select Image")
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
-
-            startActivityForResult(chooserIntent, PICK_IMAGE)
-
+//
 //            var file = profilePictureURI
 //            val riversRef = storageRef.child("images/${file.lastPathSegment}")
 //            val uploadTask = riversRef.putFile(file)
@@ -79,7 +69,7 @@ class SignUpPageFragment : Fragment() {
 //                // ...
 //
 //            }
-
+//
 //            val profileUpdates = userProfileChangeRequest {
 //                displayName = "Jane Q. User"
 //                photoUri = profilePictureURI
@@ -90,6 +80,17 @@ class SignUpPageFragment : Fragment() {
 //                        Log.d("Firebase", "User profile updated.")
 //                    }
 //                }
+        }
+
+        binding.btnImage.setOnClickListener {
+            val options: Options = Options.init()
+                .setRequestCode(MEDIA_CODE) //Request code for activity results
+                .setCount(1) //Number of images to restict selection count
+                .setFrontfacing(true) //Front Facing camera on start
+                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
+
+            Pix.start(this, options)
         }
 
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
@@ -105,9 +106,14 @@ class SignUpPageFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
+            val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
 
-        if (requestCode == PICK_IMAGE) {
-            profilePictureURI = data!!.data as Uri
+            profilePictureURI = returnValue!![0]
+            val binding = fragmentBinding!!
+
+            val bmImg = BitmapFactory.decodeFile(profilePictureURI)
+            binding.ivPerson.setImageBitmap(bmImg)
         }
     }
 

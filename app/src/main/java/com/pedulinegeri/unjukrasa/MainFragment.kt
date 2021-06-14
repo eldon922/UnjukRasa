@@ -146,7 +146,7 @@ class MainFragment : Fragment() {
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
             }
 
-//            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
+            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
         })
     }
 

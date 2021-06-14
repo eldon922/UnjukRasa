@@ -29,7 +29,7 @@ class NotificationPageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
-        binding.toolbar.setNavigationOnClickListener { view ->
+        binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
 
