@@ -9,8 +9,7 @@
         android:id="@+id/iv_demonstration"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:scaleType="centerCrop" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/youTubePlayerView"

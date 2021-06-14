@@ -7,7 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -26,6 +29,8 @@ class MainFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +55,12 @@ class MainFragment : Fragment() {
         if (mainViewModel.bottomNavState != -1){
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
+
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+            if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
+                binding.drawer.closeDrawer(GravityCompat.START)
+            }
+        }
     }
 
     override fun onPause() {
@@ -57,6 +68,8 @@ class MainFragment : Fragment() {
 
         val binding = fragmentBinding!!
         mainViewModel.bottomNavState = binding.bottomNavigation.selectedItemId
+
+        onBackPressedCallback.remove()
     }
 
     private fun setupToolbar() {
@@ -68,7 +81,7 @@ class MainFragment : Fragment() {
         }
 
         binding.hamIcon.setOnClickListener {
-            (requireActivity() as MainActivity).binding.drawer.open()
+            binding.drawer.open()
         }
 
         findNavController().addOnDestinationChangedListener { _, _, _ ->
@@ -79,7 +92,13 @@ class MainFragment : Fragment() {
 
     private fun setupNavigationDrawer() {
         val binding = fragmentBinding!!
-        (requireActivity() as MainActivity).binding.navigationDrawer.setNavigationItemSelectedListener {
+
+        val drawerToggle =
+            ActionBarDrawerToggle(requireActivity(), binding.drawer, R.string.open, R.string.close)
+        binding.drawer.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.title) {
                 resources.getString(R.string.inisiasi_unjuk_rasa) -> {
                     findNavController().navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
@@ -102,13 +121,13 @@ class MainFragment : Fragment() {
                 else -> false
             }
 
-            (requireActivity() as MainActivity).binding.drawer.close()
+            binding.drawer.close()
 
             true
         }
 
         authViewModel.isSignedIn.observe(viewLifecycleOwner, { signedIn ->
-            val drawerMenu = (requireActivity() as MainActivity).binding.navigationDrawer.menu
+            val drawerMenu = binding.navigationDrawer.menu
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
@@ -153,7 +172,8 @@ class MainFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                (requireActivity() as MainActivity).binding.drawer.open()
+                val binding = fragmentBinding!!
+                binding.drawer.open()
                 true
             }
             else -> super.onOptionsItemSelected(item)

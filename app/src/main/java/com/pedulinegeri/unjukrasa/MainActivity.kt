@@ -20,19 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val drawerToggle =
-            ActionBarDrawerToggle(this, binding.drawer, R.string.open, R.string.close)
-        binding.drawer.addDrawerListener(drawerToggle)
-        drawerToggle.syncState()
-    }
-
-    override fun onBackPressed() {
-        if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
-            binding.drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

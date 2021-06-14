@@ -26,6 +26,7 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
 
                 val youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance()
 
+                // TODO: CHANGE API KEY TO OAUTH2
                 youTubePlayerFragment.initialize("AIzaSyBi6OpyJy7zKffFtu7mfe1iknwALP3YyqI", object : YouTubePlayer.OnInitializedListener {
                     override fun onInitializationSuccess(
                         p0: YouTubePlayer.Provider?,

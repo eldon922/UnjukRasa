@@ -3,12 +3,16 @@ package com.pedulinegeri.unjukrasa.demonstration
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog
+import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 
 
 class DemonstrationPageFragment : Fragment() {
@@ -16,6 +20,7 @@ class DemonstrationPageFragment : Fragment() {
     private var fragmentBinding: FragmentDemonstrationPageBinding? = null
 
     private lateinit var participateBottomSheetDialog: ParticipateBottomSheetDialog
+    private lateinit var addPersonBottomSheetDialog: AddPersonBottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +81,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabShare.setOnClickListener {
-            val sendIntent: Intent = Intent().apply {
+            val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
                 type = "text/plain"
@@ -84,6 +89,28 @@ class DemonstrationPageFragment : Fragment() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+        }
+
+        binding.fabUpvote.setOnClickListener {
+            Toast.makeText(requireContext(), "Terima kasih telah mendukung!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.fabDownvote.setOnClickListener {
+            Toast.makeText(requireContext(), "Anda sudah menolak.", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_edit -> {
+                    findNavController().navigate(R.id.action_demonstrationPageFragment_to_newDemonstrationPageFragment)
+                }
+                R.id.action_add_person -> {
+                    addPersonBottomSheetDialog = AddPersonBottomSheetDialog()
+                    addPersonBottomSheetDialog.show(parentFragmentManager, "addPersonBottomSheet")
+                }
+            }
+
+            return@setOnMenuItemClickListener true
         }
     }
 

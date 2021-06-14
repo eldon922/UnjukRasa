@@ -58,6 +58,14 @@
         android:id="@+id/demonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
         android:label="fragment_demonstration_page"
-        tools:layout="@layout/fragment_demonstration_page" />
+        tools:layout="@layout/fragment_demonstration_page" >
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_newDemonstrationPageFragment"
+            app:destination="@id/newDemonstrationPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 
 </navigation>

@@ -1,32 +1,48 @@
-package com.pedulinegeri.unjukrasa.demonstration
+package com.pedulinegeri.unjukrasa.demonstration.person
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.MessageListItemBinding
+import com.pedulinegeri.unjukrasa.databinding.AddPersonListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 
 
-class PersonListAdapter(private val dataSet: List<String>) :
-    RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
+class AddPersonListAdapter(private val dataSet: ArrayList<String>) :
+    RecyclerView.Adapter<AddPersonListAdapter.ViewHolder>() {
+
+    var onItemClick: ((String) -> Unit)? = null
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(private val binding: PersonListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: AddPersonListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(dataSet[adapterPosition])
+            }
+        }
 
         fun bind(text: String) {
-            binding.chipRole.text = text
+            binding.tvName.text = text
         }
+    }
+
+    fun addPerson(person: String) {
+        dataSet.add(person)
+        notifyItemInserted(itemCount-1)
+    }
+
+    fun clear(){
+        dataSet.clear()
+        notifyDataSetChanged()
     }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val binding = PersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = AddPersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding)
     }

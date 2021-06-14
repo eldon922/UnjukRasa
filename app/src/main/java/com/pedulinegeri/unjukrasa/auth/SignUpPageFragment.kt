@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -23,6 +24,8 @@ class SignUpPageFragment : Fragment() {
 
     private val PICK_IMAGE = 1
     private lateinit var profilePictureURI: Uri
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,9 +92,15 @@ class SignUpPageFragment : Fragment() {
 //                }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback {
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             return@addCallback
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        onBackPressedCallback.remove()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

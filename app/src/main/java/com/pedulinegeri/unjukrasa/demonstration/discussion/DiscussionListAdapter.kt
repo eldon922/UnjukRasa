@@ -1,13 +1,10 @@
-package com.pedulinegeri.unjukrasa.demonstration
+package com.pedulinegeri.unjukrasa.demonstration.discussion
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.DiscussionListItemBinding
-import com.pedulinegeri.unjukrasa.databinding.NotificationListItemBinding
 
 
 class DiscussionListAdapter(private val dataSet: List<String>) :
