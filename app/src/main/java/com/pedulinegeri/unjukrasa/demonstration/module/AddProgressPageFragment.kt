@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.new_demonstration
+package com.pedulinegeri.unjukrasa.demonstration.module
 
 import android.content.Intent
 import android.graphics.Color
@@ -16,12 +16,14 @@ import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.databinding.FragmentAddProgressPageBinding
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationImageAdapter
 
 
-class NewDemonstrationPageFragment : Fragment() {
+class AddProgressPageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentNewDemonstrationPageBinding? = null
+    private var fragmentBinding: FragmentAddProgressPageBinding? = null
     private val MEDIA_CODE = 1
 
     private lateinit var imageAdapter: NewDemonstrationImageAdapter
@@ -32,7 +34,7 @@ class NewDemonstrationPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentBinding = FragmentNewDemonstrationPageBinding.inflate(inflater, container, false)
+        fragmentBinding = FragmentAddProgressPageBinding.inflate(inflater, container, false)
         return fragmentBinding?.root
     }
 
@@ -74,10 +76,10 @@ class NewDemonstrationPageFragment : Fragment() {
         })
 
         binding.toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.action_start) {
+            if (it.itemId == R.id.action_add) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Mulai Unjuk Rasa")
-                    .setMessage("Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                    .setTitle("Tambah Perkembangan")
+                    .setMessage("Apakah kamu yakin ingin menambahkan perkembangan ini? Tekan cancel untuk mengubah data kembali")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
@@ -102,7 +104,7 @@ class NewDemonstrationPageFragment : Fragment() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar? Draft akan disimpan dan bisa diakses kembali di lain waktu")
+                .setMessage("Apakah kamu yakin ingin keluar?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()

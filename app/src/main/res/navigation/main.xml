@@ -9,7 +9,7 @@
         android:id="@+id/main_screen"
         android:name="com.pedulinegeri.unjukrasa.MainFragment"
         android:label="Menu Utama"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_main_screen_to_navigation_notification_page"
             app:destination="@id/notificationPageFragment"
@@ -58,7 +58,7 @@
         android:id="@+id/demonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
         android:label="fragment_demonstration_page"
-        tools:layout="@layout/fragment_demonstration_page" >
+        tools:layout="@layout/fragment_demonstration_page">
         <action
             android:id="@+id/action_demonstrationPageFragment_to_newDemonstrationPageFragment"
             app:destination="@id/newDemonstrationPageFragment"
@@ -66,6 +66,18 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_addProgressPageFragment"
+            app:destination="@id/addProgressPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/addProgressPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.module.AddProgressPageFragment"
+        android:label="AddProgressPageFragment"
+        tools:layout="@layout/fragment_add_progress_page" />
 
 </navigation>

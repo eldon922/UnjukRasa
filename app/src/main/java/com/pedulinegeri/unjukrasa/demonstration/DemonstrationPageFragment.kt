@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
 import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.module.ProgressListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 
@@ -106,11 +107,15 @@ class DemonstrationPageFragment : Fragment() {
                 }
                 R.id.action_add_person -> {
                     addPersonBottomSheetDialog = AddPersonBottomSheetDialog()
-                    addPersonBottomSheetDialog.show(parentFragmentManager, "addPersonBottomSheet")
+                    addPersonBottomSheetDialog.show(parentFragmentManager, "AddPersonBottomSheet")
                 }
             }
 
             return@setOnMenuItemClickListener true
+        }
+
+        binding.cvAddProgress.setOnClickListener {
+            findNavController().navigate(R.id.action_demonstrationPageFragment_to_addProgressPageFragment)
         }
     }
 
