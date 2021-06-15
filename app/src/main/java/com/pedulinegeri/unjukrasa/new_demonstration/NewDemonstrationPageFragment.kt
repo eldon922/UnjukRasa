@@ -73,6 +73,15 @@ class NewDemonstrationPageFragment : Fragment() {
             }
         })
 
+        imageAdapter.onVideoLoaded = {
+            binding.vpImages.setBackgroundResource(0)
+        }
+
+        imageAdapter.onVideoRemoved = {
+            binding.etYoutubeVideo.text.clear()
+            binding.vpImages.setBackgroundResource(R.drawable.video_placeholder)
+        }
+
         binding.toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.action_start) {
                 AlertDialog.Builder(requireContext())

@@ -20,7 +20,7 @@ class AddPersonListAdapter(private val dataSet: ArrayList<String>) :
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(dataSet[adapterPosition])
+                onItemClick?.invoke(dataSet[absoluteAdapterPosition])
             }
         }
 

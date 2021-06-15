@@ -11,13 +11,16 @@ import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragment
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.DemonstrationImageItemBinding
+import com.pedulinegeri.unjukrasa.databinding.NewImageOrVideoItemBinding
 
 
 class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager) : RecyclerView.Adapter<NewDemonstrationImageAdapter.ViewHolder>() {
     private val imagesUrl = arrayListOf("")
 
-    inner class ViewHolder(private val binding: DemonstrationImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    var onVideoRemoved: ((String) -> Unit)? = null
+    var onVideoLoaded: ((String) -> Unit)? = null
+
+    inner class ViewHolder(private val binding: NewImageOrVideoItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {
             if (url.length == 11) {
@@ -46,6 +49,19 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
 
                 })
 
+                binding.civCancel.visibility = View.VISIBLE
+                binding.civCancel.setOnClickListener {
+                    val fragmentTransaction = fragmentManager.beginTransaction()
+                    fragmentTransaction.remove(youTubePlayerFragment).commit()
+
+                    binding.youTubePlayerView.visibility = View.GONE
+                    binding.civCancel.visibility = View.GONE
+
+                    onVideoRemoved?.invoke(imagesUrl[absoluteAdapterPosition])
+                }
+
+                onVideoLoaded?.invoke(imagesUrl[absoluteAdapterPosition])
+
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.youTubePlayerView, youTubePlayerFragment).commit()
             } else if (url.isNotEmpty()) {
@@ -54,6 +70,16 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
 
                 val bmImg = BitmapFactory.decodeFile(url)
                 binding.ivDemonstration.setImageBitmap(bmImg)
+
+                binding.civCancel.visibility = View.VISIBLE
+                binding.civCancel.setOnClickListener {
+                    imagesUrl.removeAt(absoluteAdapterPosition)
+                    notifyItemRemoved(absoluteAdapterPosition)
+                    binding.ivDemonstration.setImageResource(0)
+
+                    binding.ivDemonstration.visibility = View.GONE
+                    binding.civCancel.visibility = View.GONE
+                }
             }
         }
     }
@@ -69,7 +95,7 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DemonstrationImageItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = NewImageOrVideoItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding)
     }
