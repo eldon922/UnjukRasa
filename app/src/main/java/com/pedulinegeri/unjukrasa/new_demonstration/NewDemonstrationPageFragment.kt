@@ -4,16 +4,22 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
@@ -22,10 +28,14 @@ import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBindin
 class NewDemonstrationPageFragment : Fragment() {
 
     private var fragmentBinding: FragmentNewDemonstrationPageBinding? = null
-    private val MEDIA_CODE = 1
+    private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
+    private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
 
     private lateinit var imageAdapter: NewDemonstrationImageAdapter
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
+    private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +57,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
         binding.btnImage.setOnClickListener {
             val options: Options = Options.init()
-                .setRequestCode(MEDIA_CODE) //Request code for activity results
+                .setRequestCode(DEMONSTRATION_MEDIA_PICKER_CODE) //Request code for activity results
                 .setCount(1) //Number of images to restict selection count
                 .setFrontfacing(false) //Front Facing camera on start
                 .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
@@ -60,8 +70,8 @@ class NewDemonstrationPageFragment : Fragment() {
 
         imageAdapter = NewDemonstrationImageAdapter(childFragmentManager)
         binding.vpImages.adapter = imageAdapter
-        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ ->}.attach()
-        binding.vpImages.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
+        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
@@ -89,7 +99,8 @@ class NewDemonstrationPageFragment : Fragment() {
                     .setMessage("Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
+                        requireActivity().findNavController(R.id.nav_host_container_main)
+                            .navigateUp()
                     }
                     .setNegativeButton(android.R.string.cancel, null).show()
             }
@@ -101,6 +112,44 @@ class NewDemonstrationPageFragment : Fragment() {
             binding.vpImages.setCurrentItem(0, false)
             imageAdapter.changeYoutubeVideo(binding.etYoutubeVideo.text.takeLast(11).toString())
         }
+
+        binding.cbDemonstration.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                binding.groupDemonstration.visibility = View.VISIBLE
+            } else {
+                binding.groupDemonstration.visibility = View.GONE
+            }
+        }
+
+        binding.etTime.setOnClickListener {
+            if (!this::datePicker.isInitialized) {
+                datePicker = SingleDateAndTimePickerDialog.Builder(requireContext())
+                    .bottomSheet()
+                    .curved()
+                    .listener {
+                        binding.etTime.setText(it.toString())
+                    }
+            }
+
+            datePicker.display()
+        }
+
+        binding.etLocation.setOnClickListener {
+            autocompleteFragment.view?.findViewById<View>(R.id.places_autocomplete_search_input)
+                ?.performClick()
+        }
+
+        setupPlacePicker()
+        
+        binding.btnUploadPolicePermit.setOnClickListener {
+            val options: Options = Options.init()
+                .setRequestCode(POLICE_PERMIT_MEDIA_PICKER_CODE) //Request code for activity results
+                .setCount(1) //Number of images to restict selection count
+                .setFrontfacing(false) //Front Facing camera on start
+                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
+
+            Pix.start(this, options) }
     }
 
     override fun onResume() {
@@ -128,18 +177,60 @@ class NewDemonstrationPageFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
-            val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+        when (requestCode) {
+            DEMONSTRATION_MEDIA_PICKER_CODE -> {
+                if (resultCode == Pix.RESULT_OK) {
+                    val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
 
-            imageAdapter.addImage(returnValue!![0])
-            val binding = fragmentBinding!!
-            binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
+                    imageAdapter.addImage(returnValue!![0])
+
+                    val binding = fragmentBinding!!
+                    binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
+                }
+            }
+            POLICE_PERMIT_MEDIA_PICKER_CODE -> {
+                if (resultCode == Pix.RESULT_OK) {
+                    val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+
+                    val binding = fragmentBinding!!
+                    binding.etPolicePermit.setText(returnValue!![0])
+                }
+            }
         }
     }
 
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()
+    }
+
+    private fun setupPlacePicker() {
+        // Initialize the AutocompleteSupportFragment.
+        autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                as AutocompleteSupportFragment
+
+        // Initialize the SDK
+        Places.initialize(requireContext(), R.string.google_api_key.toString())
+
+        // Create a new PlacesClient instance
+        val placesClient = Places.createClient(requireContext())
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                val binding = fragmentBinding!!
+
+                binding.etLocation.setText(place.name)
+            }
+
+            override fun onError(status: Status) {
+                Toast.makeText(requireContext(), "An error occurred: $status", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
     }
 
     private fun setupDescriptionEditor() {

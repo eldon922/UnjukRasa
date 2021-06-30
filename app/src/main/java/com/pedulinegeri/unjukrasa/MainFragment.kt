@@ -63,6 +63,13 @@ class MainFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val binding = fragmentBinding!!
+        binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
+    }
+
     override fun onPause() {
         super.onPause()
 

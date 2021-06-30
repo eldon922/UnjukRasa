@@ -13,9 +13,9 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
         app:civ_border_width="2dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
 
     <TextView
         android:id="@+id/tv_name"

@@ -1,6 +1,7 @@
 package com.pedulinegeri.unjukrasa.demonstration.person
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
@@ -16,7 +17,11 @@ class PersonListAdapter(private val dataSet: List<String>) :
     class ViewHolder(private val binding: PersonListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
-            binding.chipRole.text = text
+            if (text.isNotEmpty()) {
+                binding.chipRole.text = text
+            } else {
+                binding.chipRole.visibility = View.GONE
+            }
         }
     }
 

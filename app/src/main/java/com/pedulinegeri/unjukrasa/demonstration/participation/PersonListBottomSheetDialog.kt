@@ -1,24 +1,23 @@
-package com.pedulinegeri.unjukrasa.demonstration.discussion
+package com.pedulinegeri.unjukrasa.demonstration.participation
 
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.pedulinegeri.unjukrasa.databinding.DiscussionReplyBottomSheetLayoutBinding
+import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
+import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 
+class PersonListBottomSheetDialog: BottomSheetDialogFragment() {
 
-class DiscussionReplyBottomSheetDialog: BottomSheetDialogFragment() {
-
-    private var fragmentBinding: DiscussionReplyBottomSheetLayoutBinding? = null
+    private var fragmentBinding: PersonListBottomSheetLayoutBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentBinding = DiscussionReplyBottomSheetLayoutBinding.inflate(inflater, container, false)
+        fragmentBinding = PersonListBottomSheetLayoutBinding.inflate(inflater, container, false)
         return fragmentBinding?.root
     }
 
@@ -27,9 +26,9 @@ class DiscussionReplyBottomSheetDialog: BottomSheetDialogFragment() {
 
         val binding = fragmentBinding!!
 
-        binding.rvReply.apply {
+        binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DiscussionReplyListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"))
+            this.adapter = PersonListAdapter(arrayListOf("", "", "", "", "", ""))
         }
     }
 

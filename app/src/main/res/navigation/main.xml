@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/addProgressPageFragment"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.module.AddProgressPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.progress.AddProgressPageFragment"
         android:label="AddProgressPageFragment"
         tools:layout="@layout/fragment_add_progress_page" />
 

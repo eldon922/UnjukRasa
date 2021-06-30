@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.demonstration.module
+package com.pedulinegeri.unjukrasa.demonstration.progress
 
 import android.content.Intent
 import android.graphics.Color
@@ -17,7 +17,6 @@ import com.fxn.pix.Pix
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentAddProgressPageBinding
-import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
 import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationImageAdapter
 
 
