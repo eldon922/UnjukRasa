@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
-import com.pedulinegeri.unjukrasa.demonstration.ViewType
 
 class HomePageFragment : Fragment() {
 
@@ -32,19 +31,19 @@ class HomePageFragment : Fragment() {
 
         binding.rvTrending.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.TRENDING, requireActivity().findNavController(
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), DemonstrationListAdapter.ViewType.TRENDING, requireActivity().findNavController(
                 R.id.nav_host_container_main))
         }
 
         binding.rvMostActiveToday.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.MOST_ACTIVE, requireActivity().findNavController(
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), DemonstrationListAdapter.ViewType.MOST_ACTIVE, requireActivity().findNavController(
                 R.id.nav_host_container_main))
         }
 
         binding.rvRecommended.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), ViewType.RECOMMENDED, requireActivity().findNavController(
+            this.adapter = DemonstrationListAdapter(arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"), DemonstrationListAdapter.ViewType.RECOMMENDED, requireActivity().findNavController(
                 R.id.nav_host_container_main))
         }
     }

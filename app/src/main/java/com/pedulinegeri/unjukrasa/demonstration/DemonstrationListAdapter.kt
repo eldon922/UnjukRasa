@@ -11,18 +11,18 @@ import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBindin
 import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
 
-enum class ViewType {
-    TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
-}
-
 class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType, private val mainNavController: NavController) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
+
+    enum class ViewType {
+        TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
+    }
 
     inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.root.setOnClickListener {
-                mainNavController.navigate(R.id.action_main_screen_to_navigation_demonstration_page)
+                mainNavController.navigate(R.id.action_global_demonstrationPageFragment)
             }
         }
     }

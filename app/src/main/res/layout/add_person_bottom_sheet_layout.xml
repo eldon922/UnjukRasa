@@ -25,8 +25,7 @@
         app:iconifiedByDefault="false"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:queryBackground="@null"
-        app:queryHint="Pilih orangnya dengan nama..."
-        tools:layout_editor_absoluteX="20dp" />
+        app:queryHint="Pilih orangnya dengan nama..." />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_add_person"

@@ -25,13 +25,6 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_main_screen_to_navigation_demonstration_page"
-            app:destination="@id/demonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_main_screen_to_signUpPageFragment"
             app:destination="@id/signUpPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
@@ -53,7 +46,12 @@
         android:id="@+id/newDemonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
         android:label="fragment_new_demonstration_page"
-        tools:layout="@layout/fragment_new_demonstration_page" />
+        tools:layout="@layout/fragment_new_demonstration_page">
+        <argument
+            android:name="edit_mode"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/demonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
@@ -73,11 +71,70 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_navigation_profile_page"
+            app:destination="@id/navigation_profile_page"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right">
+            <argument
+                android:name="idUser"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
+            app:destination="@id/participateBottomSheetDialog" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_addPersonBottomSheetDialog"
+            app:destination="@id/addPersonBottomSheetDialog" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_discussionReplyBottomSheetDialog"
+            app:destination="@id/discussionReplyBottomSheetDialog" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_participationListBottomSheetDialog"
+            app:destination="@id/participationListBottomSheetDialog" />
     </fragment>
     <fragment
         android:id="@+id/addProgressPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.progress.AddProgressPageFragment"
         android:label="AddProgressPageFragment"
         tools:layout="@layout/fragment_add_progress_page" />
+    <dialog
+        android:id="@+id/participateBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
+        android:label="ParticipateBottomSheetDialog" />
+    <dialog
+        android:id="@+id/addPersonBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog"
+        android:label="AddPersonBottomSheetDialog" />
+    <dialog
+        android:id="@+id/discussionReplyBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionReplyBottomSheetDialog"
+        android:label="DiscussionReplyBottomSheetDialog" />
+    <dialog
+        android:id="@+id/participationListBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog"
+        android:label="ParticipationListBottomSheetDialog">
+        <argument
+            android:name="typeList"
+            app:argType="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog$TypeList" />
+        <action
+            android:id="@+id/action_participationListBottomSheetDialog_to_navigation_profile_page"
+            app:destination="@id/navigation_profile_page">
+            <argument
+                android:name="idUser"
+                app:argType="integer" />
+        </action>
+    </dialog>
+    <include app:graph="@navigation/profile_page"/>
+
+    <action
+        android:id="@+id/action_global_demonstrationPageFragment"
+        app:destination="@id/demonstrationPageFragment"
+        app:enterAnim="@anim/fui_slide_in_right"
+        app:exitAnim="@android:anim/slide_out_right"
+        app:popEnterAnim="@anim/fui_slide_in_right"
+        app:popExitAnim="@android:anim/slide_out_right" />
 
 </navigation>

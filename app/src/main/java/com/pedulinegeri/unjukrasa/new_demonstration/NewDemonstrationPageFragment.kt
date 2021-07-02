@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
@@ -36,6 +37,8 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
+
+    private val args: NewDemonstrationPageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,8 +98,11 @@ class NewDemonstrationPageFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.action_start) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Mulai Unjuk Rasa")
-                    .setMessage("Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                    .setTitle(if (args.editMode) "Ubah Unjuk Rasa" else "Mulai Unjuk Rasa")
+                    .setMessage(
+                        "Apakah kamu yakin ingin ".plus(if (args.editMode) "mengubah" else "memulai")
+                            .plus(" unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                    )
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         requireActivity().findNavController(R.id.nav_host_container_main)
@@ -140,7 +146,7 @@ class NewDemonstrationPageFragment : Fragment() {
         }
 
         setupPlacePicker()
-        
+
         binding.btnUploadPolicePermit.setOnClickListener {
             val options: Options = Options.init()
                 .setRequestCode(POLICE_PERMIT_MEDIA_PICKER_CODE) //Request code for activity results
@@ -149,7 +155,13 @@ class NewDemonstrationPageFragment : Fragment() {
                 .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
                 .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
 
-            Pix.start(this, options) }
+            Pix.start(this, options)
+        }
+
+        if (args.editMode) {
+            binding.toolbar.title = "Ubah Unjuk Rasa"
+            binding.toolbar.menu.findItem(R.id.action_start).title = "Ubah"
+        }
     }
 
     override fun onResume() {
@@ -160,7 +172,7 @@ class NewDemonstrationPageFragment : Fragment() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar? Draft akan disimpan dan bisa diakses kembali di lain waktu")
+                .setMessage("Apakah kamu yakin ingin keluar? ".plus(if (args.editMode) "Perubahan yang telah dilakukan akan hilang" else "Draft akan disimpan dan bisa diakses kembali di lain waktu"))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()

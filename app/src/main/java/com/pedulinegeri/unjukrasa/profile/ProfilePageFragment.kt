@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
@@ -13,12 +14,13 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
-import com.pedulinegeri.unjukrasa.demonstration.ViewType
 
 
 class ProfilePageFragment : Fragment() {
 
     private var fragmentBinding: FragmentProfilePageBinding? = null
+
+    private val args: ProfilePageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,11 +36,15 @@ class ProfilePageFragment : Fragment() {
 
         val binding = fragmentBinding!!
 
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         setupTabLayout()
 
         binding.rvDemonstration.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE, requireActivity().findNavController(R.id.nav_host_container_main))
+            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(R.id.nav_host_container_main))
         }
 
         binding.fabAdd.setOnClickListener {
@@ -50,6 +56,10 @@ class ProfilePageFragment : Fragment() {
                 if (dy > 0) binding.fabAdd.hide() else if (dy < 0) binding.fabAdd.show()
             }
         })
+
+        if (args.idUser != 0) {
+            binding.appbar.visibility = View.VISIBLE
+        }
     }
 
     private fun setupTabLayout() {
@@ -60,13 +70,13 @@ class ProfilePageFragment : Fragment() {
                 binding.fabAdd.show()
                 when (tab.text) {
                     resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), ViewType.PROFILE, requireActivity().findNavController(
+                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
                             R.id.nav_host_container_main))
                     resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111"), ViewType.PROFILE, requireActivity().findNavController(
+                        DemonstrationListAdapter(arrayListOf("1111"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
                             R.id.nav_host_container_main))
                     resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf(), ViewType.PROFILE, requireActivity().findNavController(
+                        DemonstrationListAdapter(arrayListOf(), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
                             R.id.nav_host_container_main))
                 }
             }

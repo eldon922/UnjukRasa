@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".profile.ProfilePageFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_detail_back_no_circle"
+            app:title="Profil" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_person"
         android:layout_width="50dp"
@@ -26,7 +43,7 @@
         android:textSize="40sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/iv_person"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

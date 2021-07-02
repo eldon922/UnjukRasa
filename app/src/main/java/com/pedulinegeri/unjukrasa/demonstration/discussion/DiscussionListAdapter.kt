@@ -3,27 +3,24 @@ package com.pedulinegeri.unjukrasa.demonstration.discussion
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.DiscussionListItemBinding
 
 
-class DiscussionListAdapter(private val dataSet: List<String>) :
+class DiscussionListAdapter(private val dataSet: List<String>, private val mainNavController: NavController) :
     RecyclerView.Adapter<DiscussionListAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(private val binding: DiscussionListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private lateinit var discussionReplyBottomSheetDialog: DiscussionReplyBottomSheetDialog
+    inner class ViewHolder(private val binding: DiscussionListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.chipReply.setOnClickListener {
-                if (!this::discussionReplyBottomSheetDialog.isInitialized) {
-                    discussionReplyBottomSheetDialog = DiscussionReplyBottomSheetDialog()
-                }
-
-                discussionReplyBottomSheetDialog.show((binding.root.context as FragmentActivity).supportFragmentManager, "DiscussionReplyBottomSheet")
+                mainNavController.navigate(R.id.action_demonstrationPageFragment_to_discussionReplyBottomSheetDialog)
             }
         }
     }

@@ -9,6 +9,11 @@
         android:id="@+id/profile_page_screen"
         android:name="com.pedulinegeri.unjukrasa.profile.ProfilePageFragment"
         android:label="Halaman Profil"
-        tools:layout="@layout/fragment_profile_page" />
+        tools:layout="@layout/fragment_profile_page">
+        <argument
+            android:name="idUser"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
