@@ -11,9 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
 import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
-import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog
-import com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
 
@@ -110,6 +108,9 @@ class DemonstrationPageFragment : Fragment() {
                 R.id.action_add_person -> {
                     findNavController().navigate(R.id.action_demonstrationPageFragment_to_addPersonBottomSheetDialog)
                 }
+                R.id.action_remove_person -> {
+                    findNavController().navigate(R.id.action_demonstrationPageFragment_to_removePersonBottomSheetDialog)
+                }
             }
 
             return@setOnMenuItemClickListener true
@@ -147,9 +148,9 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabUpvote.hide()
             binding.fabDownvote.hide()
             binding.fabParticipate.hide()
+            binding.toolbar.menu.setGroupVisible(R.id.view_mode, false)
         } else {
-            binding.toolbar.menu.findItem(R.id.action_edit).isVisible = false
-            binding.toolbar.menu.findItem(R.id.action_add_person).isVisible = false
+            binding.toolbar.menu.setGroupVisible(R.id.edit_mode, false)
             binding.cvAddProgress.visibility = View.GONE
         }
     }

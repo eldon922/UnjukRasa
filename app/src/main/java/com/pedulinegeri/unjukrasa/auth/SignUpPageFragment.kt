@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,8 @@ class SignUpPageFragment : Fragment() {
     private val MEDIA_CODE = 1
     private lateinit var profilePictureURI: String
 
+    private val authViewModel: AuthViewModel by activityViewModels()
+
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreateView(
@@ -47,7 +50,9 @@ class SignUpPageFragment : Fragment() {
         val binding = fragmentBinding!!
 
         binding.btnSignUp.setOnClickListener {
+            // TODO DEV
             findNavController().navigateUp()
+            authViewModel.signedIn()
 //            val user = FirebaseAuth.getInstance().currentUser!!
 //
 //            user.updateEmail(binding.etEmail.text.toString())

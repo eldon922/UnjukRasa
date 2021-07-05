@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_edit"
-        android:title="Ubah"
-        android:icon="@drawable/ic_edit_white_24dp"
-        app:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_add_person"
-        android:title="Tambah Koordinator"
-        android:icon="@drawable/ic_person_add_white_24dp"
-        app:showAsAction="ifRoom"/>
+
+    <group android:id="@+id/edit_mode">
+        <item
+            android:id="@+id/action_edit"
+            android:icon="@drawable/ic_edit_white_24dp"
+            android:title="Ubah"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_add_person"
+            android:icon="@drawable/ic_person_add_white_24dp"
+            android:title="Tambah koordinator"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_remove_person"
+            android:icon="@drawable/ic_person_remove_white_24dp"
+            android:title="Hapus koordinator"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/view_mode">
+        <item
+            android:id="@+id/action_cancel_participate"
+            android:title="Batal ikut"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_cancel_upvote"
+            android:title="Batal mendukung"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_cancel_downvote"
+            android:title="Batal menolak"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_self_remove"
+            android:title="Batal kontribusi"
+            app:showAsAction="never" />
+    </group>
 </menu>

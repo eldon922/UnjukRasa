@@ -35,7 +35,6 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView"
-        tools:layout_editor_absoluteX="20dp"
         tools:listitem="@layout/add_person_list_item" />
 
     <de.hdodenhof.circleimageview.CircleImageView

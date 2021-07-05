@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_demonstrationPageFragment_to_participationListBottomSheetDialog"
             app:destination="@id/participationListBottomSheetDialog" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_removePersonBottomSheetDialog"
+            app:destination="@id/removePersonBottomSheetDialog" />
     </fragment>
     <fragment
         android:id="@+id/addProgressPageFragment"
@@ -127,7 +130,7 @@
                 app:argType="integer" />
         </action>
     </dialog>
-    <include app:graph="@navigation/profile_page"/>
+    <include app:graph="@navigation/profile_page" />
 
     <action
         android:id="@+id/action_global_demonstrationPageFragment"
@@ -136,5 +139,10 @@
         app:exitAnim="@android:anim/slide_out_right"
         app:popEnterAnim="@anim/fui_slide_in_right"
         app:popExitAnim="@android:anim/slide_out_right" />
+
+    <dialog
+        android:id="@+id/removePersonBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
+        android:label="RemovePersonBottomSheetDialog" />
 
 </navigation>
