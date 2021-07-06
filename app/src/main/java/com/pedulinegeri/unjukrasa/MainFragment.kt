@@ -111,7 +111,7 @@ class MainFragment : Fragment() {
                     findNavController().navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
                 }
                 resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
-                    R.id.navigation_profile_page
+                    R.id.navigation_login_page
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
@@ -122,7 +122,9 @@ class MainFragment : Fragment() {
                     authViewModel.signedOut()
 
                 }
-                resources.getString(R.string.pengaturan) -> false
+                resources.getString(R.string.pengaturan) -> {
+                    findNavController().navigate(R.id.action_main_screen_to_editProfilePageFragment)
+                }
                 resources.getString(R.string.bantuan) -> false
                 resources.getString(R.string.tentang) -> false
                 else -> false
@@ -139,14 +141,14 @@ class MainFragment : Fragment() {
 
             if (signedIn) {
                 drawerMenu.findItem(R.id.action_login).isVisible = false
-                drawerMenu.findItem(R.id.action_logout).isVisible = true
+                drawerMenu.setGroupVisible(R.id.signed_in_menu, true)
 
                 bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
-                drawerMenu.findItem(R.id.action_logout).isVisible = false
+                drawerMenu.setGroupVisible(R.id.signed_in_menu, false)
 
                 bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = false

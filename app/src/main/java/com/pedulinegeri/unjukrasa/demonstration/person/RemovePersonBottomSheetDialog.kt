@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -36,6 +37,7 @@ class RemovePersonBottomSheetDialog: BottomSheetDialogFragment() {
         }
 
         binding.btnRemove.setOnClickListener {
+            Toast.makeText(requireContext(), "Orang yang dipilih telah berhasil dihapus!", Toast.LENGTH_SHORT).show()
             this.dismiss()
         }
     }

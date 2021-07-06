@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import com.google.firebase.auth.FirebaseAuth
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
@@ -51,8 +52,8 @@ class SignUpPageFragment : Fragment() {
 
         binding.btnSignUp.setOnClickListener {
             // TODO DEV
-            findNavController().navigateUp()
             authViewModel.signedIn()
+            ProcessPhoenix.triggerRebirth(requireContext())
 //            val user = FirebaseAuth.getInstance().currentUser!!
 //
 //            user.updateEmail(binding.etEmail.text.toString())

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -60,6 +61,7 @@ class AddPersonBottomSheetDialog: BottomSheetDialogFragment() {
         })
 
         binding.btnAdd.setOnClickListener {
+            Toast.makeText(requireContext(), "Invitasi telah dikirimkan ke orang yang dituju!", Toast.LENGTH_SHORT).show()
             this.dismiss()
         }
     }

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/navigation_home_page"
-        android:title="@string/beranda"
-        android:icon="@drawable/ic_home_white_24dp" />
-    <item android:id="@+id/navigation_message_page"
-        android:title="@string/pesan"
-        android:icon="@drawable/ic_paper_plane" />
-    <item android:id="@+id/navigation_profile_page"
-        android:title="@string/profil"
-        android:icon="@drawable/ic_perm_identity_white_24dp" />
-    <item android:id="@+id/navigation_login_page"
-        android:title="@string/masuk"
-        android:icon="@drawable/ic_login_white_24dp" />
+    <item
+        android:id="@+id/navigation_home_page"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/beranda" />
+    <item
+        android:id="@+id/navigation_message_page"
+        android:icon="@drawable/ic_paper_plane"
+        android:title="@string/pesan" />
+    <item
+        android:id="@+id/navigation_profile_page"
+        android:icon="@drawable/ic_perm_identity_white_24dp"
+        android:title="@string/profil" />
+    <item
+        android:id="@+id/navigation_login_page"
+        android:icon="@drawable/ic_login_white_24dp"
+        android:title="@string/masuk" />
 </menu>

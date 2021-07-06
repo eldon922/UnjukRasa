@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_create"
-        android:title="@string/inisiasi_unjuk_rasa"
-        android:icon="@drawable/ic_add_circle_outline_white_24dp" />
-    <item android:id="@+id/action_login"
-        android:title="@string/masuk"
-        android:icon="@drawable/ic_login_white_24dp" />
-    <item android:id="@+id/action_logout"
-        android:title="@string/keluar"
-        android:icon="@drawable/ic_logout_white_24dp" />
-    <item android:id="@+id/action_setting_page"
-        android:title="@string/pengaturan"
-        android:icon="@drawable/ic_settings_applications_white_24dp" />
-    <item android:id="@+id/action_help_page"
-        android:title="@string/bantuan"
-        android:icon="@drawable/ic_help_center_white_24dp" />
-    <item android:id="@+id/action_about_page"
-        android:title="@string/tentang"
-        android:icon="@drawable/ic_business_white_24dp" />
+    <group android:id="@+id/signed_in_menu">
+        <item
+            android:id="@+id/action_create"
+            android:icon="@drawable/ic_add_circle_outline_white_24dp"
+            android:title="@string/inisiasi_unjuk_rasa" />
+        <item
+            android:id="@+id/action_logout"
+            android:icon="@drawable/ic_logout_white_24dp"
+            android:title="@string/keluar" />
+        <item
+            android:id="@+id/action_setting_page"
+            android:icon="@drawable/ic_settings_applications_white_24dp"
+            android:title="@string/pengaturan" />
+    </group>
+    <item
+        android:id="@+id/action_login"
+        android:icon="@drawable/ic_login_white_24dp"
+        android:title="@string/masuk" />
+    <item
+        android:id="@+id/action_help_page"
+        android:icon="@drawable/ic_help_center_white_24dp"
+        android:title="@string/bantuan" />
+    <item
+        android:id="@+id/action_about_page"
+        android:icon="@drawable/ic_business_white_24dp"
+        android:title="@string/tentang" />
 </menu>

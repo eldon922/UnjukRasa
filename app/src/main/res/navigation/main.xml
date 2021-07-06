@@ -31,6 +31,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_main_screen_to_editProfilePageFragment"
+            app:destination="@id/editProfilePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpPageFragment"
@@ -144,5 +147,9 @@
         android:id="@+id/removePersonBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
         android:label="RemovePersonBottomSheetDialog" />
+    <fragment
+        android:id="@+id/editProfilePageFragment"
+        android:name="com.pedulinegeri.unjukrasa.setting.EditProfilePageFragment"
+        android:label="EditProfilePageFragment" />
 
 </navigation>
