@@ -98,7 +98,7 @@ class AddProgressPageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             AlertDialog.Builder(requireContext())
@@ -114,7 +114,7 @@ class AddProgressPageFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         onBackPressedCallback.remove()
     }
 

@@ -91,6 +91,10 @@ class MainFragment : Fragment() {
             binding.drawer.open()
         }
 
+        binding.etSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_main_screen_to_searchPageFragment)
+        }
+
         findNavController().addOnDestinationChangedListener { _, _, _ ->
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
@@ -154,8 +158,6 @@ class MainFragment : Fragment() {
                 bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
             }
-
-            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
         })
     }
 

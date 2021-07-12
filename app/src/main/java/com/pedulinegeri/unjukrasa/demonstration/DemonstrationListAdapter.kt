@@ -11,7 +11,7 @@ import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBindin
 import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
 
-class DemonstrationListAdapter(private val dataSet: List<String>, private val viewType: ViewType, private val mainNavController: NavController) :
+class DemonstrationListAdapter(private val dataSet: ArrayList<String>, private val viewType: ViewType, private val mainNavController: NavController) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
     enum class ViewType {
@@ -25,6 +25,11 @@ class DemonstrationListAdapter(private val dataSet: List<String>, private val vi
                 mainNavController.navigate(R.id.action_global_demonstrationPageFragment)
             }
         }
+    }
+
+    fun addDemonstration(text: String) {
+        dataSet.add(text)
+        notifyItemChanged(itemCount-1)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {

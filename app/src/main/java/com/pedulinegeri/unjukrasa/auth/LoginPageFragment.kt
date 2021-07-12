@@ -74,7 +74,7 @@ class LoginPageFragment : Fragment() {
                     authViewModel.signedIn()
                 }
             } else {
-                activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)!!.selectedItemId =
+                requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)!!.selectedItemId =
                     R.id.navigation_home_page
             }
         }

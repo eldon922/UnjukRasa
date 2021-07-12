@@ -33,7 +33,18 @@
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_main_screen_to_editProfilePageFragment"
-            app:destination="@id/editProfilePageFragment" />
+            app:destination="@id/editProfilePageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_main_screen_to_searchPageFragment"
+            app:destination="@id/searchPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/signUpPageFragment"
@@ -127,7 +138,11 @@
             app:argType="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog$TypeList" />
         <action
             android:id="@+id/action_participationListBottomSheetDialog_to_navigation_profile_page"
-            app:destination="@id/navigation_profile_page">
+            app:destination="@id/navigation_profile_page"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right">
             <argument
                 android:name="idUser"
                 app:argType="integer" />
@@ -151,5 +166,18 @@
         android:id="@+id/editProfilePageFragment"
         android:name="com.pedulinegeri.unjukrasa.setting.EditProfilePageFragment"
         android:label="EditProfilePageFragment" />
+    <fragment
+        android:id="@+id/searchPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.search.SearchPageFragment"
+        android:label="SearchPageFragment" >
+        <action
+            android:id="@+id/action_searchPageFragment_to_newDemonstrationPageFragment"
+            app:destination="@id/newDemonstrationPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@+id/main_screen" />
+    </fragment>
 
 </navigation>
