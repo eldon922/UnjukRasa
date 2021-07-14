@@ -16,24 +16,24 @@ import com.pedulinegeri.unjukrasa.databinding.FragmentEditProfilePageBinding
 
 class EditProfilePageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentEditProfilePageBinding? = null
+    private var _binding: FragmentEditProfilePageBinding? = null
+    private val binding get() = _binding!!
 
     private val MEDIA_CODE = 1
+
     private lateinit var profilePictureURI: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentEditProfilePageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentEditProfilePageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
@@ -61,7 +61,7 @@ class EditProfilePageFragment : Fragment() {
             val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
 
             profilePictureURI = returnValue!![0]
-            val binding = fragmentBinding!!
+
 
             val bmImg = BitmapFactory.decodeFile(profilePictureURI)
             binding.ivPerson.setImageBitmap(bmImg)
@@ -69,7 +69,7 @@ class EditProfilePageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

@@ -1,22 +1,19 @@
 package com.pedulinegeri.unjukrasa
 
-import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
@@ -25,34 +22,32 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private var fragmentBinding: FragmentMainBinding? = null
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
 
-    private val authViewModel: AuthViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private var defaultStatusBarColor: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentMainBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = fragmentBinding!!
-
         setupToolbar()
-
         setupBottomNavigation()
-
         setupNavigationDrawer()
 
-        if (mainViewModel.bottomNavState != -1){
+        if (mainViewModel.bottomNavState != -1) {
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
 
@@ -65,22 +60,34 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        val binding = fragmentBinding!!
         binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
+
+        defaultStatusBarColor = requireActivity().window.statusBarColor
+        requireActivity().window.statusBarColor = Color.TRANSPARENT
+
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
-
-        val binding = fragmentBinding!!
         mainViewModel.bottomNavState = binding.bottomNavigation.selectedItemId
 
         onBackPressedCallback.remove()
+
+        requireActivity().window.statusBarColor = defaultStatusBarColor
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            }
+        }
     }
 
     private fun setupToolbar() {
-        val binding = fragmentBinding!!
         (requireActivity() as MainActivity).setSupportActionBar(binding.toolbar)
 
         binding.notificationButton.setOnClickListener {
@@ -94,16 +101,9 @@ class MainFragment : Fragment() {
         binding.etSearch.setOnClickListener {
             findNavController().navigate(R.id.action_main_screen_to_searchPageFragment)
         }
-
-        findNavController().addOnDestinationChangedListener { _, _, _ ->
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
-        }
     }
 
     private fun setupNavigationDrawer() {
-        val binding = fragmentBinding!!
-
         val drawerToggle =
             ActionBarDrawerToggle(requireActivity(), binding.drawer, R.string.open, R.string.close)
         binding.drawer.addDrawerListener(drawerToggle)
@@ -162,8 +162,6 @@ class MainFragment : Fragment() {
     }
 
     private fun setupBottomNavigation() {
-        val binding = fragmentBinding!!
-
         val navGraphIds = listOf(
             R.navigation.home_page,
             R.navigation.message_page,
@@ -171,7 +169,6 @@ class MainFragment : Fragment() {
             R.navigation.login_page
         )
 
-        // Setup the bottom navigation view with a list of navigation graphs
         binding.bottomNavigation.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = childFragmentManager,
@@ -183,7 +180,6 @@ class MainFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                val binding = fragmentBinding!!
                 binding.drawer.open()
                 true
             }
@@ -192,7 +188,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

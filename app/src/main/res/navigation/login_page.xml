@@ -10,5 +10,4 @@
         android:name="com.pedulinegeri.unjukrasa.auth.LoginPageFragment"
         android:label="Halaman Masuk"
         tools:layout="@layout/fragment_login_page" />
-
 </navigation>

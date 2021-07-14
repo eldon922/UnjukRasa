@@ -15,21 +15,24 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pedulinegeri.unjukrasa.databinding.AddPersonBottomSheetLayoutBinding
 
 
-class AddPersonBottomSheetDialog: BottomSheetDialogFragment() {
+class AddPersonBottomSheetDialog : BottomSheetDialogFragment() {
 
-    private var fragmentBinding: AddPersonBottomSheetLayoutBinding? = null
+    private var _binding: AddPersonBottomSheetLayoutBinding? = null
+    private val binding get() = _binding!!
 
     private val addPersonListAdapter = AddPersonListAdapter(arrayListOf())
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentBinding = AddPersonBottomSheetLayoutBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = AddPersonBottomSheetLayoutBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         binding.rvAddPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -61,7 +64,11 @@ class AddPersonBottomSheetDialog: BottomSheetDialogFragment() {
         })
 
         binding.btnAdd.setOnClickListener {
-            Toast.makeText(requireContext(), "Invitasi telah dikirimkan ke orang yang dituju!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Invitasi telah dikirimkan ke orang yang dituju!",
+                Toast.LENGTH_SHORT
+            ).show()
             this.dismiss()
         }
     }
@@ -86,5 +93,10 @@ class AddPersonBottomSheetDialog: BottomSheetDialogFragment() {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

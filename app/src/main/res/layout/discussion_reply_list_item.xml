@@ -51,7 +51,7 @@
             android:checkable="true"
             android:text="231"
             app:checkedIcon="@null"
-            app:chipIcon="@drawable/ic_arrow_upward_white_24dp" />
+            app:chipIcon="@drawable/ic_arrow_upward_24dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip5"
@@ -60,6 +60,6 @@
             android:checkable="true"
             android:text="30"
             app:checkedIcon="@null"
-            app:chipIcon="@drawable/ic_arrow_downward_white_24dp" />
+            app:chipIcon="@drawable/ic_arrow_downward_24dp" />
     </com.google.android.material.chip.ChipGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

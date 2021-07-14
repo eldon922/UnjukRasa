@@ -8,7 +8,8 @@ import com.pedulinegeri.unjukrasa.databinding.DemonstrationImageItemBinding
 class DemonstrationImageAdapter(private val imagesUrl: List<Int>) :
     RecyclerView.Adapter<DemonstrationImageAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: DemonstrationImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: DemonstrationImageItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: Int) {
             binding.ivDemonstration.setImageResource(url)
@@ -16,7 +17,11 @@ class DemonstrationImageAdapter(private val imagesUrl: List<Int>) :
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DemonstrationImageItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = DemonstrationImageItemBinding.inflate(
+            LayoutInflater.from(viewGroup.context),
+            viewGroup,
+            false
+        )
 
         return ViewHolder(binding)
     }

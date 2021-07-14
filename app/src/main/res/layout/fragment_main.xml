@@ -18,7 +18,8 @@
             app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,8 +29,9 @@
                     android:id="@+id/ham_icon"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:paddingRight="15dp"
-                    android:src="@drawable/ic_menu_white_24dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingEnd="15dp"
+                    android:src="@drawable/ic_menu_24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,21 +39,22 @@
                     android:id="@+id/et_search"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:paddingLeft="20dp"
-                    android:focusable="false"
                     android:background="@drawable/rounded_edge"
+                    android:focusable="false"
+                    android:hint="Apa yang kamu keluhkan?"
+                    android:paddingStart="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/notification_button"
                     app:layout_constraintStart_toEndOf="@id/ham_icon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:hint="Apa yang kamu keluhkan?" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/notification_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:foreground="?attr/selectableItemBackground"
                     android:paddingHorizontal="15dp"
-                    android:src="@drawable/ic_notifications_grey_24dp"
+                    android:src="@drawable/ic_notifications_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

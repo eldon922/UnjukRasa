@@ -1,7 +1,6 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -21,6 +20,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
@@ -28,135 +28,37 @@ import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBindin
 
 class NewDemonstrationPageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentNewDemonstrationPageBinding? = null
+    private var _binding: FragmentNewDemonstrationPageBinding? = null
+    private val binding get() = _binding!!
+
+    private val args: NewDemonstrationPageFragmentArgs by navArgs()
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
     private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
-
-    private lateinit var imageAdapter: NewDemonstrationImageAdapter
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
-    private val args: NewDemonstrationPageFragmentArgs by navArgs()
+    private lateinit var imageAdapter: NewDemonstrationImageAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentNewDemonstrationPageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentNewDemonstrationPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = fragmentBinding!!
-
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        binding.btnImage.setOnClickListener {
-            val options: Options = Options.init()
-                .setRequestCode(DEMONSTRATION_MEDIA_PICKER_CODE) //Request code for activity results
-                .setCount(1) //Number of images to restict selection count
-                .setFrontfacing(false) //Front Facing camera on start
-                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
-
-            Pix.start(this, options)
-        }
-
+        setupToolbar()
+        setupImageVideoUpload()
+        setupDemonstrationPreparation()
         setupDescriptionEditor()
-
-        imageAdapter = NewDemonstrationImageAdapter(childFragmentManager)
-        binding.vpImages.adapter = imageAdapter
-        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
-        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                if (position == 0) {
-                    binding.intoTabLayout.visibility = View.GONE
-                } else {
-                    binding.intoTabLayout.visibility = View.VISIBLE
-                }
-            }
-        })
-
-        imageAdapter.onVideoLoaded = {
-            binding.vpImages.setBackgroundResource(0)
-        }
-
-        imageAdapter.onVideoRemoved = {
-            binding.etYoutubeVideo.text.clear()
-            binding.vpImages.setBackgroundResource(R.drawable.video_placeholder)
-        }
-
-        binding.toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.action_start) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(if (args.editMode) "Ubah Unjuk Rasa" else "Mulai Unjuk Rasa")
-                    .setMessage(
-                        "Apakah kamu yakin ingin ".plus(if (args.editMode) "mengubah" else "memulai")
-                            .plus(" unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
-                    )
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        requireActivity().findNavController(R.id.nav_host_container_main)
-                            .navigateUp()
-                    }
-                    .setNegativeButton(android.R.string.cancel, null).show()
-            }
-
-            return@setOnMenuItemClickListener true
-        }
-
-        binding.etYoutubeVideo.addTextChangedListener {
-            binding.vpImages.setCurrentItem(0, false)
-            imageAdapter.changeYoutubeVideo(binding.etYoutubeVideo.text.takeLast(11).toString())
-        }
-
-        binding.cbDemonstration.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                binding.groupDemonstration.visibility = View.VISIBLE
-            } else {
-                binding.groupDemonstration.visibility = View.GONE
-            }
-        }
-
-        binding.etTime.setOnClickListener {
-            if (!this::datePicker.isInitialized) {
-                datePicker = SingleDateAndTimePickerDialog.Builder(requireContext())
-                    .bottomSheet()
-                    .curved()
-                    .listener {
-                        binding.etTime.setText(it.toString())
-                    }
-            }
-
-            datePicker.display()
-        }
-
-        binding.etLocation.setOnClickListener {
-            autocompleteFragment.view?.findViewById<View>(R.id.places_autocomplete_search_input)
-                ?.performClick()
-        }
-
-        setupPlacePicker()
-
-        binding.btnUploadPolicePermit.setOnClickListener {
-            val options: Options = Options.init()
-                .setRequestCode(POLICE_PERMIT_MEDIA_PICKER_CODE) //Request code for activity results
-                .setCount(1) //Number of images to restict selection count
-                .setFrontfacing(false) //Front Facing camera on start
-                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
-
-            Pix.start(this, options)
-        }
 
         if (args.editMode) {
             binding.toolbar.title = "Ubah Unjuk Rasa"
@@ -195,16 +97,12 @@ class NewDemonstrationPageFragment : Fragment() {
                     val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
 
                     imageAdapter.addImage(returnValue!![0])
-
-                    val binding = fragmentBinding!!
                     binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
                 }
             }
             POLICE_PERMIT_MEDIA_PICKER_CODE -> {
                 if (resultCode == Pix.RESULT_OK) {
                     val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-
-                    val binding = fragmentBinding!!
                     binding.etPolicePermit.setText(returnValue!![0])
                 }
             }
@@ -212,8 +110,116 @@ class NewDemonstrationPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
+    }
+
+    private fun setupDemonstrationPreparation() {
+        binding.cbDemonstration.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                binding.groupDemonstration.visibility = View.VISIBLE
+            } else {
+                binding.groupDemonstration.visibility = View.GONE
+            }
+        }
+
+        binding.etTime.setOnClickListener {
+            if (!this::datePicker.isInitialized) {
+                datePicker = SingleDateAndTimePickerDialog.Builder(requireContext())
+                    .bottomSheet()
+                    .curved()
+                    .listener {
+                        binding.etTime.setText(it.toString())
+                    }
+            }
+
+            datePicker.display()
+        }
+
+        binding.etLocation.setOnClickListener {
+            autocompleteFragment.view?.findViewById<View>(R.id.places_autocomplete_search_input)
+                ?.performClick()
+        }
+
+        setupPlacePicker()
+
+        binding.btnUploadPolicePermit.setOnClickListener {
+            val options: Options = Options.init()
+                .setRequestCode(POLICE_PERMIT_MEDIA_PICKER_CODE) //Request code for activity results
+                .setCount(1) //Number of images to restict selection count
+                .setFrontfacing(false) //Front Facing camera on start
+                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
+
+            Pix.start(this, options)
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        binding.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.action_start) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(if (args.editMode) "Ubah Unjuk Rasa" else "Mulai Unjuk Rasa")
+                    .setMessage(
+                        "Apakah kamu yakin ingin ".plus(if (args.editMode) "mengubah" else "memulai")
+                            .plus(" unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                    )
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        requireActivity().findNavController(R.id.nav_host_container_main)
+                            .navigateUp()
+                    }
+                    .setNegativeButton(android.R.string.cancel, null).show()
+            }
+
+            return@setOnMenuItemClickListener true
+        }
+    }
+
+    private fun setupImageVideoUpload() {
+        binding.btnImage.setOnClickListener {
+            val options: Options = Options.init()
+                .setRequestCode(DEMONSTRATION_MEDIA_PICKER_CODE) //Request code for activity results
+                .setCount(1) //Number of images to restict selection count
+                .setFrontfacing(false) //Front Facing camera on start
+                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
+
+            Pix.start(this, options)
+        }
+
+        imageAdapter = NewDemonstrationImageAdapter(childFragmentManager)
+        binding.vpImages.adapter = imageAdapter
+        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
+        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                if (position == 0) {
+                    binding.intoTabLayout.visibility = View.GONE
+                } else {
+                    binding.intoTabLayout.visibility = View.VISIBLE
+                }
+            }
+        })
+
+        imageAdapter.onVideoLoaded = {
+            binding.vpImages.setBackgroundResource(0)
+        }
+
+        imageAdapter.onVideoRemoved = {
+            binding.etYoutubeVideo.text.clear()
+            binding.vpImages.setBackgroundResource(R.drawable.video_placeholder)
+        }
+
+        binding.etYoutubeVideo.addTextChangedListener {
+            binding.vpImages.setCurrentItem(0, false)
+            imageAdapter.changeYoutubeVideo(binding.etYoutubeVideo.text.takeLast(11).toString())
+        }
     }
 
     private fun setupPlacePicker() {
@@ -233,7 +239,7 @@ class NewDemonstrationPageFragment : Fragment() {
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                val binding = fragmentBinding!!
+
 
                 binding.etLocation.setText(place.name)
             }
@@ -246,12 +252,10 @@ class NewDemonstrationPageFragment : Fragment() {
     }
 
     private fun setupDescriptionEditor() {
-        val binding = fragmentBinding!!
-
         binding.reDescription.setEditorHeight(200)
         binding.reDescription.setEditorFontSize(16)
-        binding.reDescription.setEditorFontColor(Color.WHITE)
-        binding.reDescription.setEditorBackgroundColor(Color.parseColor("#2E2E2E"))
+        binding.reDescription.setEditorFontColor(binding.etYoutubeVideo.currentTextColor)
+        binding.reDescription.setEditorBackgroundColor((binding.etYoutubeVideo.background as MaterialShapeDrawable).fillColor!!.defaultColor)
         binding.reDescription.setPadding(15, 15, 15, 15)
         binding.reDescription.setPlaceholder("Deskripsikan suaramu...")
 

@@ -20,6 +20,7 @@
         tools:replace="android:theme">
         <activity
             android:name="com.pedulinegeri.unjukrasa.MainActivity"
+            android:theme="@style/splashScreenTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,5 +29,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

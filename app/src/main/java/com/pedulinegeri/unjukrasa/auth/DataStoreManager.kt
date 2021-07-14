@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
@@ -25,7 +24,7 @@ class DataStoreManager(appContext: Context) {
         preferences[SIGNED_IN] ?: false
     }
 
-    suspend fun clear () {
+    suspend fun clear() {
         settingsDataStore.edit {
             it.clear()
         }

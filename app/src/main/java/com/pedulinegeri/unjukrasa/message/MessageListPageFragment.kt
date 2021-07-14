@@ -6,42 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.pedulinegeri.unjukrasa.databinding.FragmentMessageListPageBinding
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.call.await
-import io.getstream.chat.android.client.logger.ChatLogLevel
-import io.getstream.chat.android.client.models.Channel
 import io.getstream.chat.android.client.models.Filters
-import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.livedata.ChatDomain
 import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModel
 import io.getstream.chat.android.ui.channel.list.viewmodel.bindView
 import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListViewModelFactory
-import kotlinx.coroutines.launch
 
 class MessageListPageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentMessageListPageBinding? = null
+    private var _binding: FragmentMessageListPageBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentMessageListPageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentMessageListPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = fragmentBinding!!
-
         // Step 1 - Set up the client for API calls and the domain for offline storage
-        val client = ChatClient.Builder("b67pax5b2wdq", requireActivity().applicationContext).build()
+        val client =
+            ChatClient.Builder("b67pax5b2wdq", requireActivity().applicationContext).build()
         ChatDomain.Builder(client, requireActivity().applicationContext).build()
 
         // Step 2 - Authenticate and connect the user
@@ -64,7 +58,8 @@ class MessageListPageFragment : Fragment() {
             Filters.eq("type", "messaging"),
             Filters.`in`("members", listOf(user.id))
         )
-        val viewModelFactory = ChannelListViewModelFactory(filter, ChannelListViewModel.DEFAULT_SORT)
+        val viewModelFactory =
+            ChannelListViewModelFactory(filter, ChannelListViewModel.DEFAULT_SORT)
         val viewModel: ChannelListViewModel by viewModels { viewModelFactory }
 
         // Step 4 - Connect the ChannelListViewModel to the ChannelListView, loose
@@ -72,13 +67,16 @@ class MessageListPageFragment : Fragment() {
         // Note: the listener syntax used here requires Kotlin 1.4
         viewModel.bindView(binding.channelsView, this)
         binding.channelsView.setChannelItemClickListener { channel ->
-            val action = MessageListPageFragmentDirections.actionMessagePageScreenToMessagePageFragment(channel.cid)
+            val action =
+                MessageListPageFragmentDirections.actionMessagePageScreenToMessagePageFragment(
+                    channel.cid
+                )
             view.findNavController().navigate(action)
         }
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

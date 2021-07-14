@@ -9,7 +9,7 @@
         android:id="@+id/message_page_screen"
         android:name="com.pedulinegeri.unjukrasa.message.MessageListPageFragment"
         android:label="Halaman Pesan"
-        tools:layout="@layout/fragment_message_page" >
+        tools:layout="@layout/fragment_message_page">
         <action
             android:id="@+id/action_message_page_screen_to_messagePageFragment"
             app:destination="@id/messagePageFragment"
@@ -18,13 +18,13 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/messagePageFragment"
         android:name="com.pedulinegeri.unjukrasa.message.MessagePageFragment"
-        android:label="MessagePageFragment" >
+        android:label="MessagePageFragment">
         <argument
             android:name="channel"
             app:argType="string" />
     </fragment>
-
 </navigation>

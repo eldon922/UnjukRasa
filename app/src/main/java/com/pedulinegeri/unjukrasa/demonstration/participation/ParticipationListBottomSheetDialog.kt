@@ -7,42 +7,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 
-class ParticipationListBottomSheetDialog: BottomSheetDialogFragment() {
+class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
     enum class TypeList {
         PARTICIPANT, UPVOTE, DOWNVOTE, SHARE
     }
 
-    private var fragmentBinding: PersonListBottomSheetLayoutBinding? = null
-
-    private lateinit var rvPersonListAdapter: PersonListAdapter
+    private var _binding: PersonListBottomSheetLayoutBinding? = null
+    private val binding get() = _binding!!
 
     private val args: ParticipationListBottomSheetDialogArgs by navArgs()
+
+    private lateinit var rvPersonListAdapter: PersonListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = PersonListBottomSheetLayoutBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = PersonListBottomSheetLayoutBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         rvPersonListAdapter = PersonListAdapter(
             arrayListOf("", "", "", "", "", ""), findNavController()
@@ -104,5 +101,10 @@ class ParticipationListBottomSheetDialog: BottomSheetDialogFragment() {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

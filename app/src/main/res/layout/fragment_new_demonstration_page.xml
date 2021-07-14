@@ -19,7 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/new_demonstration_page_items"
             app:navigationIcon="@drawable/ic_detail_back_no_circle"
-            app:title="Unjuk Rasa Baru" />
+            app:title="Unjuk Rasa Baru"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -170,8 +171,8 @@
                 android:id="@+id/til_police_permit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Surat Ijin Kepolisian"
                 android:layout_marginStart="10dp"
+                android:hint="Surat Ijin Kepolisian"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_upload_police_permit"
                 app:layout_constraintTop_toBottomOf="@+id/ll_autocomplete_fragment">
@@ -183,17 +184,24 @@
                     android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toBottomOf="@+id/til_police_permit" />
+
             <jp.wasabeef.richeditor.RichEditor
                 android:id="@+id/re_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/til_police_permit" />
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
-                android:background="#FFFFFF"
+                android:background="@color/line_color"
                 app:layout_constraintTop_toBottomOf="@+id/re_description" />
 
             <androidx.constraintlayout.widget.Group

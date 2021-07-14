@@ -4,18 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.getstream.sdk.chat.viewmodel.MessageInputViewModel
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel
-import com.pedulinegeri.unjukrasa.MainActivity
 import com.pedulinegeri.unjukrasa.databinding.FragmentMessagePageBinding
-import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 import io.getstream.chat.android.ui.message.input.viewmodel.bindView
 import io.getstream.chat.android.ui.message.list.header.viewmodel.MessageListHeaderViewModel
 import io.getstream.chat.android.ui.message.list.header.viewmodel.bindView
@@ -25,22 +19,22 @@ import io.getstream.chat.android.ui.message.list.viewmodel.factory.MessageListVi
 
 class MessagePageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentMessagePageBinding? = null
+    private var _binding: FragmentMessagePageBinding? = null
+    private val binding get() = _binding!!
+
     private val args: MessagePageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentMessagePageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentMessagePageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         val cid = checkNotNull(args.channel) {
             "Specifying a channel id is required when starting ChannelActivity"
@@ -88,13 +82,13 @@ class MessagePageFragment : Fragment() {
         }
 
         // Step 6 - Handle back button behaviour correctly when you're in a thread
-        binding.messageListHeaderView.setBackButtonClickListener{
+        binding.messageListHeaderView.setBackButtonClickListener {
             requireActivity().onBackPressed()
         }
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

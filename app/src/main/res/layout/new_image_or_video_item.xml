@@ -13,10 +13,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/youTubePlayerView"
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"/>
+        android:visibility="gone" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_cancel"

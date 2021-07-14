@@ -15,9 +15,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/add_progress_page_items"
             app:navigationIcon="@drawable/ic_detail_back_no_circle"
             app:title="Tambah Perkembangan"
-            app:menu="@menu/add_progress_page_items"/>
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -46,11 +47,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/fui_transparent"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/vp_images"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"
-                android:visibility="gone"/>
+                app:tabIndicatorHeight="0dp" />
 
             <Button
                 android:id="@+id/btn_image"
@@ -78,19 +79,25 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/line_color"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+
             <jp.wasabeef.richeditor.RichEditor
                 android:id="@+id/re_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
-                android:background="#FFFFFF"
+                android:background="@color/line_color"
                 app:layout_constraintTop_toBottomOf="@+id/re_description" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -137,5 +144,4 @@
                 android:src="@drawable/italic" />
         </LinearLayout>
     </HorizontalScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

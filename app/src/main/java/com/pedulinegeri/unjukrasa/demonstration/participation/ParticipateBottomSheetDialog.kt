@@ -10,20 +10,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pedulinegeri.unjukrasa.databinding.ParticipateBottomSheetLayoutBinding
 
-class ParticipateBottomSheetDialog: BottomSheetDialogFragment() {
+class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
 
-    private var fragmentBinding: ParticipateBottomSheetLayoutBinding? = null
+    private var _binding: ParticipateBottomSheetLayoutBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentBinding = ParticipateBottomSheetLayoutBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = ParticipateBottomSheetLayoutBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = fragmentBinding!!
+        setupContent()
+    }
 
+    private fun setupContent() {
         binding.reDescription.setEditorFontSize(16)
         binding.reDescription.setEditorFontColor(binding.tvTitle.currentTextColor)
         binding.reDescription.setEditorBackgroundColor(binding.root.solidColor)
@@ -39,6 +46,7 @@ class ParticipateBottomSheetDialog: BottomSheetDialogFragment() {
                 "</li>\n" +
                 "<li>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian.</li>\n" +
                 "</ul>"
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -61,5 +69,10 @@ class ParticipateBottomSheetDialog: BottomSheetDialogFragment() {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = bottomSheet.layoutParams.height
         bottomSheet.layoutParams = layoutParams
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

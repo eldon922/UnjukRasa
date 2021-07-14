@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_detail_back_no_circle"
-            app:title="Ubah Data Diri"/>
+            app:title="Ubah Data Diri"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -124,8 +125,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Peubahan data berhasil dilakukan!"
-        android:visibility="gone"
         android:textColor="@color/quantum_vanillagreenA700"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/btn_sign_up"
         app:layout_constraintStart_toStartOf="@+id/btn_sign_up"
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_up" />

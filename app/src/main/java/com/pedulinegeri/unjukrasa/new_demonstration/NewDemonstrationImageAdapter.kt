@@ -14,13 +14,15 @@ import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.NewImageOrVideoItemBinding
 
 
-class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager) : RecyclerView.Adapter<NewDemonstrationImageAdapter.ViewHolder>() {
+class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager) :
+    RecyclerView.Adapter<NewDemonstrationImageAdapter.ViewHolder>() {
     private val imagesUrl = arrayListOf("")
 
     var onVideoRemoved: ((String) -> Unit)? = null
     var onVideoLoaded: ((String) -> Unit)? = null
 
-    inner class ViewHolder(private val binding: NewImageOrVideoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: NewImageOrVideoItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {
             if (url.length == 11) {
@@ -30,24 +32,26 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
                 val youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance()
 
                 // TODO: CHANGE API KEY TO OAUTH2
-                youTubePlayerFragment.initialize("AIzaSyBi6OpyJy7zKffFtu7mfe1iknwALP3YyqI", object : YouTubePlayer.OnInitializedListener {
-                    override fun onInitializationSuccess(
-                        p0: YouTubePlayer.Provider?,
-                        player: YouTubePlayer?,
-                        p2: Boolean
-                    ) {
-                        Log.d("YOUTUBE", "Succeed to initialize youtube player")
-                        player?.loadVideo(url)
-                    }
+                youTubePlayerFragment.initialize(
+                    "AIzaSyBi6OpyJy7zKffFtu7mfe1iknwALP3YyqI",
+                    object : YouTubePlayer.OnInitializedListener {
+                        override fun onInitializationSuccess(
+                            p0: YouTubePlayer.Provider?,
+                            player: YouTubePlayer?,
+                            p2: Boolean
+                        ) {
+                            Log.d("YOUTUBE", "Succeed to initialize youtube player")
+                            player?.loadVideo(url)
+                        }
 
-                    override fun onInitializationFailure(
-                        p0: YouTubePlayer.Provider?,
-                        p1: YouTubeInitializationResult?
-                    ) {
-                        Log.d("YOUTUBE", "Failed to initialize youtube player")
-                    }
+                        override fun onInitializationFailure(
+                            p0: YouTubePlayer.Provider?,
+                            p1: YouTubeInitializationResult?
+                        ) {
+                            Log.d("YOUTUBE", "Failed to initialize youtube player")
+                        }
 
-                })
+                    })
 
                 binding.civCancel.visibility = View.VISIBLE
                 binding.civCancel.setOnClickListener {
@@ -91,11 +95,15 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
 
     fun addImage(url: String) {
         imagesUrl.add(url)
-        notifyItemInserted(itemCount-1)
+        notifyItemInserted(itemCount - 1)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = NewImageOrVideoItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = NewImageOrVideoItemBinding.inflate(
+            LayoutInflater.from(viewGroup.context),
+            viewGroup,
+            false
+        )
 
         return ViewHolder(binding)
     }

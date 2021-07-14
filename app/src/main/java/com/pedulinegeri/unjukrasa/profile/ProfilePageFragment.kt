@@ -18,7 +18,8 @@ import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
 
 class ProfilePageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentProfilePageBinding? = null
+    private var _binding: FragmentProfilePageBinding? = null
+    private val binding get() = _binding!!
 
     private val args: ProfilePageFragmentArgs by navArgs()
 
@@ -26,15 +27,13 @@ class ProfilePageFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentProfilePageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentProfilePageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
@@ -44,11 +43,16 @@ class ProfilePageFragment : Fragment() {
 
         binding.rvDemonstration.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(R.id.nav_host_container_main))
+            this.adapter = DemonstrationListAdapter(
+                arrayListOf("1111", "2222", "2222", "2222", "2222"),
+                DemonstrationListAdapter.ViewType.PROFILE,
+                requireActivity().findNavController(R.id.nav_host_container_main)
+            )
         }
 
         binding.fabAdd.setOnClickListener {
-            requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
+            requireActivity().findNavController(R.id.nav_host_container_main)
+                .navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
         }
 
         binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -63,21 +67,34 @@ class ProfilePageFragment : Fragment() {
     }
 
     private fun setupTabLayout() {
-        val binding = fragmentBinding!!
-
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.fabAdd.show()
                 when (tab.text) {
                     resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111", "2222", "2222", "2222", "2222"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
-                            R.id.nav_host_container_main))
+                        DemonstrationListAdapter(
+                            arrayListOf("1111", "2222", "2222", "2222", "2222"),
+                            DemonstrationListAdapter.ViewType.PROFILE,
+                            requireActivity().findNavController(
+                                R.id.nav_host_container_main
+                            )
+                        )
                     resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf("1111"), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
-                            R.id.nav_host_container_main))
+                        DemonstrationListAdapter(
+                            arrayListOf("1111"),
+                            DemonstrationListAdapter.ViewType.PROFILE,
+                            requireActivity().findNavController(
+                                R.id.nav_host_container_main
+                            )
+                        )
                     resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(arrayListOf(), DemonstrationListAdapter.ViewType.PROFILE, requireActivity().findNavController(
-                            R.id.nav_host_container_main))
+                        DemonstrationListAdapter(
+                            arrayListOf(),
+                            DemonstrationListAdapter.ViewType.PROFILE,
+                            requireActivity().findNavController(
+                                R.id.nav_host_container_main
+                            )
+                        )
                 }
             }
 
@@ -87,7 +104,7 @@ class ProfilePageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

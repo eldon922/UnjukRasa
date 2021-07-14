@@ -3,14 +3,8 @@ package com.pedulinegeri.unjukrasa.demonstration.person
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.get
 import androidx.recyclerview.widget.RecyclerView
-import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.RemovePersonListItemBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragmentDirections
-import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialogDirections
 
 
 class RemovePersonListAdapter(
@@ -18,10 +12,6 @@ class RemovePersonListAdapter(
 ) :
     RecyclerView.Adapter<RemovePersonListAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
     inner class ViewHolder(private val binding: RemovePersonListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -40,24 +30,21 @@ class RemovePersonListAdapter(
         }
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
         val binding =
-            RemovePersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            RemovePersonListItemBinding.inflate(
+                LayoutInflater.from(viewGroup.context),
+                viewGroup,
+                false
+            )
 
         return ViewHolder(binding)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
         viewHolder.bind(dataSet[position])
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
 }

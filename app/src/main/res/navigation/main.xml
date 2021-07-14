@@ -46,16 +46,19 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/signUpPageFragment"
         android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageFragment"
         android:label="fragment_sign_up_page"
         tools:layout="@layout/fragment_sign_up_page" />
+
     <fragment
         android:id="@+id/notificationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.notification.NotificationPageFragment"
         android:label="fragment_notification_page"
         tools:layout="@layout/fragment_notification_page" />
+
     <fragment
         android:id="@+id/newDemonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
@@ -66,6 +69,7 @@
             android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
+
     <fragment
         android:id="@+id/demonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
@@ -112,23 +116,28 @@
             android:id="@+id/action_demonstrationPageFragment_to_removePersonBottomSheetDialog"
             app:destination="@id/removePersonBottomSheetDialog" />
     </fragment>
+
     <fragment
         android:id="@+id/addProgressPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.progress.AddProgressPageFragment"
         android:label="AddProgressPageFragment"
         tools:layout="@layout/fragment_add_progress_page" />
+
     <dialog
         android:id="@+id/participateBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
         android:label="ParticipateBottomSheetDialog" />
+
     <dialog
         android:id="@+id/addPersonBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog"
         android:label="AddPersonBottomSheetDialog" />
+
     <dialog
         android:id="@+id/discussionReplyBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionReplyBottomSheetDialog"
         android:label="DiscussionReplyBottomSheetDialog" />
+
     <dialog
         android:id="@+id/participationListBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog"
@@ -148,6 +157,7 @@
                 app:argType="integer" />
         </action>
     </dialog>
+
     <include app:graph="@navigation/profile_page" />
 
     <action
@@ -162,14 +172,16 @@
         android:id="@+id/removePersonBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
         android:label="RemovePersonBottomSheetDialog" />
+
     <fragment
         android:id="@+id/editProfilePageFragment"
         android:name="com.pedulinegeri.unjukrasa.setting.EditProfilePageFragment"
         android:label="EditProfilePageFragment" />
+
     <fragment
         android:id="@+id/searchPageFragment"
         android:name="com.pedulinegeri.unjukrasa.search.SearchPageFragment"
-        android:label="SearchPageFragment" >
+        android:label="SearchPageFragment">
         <action
             android:id="@+id/action_searchPageFragment_to_newDemonstrationPageFragment"
             app:destination="@id/newDemonstrationPageFragment"
@@ -179,5 +191,4 @@
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpTo="@+id/main_screen" />
     </fragment>
-
 </navigation>

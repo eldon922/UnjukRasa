@@ -11,14 +11,19 @@ import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBindin
 import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
 
-class DemonstrationListAdapter(private val dataSet: ArrayList<String>, private val viewType: ViewType, private val mainNavController: NavController) :
+class DemonstrationListAdapter(
+    private val dataSet: ArrayList<String>,
+    private val viewType: ViewType,
+    private val mainNavController: NavController
+) :
     RecyclerView.Adapter<DemonstrationListAdapter.ViewHolder>() {
 
     enum class ViewType {
         TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
     }
 
-    inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.root.setOnClickListener {
@@ -29,15 +34,31 @@ class DemonstrationListAdapter(private val dataSet: ArrayList<String>, private v
 
     fun addDemonstration(text: String) {
         dataSet.add(text)
-        notifyItemChanged(itemCount-1)
+        notifyItemChanged(itemCount - 1)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding = when (this.viewType) {
-            ViewType.TRENDING -> TrendingDemonstrationListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-            ViewType.MOST_ACTIVE -> MostActiveTodayDemonstrationListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-            ViewType.RECOMMENDED -> RecommendedDemonstrationListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-            ViewType.PROFILE -> ProfileDemonstrationListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            ViewType.TRENDING -> TrendingDemonstrationListItemBinding.inflate(
+                LayoutInflater.from(
+                    viewGroup.context
+                ), viewGroup, false
+            )
+            ViewType.MOST_ACTIVE -> MostActiveTodayDemonstrationListItemBinding.inflate(
+                LayoutInflater.from(viewGroup.context),
+                viewGroup,
+                false
+            )
+            ViewType.RECOMMENDED -> RecommendedDemonstrationListItemBinding.inflate(
+                LayoutInflater.from(
+                    viewGroup.context
+                ), viewGroup, false
+            )
+            ViewType.PROFILE -> ProfileDemonstrationListItemBinding.inflate(
+                LayoutInflater.from(
+                    viewGroup.context
+                ), viewGroup, false
+            )
         }
 
         return ViewHolder(binding)

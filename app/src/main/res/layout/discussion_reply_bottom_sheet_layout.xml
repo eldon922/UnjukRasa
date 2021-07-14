@@ -54,7 +54,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.3dp"
-        android:background="#FFFFFF"
+        android:background="@color/line_color"
         app:layout_constraintBottom_toTopOf="@+id/et_name" />
 
     <EditText
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingHorizontal="10dp"
-        android:src="@drawable/ic_send_white_24dp"
+        android:src="@drawable/ic_send_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/et_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/et_name" />

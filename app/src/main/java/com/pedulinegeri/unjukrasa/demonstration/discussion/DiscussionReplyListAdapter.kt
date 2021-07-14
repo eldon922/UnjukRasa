@@ -9,34 +9,28 @@ import com.pedulinegeri.unjukrasa.databinding.DiscussionReplyListItemBinding
 class DiscussionReplyListAdapter(private val dataSet: List<String>) :
     RecyclerView.Adapter<DiscussionReplyListAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    class ViewHolder(private val binding: DiscussionReplyListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: DiscussionReplyListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
 
         }
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val binding = DiscussionReplyListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = DiscussionReplyListItemBinding.inflate(
+            LayoutInflater.from(viewGroup.context),
+            viewGroup,
+            false
+        )
 
         return ViewHolder(binding)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
         viewHolder.bind(dataSet[position])
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
 }

@@ -17,9 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/demonstration_page_items"
             app:navigationIcon="@drawable/ic_detail_back_no_circle"
             app:title="Unjuk Rasa"
-            app:menu="@menu/demonstration_page_items"/>
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -91,14 +92,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="503.000 Dukung"
-                        app:chipIcon="@drawable/ic_arrow_upward_white_24dp" />
+                        app:chipIcon="@drawable/ic_arrow_upward_24dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_downvote"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="20.000 Menolak"
-                        app:chipIcon="@drawable/ic_arrow_downward_white_24dp" />
+                        app:chipIcon="@drawable/ic_arrow_downward_24dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_share"
@@ -106,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:text="40.000 Membagikan"
-                        app:chipIcon="@drawable/ic_share_white_24dp" />
+                        app:chipIcon="@drawable/ic_share_24dp" />
 
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
@@ -145,8 +146,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -161,7 +164,7 @@
                         android:id="@+id/circleImageView2"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_add_circle_outline_white_24dp"
+                        android:src="@drawable/ic_add_circle_outline_24dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,11 +182,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_progress"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/cv_add_progress" />
 
             <TextView
@@ -246,8 +247,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/stream_ui_accent_green"
         android:contentDescription="Dukung"
-        android:src="@drawable/ic_arrow_upward_white_24dp"
+        android:src="@drawable/ic_arrow_upward_24dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_downvote"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -256,8 +258,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/red"
         android:contentDescription="Tolak"
-        android:src="@drawable/ic_arrow_downward_white_24dp"
+        android:src="@drawable/ic_arrow_downward_24dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_share"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -266,8 +269,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/white"
         android:contentDescription="Bagikan"
-        android:src="@drawable/ic_share_white_24dp"
+        android:src="@drawable/ic_share_24dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_participate"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -276,6 +280,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/stream_ui_accent_green"
         android:contentDescription="Ikut unjuk rasa"
         android:text="Ikut unjuk rasa"
         app:icon="@mipmap/ic_launcher_round"

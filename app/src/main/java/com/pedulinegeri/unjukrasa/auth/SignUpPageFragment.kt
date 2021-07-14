@@ -2,9 +2,7 @@ package com.pedulinegeri.unjukrasa.auth
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,42 +11,36 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
-import com.google.firebase.auth.FirebaseAuth
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.pedulinegeri.unjukrasa.MainActivity
-import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
 
 
 class SignUpPageFragment : Fragment() {
 
-    private var fragmentBinding: FragmentSignUpPageBinding? = null
-
-    private val MEDIA_CODE = 1
-    private lateinit var profilePictureURI: String
+    private var _binding: FragmentSignUpPageBinding? = null
+    private val binding get() = _binding!!
 
     private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
+    private val MEDIA_CODE = 1
+
+    private lateinit var profilePictureURI: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentSignUpPageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentSignUpPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         binding.btnSignUp.setOnClickListener {
             // TODO DEV
@@ -116,7 +108,7 @@ class SignUpPageFragment : Fragment() {
             val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
 
             profilePictureURI = returnValue!![0]
-            val binding = fragmentBinding!!
+
 
             val bmImg = BitmapFactory.decodeFile(profilePictureURI)
             binding.ivPerson.setImageBitmap(bmImg)
@@ -124,7 +116,7 @@ class SignUpPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }

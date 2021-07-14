@@ -18,24 +18,24 @@ import com.pedulinegeri.unjukrasa.databinding.FragmentLoginPageBinding
 
 class LoginPageFragment : Fragment() {
 
-    private val RC_SIGN_IN = 1
-    private var fragmentBinding: FragmentLoginPageBinding? = null
+    private var _binding: FragmentLoginPageBinding? = null
+    private val binding get() = _binding!!
 
     private val authViewModel: AuthViewModel by activityViewModels()
+
+    private val RC_SIGN_IN = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentBinding = FragmentLoginPageBinding.inflate(inflater, container, false)
-        return fragmentBinding?.root
+    ): View {
+        _binding = FragmentLoginPageBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val binding = fragmentBinding!!
 
         binding.btnLogin.setOnClickListener { setupAuth() }
 
@@ -56,7 +56,8 @@ class LoginPageFragment : Fragment() {
 //            )
 
             // TODO DEV
-            requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_signUpPageFragment)
+            requireActivity().findNavController(R.id.nav_host_container_main)
+                .navigate(R.id.action_main_screen_to_signUpPageFragment)
         }
     }
 
@@ -69,7 +70,8 @@ class LoginPageFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (response!!.isNewUser) {
-                    requireActivity().findNavController(R.id.nav_host_container_main).navigate(R.id.action_main_screen_to_signUpPageFragment)
+                    requireActivity().findNavController(R.id.nav_host_container_main)
+                        .navigate(R.id.action_main_screen_to_signUpPageFragment)
                 } else {
                     authViewModel.signedIn()
                 }
@@ -81,7 +83,7 @@ class LoginPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        fragmentBinding = null
+        _binding = null
         super.onDestroyView()
     }
 }
