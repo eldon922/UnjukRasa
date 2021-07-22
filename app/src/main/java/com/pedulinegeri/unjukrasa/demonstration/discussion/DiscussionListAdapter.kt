@@ -9,10 +9,11 @@ import com.pedulinegeri.unjukrasa.databinding.DiscussionListItemBinding
 
 
 class DiscussionListAdapter(
-    private val dataSet: List<String>,
     private val mainNavController: NavController
 ) :
     RecyclerView.Adapter<DiscussionListAdapter.ViewHolder>() {
+
+    private var discussionList = arrayListOf<String>()
 
     inner class ViewHolder(private val binding: DiscussionListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,9 +36,13 @@ class DiscussionListAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position])
+        viewHolder.bind(discussionList[position])
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = discussionList.size
 
+    fun initDiscussionList(discussionList: ArrayList<String>) {
+        this.discussionList = discussionList
+        notifyDataSetChanged()
+    }
 }

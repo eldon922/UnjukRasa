@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.databinding.DemonstrationImageItemBinding
 
-class DemonstrationImageAdapter(private val imagesUrl: List<Int>) :
+class DemonstrationImageAdapter :
     RecyclerView.Adapter<DemonstrationImageAdapter.ViewHolder>() {
+
+    private var imagesUrl = arrayListOf<Int>()
 
     inner class ViewHolder(private val binding: DemonstrationImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,4 +33,9 @@ class DemonstrationImageAdapter(private val imagesUrl: List<Int>) :
     }
 
     override fun getItemCount(): Int = imagesUrl.size
+
+    fun initDemonstrationImageList(imagesUrl: ArrayList<Int>) {
+        this.imagesUrl = imagesUrl
+        notifyDataSetChanged()
+    }
 }

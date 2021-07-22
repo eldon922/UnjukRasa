@@ -8,8 +8,10 @@ import com.pedulinegeri.unjukrasa.databinding.ProgressListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationImageAdapter
 
 
-class ProgressListAdapter(private val dataSet: List<String>) :
+class ProgressListAdapter :
     RecyclerView.Adapter<ProgressListAdapter.ViewHolder>() {
+
+    private var progressList = arrayListOf<String>()
 
     class ViewHolder(private val binding: ProgressListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -22,7 +24,9 @@ class ProgressListAdapter(private val dataSet: List<String>) :
             binding.reContent.html =
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
 
-            binding.vpImages.adapter = DemonstrationImageAdapter(listOf(R.drawable.indonesian_flag))
+            val adapter = DemonstrationImageAdapter()
+            binding.vpImages.adapter = adapter
+            adapter.initDemonstrationImageList(arrayListOf(R.drawable.indonesian_flag))
         }
     }
 
@@ -37,9 +41,13 @@ class ProgressListAdapter(private val dataSet: List<String>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position])
+        viewHolder.bind(progressList[position])
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = progressList.size
 
+    fun initProgressList(progressList: ArrayList<String>) {
+        this.progressList = progressList
+        notifyDataSetChanged()
+    }
 }

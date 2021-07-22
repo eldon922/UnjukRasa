@@ -1,9 +1,12 @@
 package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +25,15 @@ class DemonstrationPageFragment : Fragment() {
     private val binding get() = _binding!!
 
     //    TODO dev
-    private var editMode = true
+    private var editMode = false
+
+    private lateinit var discussionListAdapter: DiscussionListAdapter
+    private lateinit var personListAdapter: PersonListAdapter
+    private lateinit var demonstrationImageAdapter: DemonstrationImageAdapter
+    private lateinit var progressListAdapter: ProgressListAdapter
+
+    private var progressInitialized = false
+    private var discussionInitialized = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,53 +52,114 @@ class DemonstrationPageFragment : Fragment() {
         setupChips()
         setupPerson()
         setupDescription()
-        setupProgress()
-        setupDiscussion()
         setupFab()
         setupEditMode()
+
+        binding.nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: NestedScrollView?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+                if (isVisible(binding.rvProgress) && !progressInitialized) {
+                    setupProgress()
+                } else if (isVisible(binding.rvDiscussion) && !discussionInitialized) {
+                    setupDiscussion()
+                }
+
+                if (scrollY > oldScrollY) {
+                    binding.fabUpvote.hide()
+                    binding.fabDownvote.hide()
+                    binding.fabShare.hide()
+                    binding.fabParticipate.hide()
+                } else if (scrollY < oldScrollY || scrollY <= 0) {
+                    if (!editMode) {
+                        binding.fabUpvote.show()
+                        binding.fabDownvote.show()
+                        binding.fabParticipate.show()
+                    }
+                    binding.fabShare.show()
+                }
+            }
+
+            fun isVisible(view: View?): Boolean {
+                if (view == null) {
+                    return false
+                }
+                if (!view.isShown) {
+                    return false
+                }
+                val actualPosition = Rect()
+                view.getGlobalVisibleRect(actualPosition)
+                val screen = Rect(
+                    0,
+                    0,
+                    Resources.getSystem().displayMetrics.widthPixels,
+                    Resources.getSystem().displayMetrics.heightPixels
+                )
+                return actualPosition.intersect(screen)
+            }
+        })
     }
 
     private fun setupDiscussion() {
+        discussionInitialized = true
+
+        discussionListAdapter = DiscussionListAdapter(findNavController())
+
         binding.rvDiscussion.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DiscussionListAdapter(
-                arrayListOf(
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde"
-                ), findNavController()
-            )
+            this.adapter = discussionListAdapter
         }
+
+        discussionListAdapter.initDiscussionList(
+            arrayListOf(
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde"
+            )
+        )
     }
 
     private fun setupPerson() {
+        personListAdapter = PersonListAdapter(findNavController())
+
         binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = PersonListAdapter(
-                arrayListOf(
-                    "Inisiator",
-                    "Koordinator",
-                    "Dukung",
-                    "Ikut",
-                    "Koordinator",
-                    "Koordinator"
-                ), findNavController()
-            )
+            this.adapter = personListAdapter
         }
+
+        personListAdapter.initPersonList(
+            arrayListOf(
+                "Inisiator",
+                "Koordinator",
+                "Dukung",
+                "Ikut",
+                "Koordinator",
+                "Koordinator"
+            )
+        )
     }
 
     private fun setupImages() {
-        binding.vpImages.adapter = DemonstrationImageAdapter(
-            listOf(
+        demonstrationImageAdapter = DemonstrationImageAdapter()
+
+        binding.vpImages.adapter = demonstrationImageAdapter
+
+        demonstrationImageAdapter.initDemonstrationImageList(
+            arrayListOf(
                 R.drawable.indonesian_flag,
                 R.drawable.indonesian_flag,
                 R.drawable.indonesian_flag,
                 R.drawable.indonesian_flag
             )
         )
+
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
     }
 
@@ -158,43 +230,32 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupProgress() {
+        progressInitialized = true
+
+        progressListAdapter = ProgressListAdapter()
+
         binding.rvProgress.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = ProgressListAdapter(
-                arrayListOf(
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde",
-                    "abcde"
-                )
-            )
+            this.adapter = progressListAdapter
         }
+
+        progressListAdapter.initProgressList(
+            arrayListOf(
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde",
+                "abcde"
+            )
+        )
 
         binding.cvAddProgress.setOnClickListener {
             findNavController().navigate(R.id.action_demonstrationPageFragment_to_addProgressPageFragment)
         }
-
     }
 
     private fun setupFab() {
-        binding.nsv.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                binding.fabUpvote.hide()
-                binding.fabDownvote.hide()
-                binding.fabShare.hide()
-                binding.fabParticipate.hide()
-            } else if (scrollY < oldScrollY || scrollY <= 0) {
-                if (!editMode) {
-                    binding.fabUpvote.show()
-                    binding.fabDownvote.show()
-                    binding.fabParticipate.show()
-                }
-                binding.fabShare.show()
-            }
-        }
-
         binding.fabParticipate.setOnClickListener {
             findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
         }

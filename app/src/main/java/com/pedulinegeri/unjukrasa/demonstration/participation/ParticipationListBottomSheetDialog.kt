@@ -42,13 +42,24 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvPersonListAdapter = PersonListAdapter(
-            arrayListOf("", "", "", "", "", ""), findNavController()
+            findNavController()
         )
 
         binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = rvPersonListAdapter
         }
+
+        rvPersonListAdapter.initPersonList(
+            arrayListOf(
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            )
+        )
 
         when (args.typeList) {
             TypeList.PARTICIPANT -> {

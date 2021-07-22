@@ -13,10 +13,11 @@ import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListB
 
 
 class PersonListAdapter(
-    private val dataSet: ArrayList<String>,
     private val mainNavController: NavController
 ) :
     RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
+
+    private var personList = arrayListOf<String>()
 
     inner class ViewHolder(private val binding: PersonListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -50,11 +51,6 @@ class PersonListAdapter(
         }
     }
 
-    fun addPerson(name: String) {
-        dataSet.add(name)
-        notifyItemInserted(itemCount - 1)
-    }
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             PersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -63,9 +59,18 @@ class PersonListAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position])
+        viewHolder.bind(personList[position])
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = personList.size
 
+    fun addPerson(name: String) {
+        personList.add(name)
+        notifyItemInserted(itemCount - 1)
+    }
+
+    fun initPersonList(personList: ArrayList<String>) {
+        this.personList = personList
+        notifyDataSetChanged()
+    }
 }

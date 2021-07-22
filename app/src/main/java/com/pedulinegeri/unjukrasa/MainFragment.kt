@@ -7,17 +7,23 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -29,6 +35,8 @@ class MainFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var addOnBackPressedCallbackJob: Job
+
     private var defaultStatusBarColor: Int = 0
 
     override fun onCreateView(
@@ -51,9 +59,28 @@ class MainFragment : Fragment() {
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
 
+        addOnBackPressedCallback()
+    }
+
+    private fun addOnBackPressedCallback() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
                 binding.drawer.closeDrawer(GravityCompat.START)
+            } else if (binding.bottomNavigation.selectedItemId == R.id.navigation_home_page) {
+                remove()
+                Toast.makeText(
+                    requireContext(),
+                    "Tekan sekali lagi untuk keluar",
+                    Toast.LENGTH_SHORT
+                ).show()
+                addOnBackPressedCallbackJob = lifecycleScope.launch {
+                    delay(3000L)
+                    addOnBackPressedCallback()
+                }
+            } else {
+                remove()
+                requireActivity().onBackPressed()
+                addOnBackPressedCallback()
             }
         }
     }
@@ -104,8 +131,23 @@ class MainFragment : Fragment() {
     }
 
     private fun setupNavigationDrawer() {
-        val drawerToggle =
-            ActionBarDrawerToggle(requireActivity(), binding.drawer, R.string.open, R.string.close)
+        val drawerToggle = object : ActionBarDrawerToggle(
+            requireActivity(),
+            binding.drawer,
+            R.string.open,
+            R.string.close
+        ) {
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+
+                if (this@MainFragment::addOnBackPressedCallbackJob.isInitialized) {
+                    addOnBackPressedCallbackJob.cancel()
+                }
+
+                onBackPressedCallback.remove()
+                addOnBackPressedCallback()
+            }
+        }
         binding.drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 

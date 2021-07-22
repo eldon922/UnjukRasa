@@ -63,6 +63,7 @@ class ProfilePageFragment : Fragment() {
 
         if (args.idUser != 0) {
             binding.appbar.visibility = View.VISIBLE
+            binding.fabAdd.hide()
         }
     }
 
