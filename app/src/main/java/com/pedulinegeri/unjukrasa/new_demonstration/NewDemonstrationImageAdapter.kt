@@ -68,7 +68,7 @@ class NewDemonstrationImageAdapter(private val fragmentManager: FragmentManager)
 
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.youTubePlayerView, youTubePlayerFragment).commit()
-            } else if (url.isNotEmpty()) {
+            } else if (url.isNotBlank()) {
                 binding.youTubePlayerView.visibility = View.GONE
                 binding.ivDemonstration.visibility = View.VISIBLE
 

@@ -53,7 +53,7 @@ class AddPersonBottomSheetDialog : BottomSheetDialogFragment() {
                 binding.group.visibility = View.GONE
                 binding.rvAddPerson.visibility = View.VISIBLE
 
-                if (newText != null && newText.isNotEmpty()) {
+                if (newText != null && newText.isNotBlank()) {
                     addPersonListAdapter.addPerson(newText.last().toString())
                     return true
                 } else {

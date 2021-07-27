@@ -82,7 +82,7 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.isNotEmpty()) {
+                if (newText != null && newText.isNotBlank()) {
                     rvPersonListAdapter.addPerson(newText)
                     return true
                 } else {

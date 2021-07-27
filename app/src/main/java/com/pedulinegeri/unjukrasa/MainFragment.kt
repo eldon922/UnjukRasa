@@ -18,6 +18,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -166,11 +168,6 @@ class MainFragment : Fragment() {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
                     }
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
-
-                    // TODO DEV
-                    authViewModel.signedOut()
-
                 }
                 resources.getString(R.string.pengaturan) -> {
                     findNavController().navigate(R.id.action_main_screen_to_editProfilePageFragment)
@@ -186,10 +183,16 @@ class MainFragment : Fragment() {
         }
 
         authViewModel.isSignedIn.observe(viewLifecycleOwner, { signedIn ->
+            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
+
             val drawerMenu = binding.navigationDrawer.menu
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
+                if (Firebase.auth.currentUser.displayName.isEmpty()){
+                    findNavController().navigate(R.id.action_main_screen_to_signUpPageFragment)
+                }
+
                 drawerMenu.findItem(R.id.action_login).isVisible = false
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, true)
 

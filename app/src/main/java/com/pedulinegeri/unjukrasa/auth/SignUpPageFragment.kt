@@ -2,10 +2,12 @@ package com.pedulinegeri.unjukrasa.auth
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
 
@@ -43,41 +48,39 @@ class SignUpPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSignUp.setOnClickListener {
-            // TODO DEV
-            authViewModel.signedIn()
-            ProcessPhoenix.triggerRebirth(requireContext())
-//            val user = FirebaseAuth.getInstance().currentUser!!
-//
-//            user.updateEmail(binding.etEmail.text.toString())
-//
-//            val storage = Firebase.storage
-//            val storageRef = storage.reference
-//            val mountainsRef = storageRef.child("mountains.jpg")
-//            val mountainImagesRef = storageRef.child("images/mountains.jpg")
-//
-//            var file = profilePictureURI
-//            val riversRef = storageRef.child("images/${file.lastPathSegment}")
-//            val uploadTask = riversRef.putFile(file)
-//
-//// Register observers to listen for when the download is done or if it fails
-//            uploadTask.addOnFailureListener {
-//                // Handle unsuccessful uploads
-//            }.addOnSuccessListener { taskSnapshot ->
-//                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-//                // ...
-//
-//            }
-//
-//            val profileUpdates = userProfileChangeRequest {
-//                displayName = "Jane Q. User"
-//                photoUri = profilePictureURI
-//            }
-//            user.updateProfile(profileUpdates)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        Log.d("Firebase", "User profile updated.")
-//                    }
-//                }
+            when {
+                binding.etName.text.isBlank() -> {
+                    binding.etName.error = "Nama wajib diisi!"
+                    binding.etEmail.error = null
+                }
+                else -> {
+                    val user = Firebase.auth.currentUser!!
+
+                    if (binding.etEmail.text.isNotBlank()) {
+                        user.updateEmail(binding.etEmail.text.toString())
+                    }
+
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(binding.etName.text.toString())
+                        .setPhotoUri(
+                            Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png")
+                        ).build()
+
+                    user.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                authViewModel.signedIn()
+                                ProcessPhoenix.triggerRebirth(requireContext())
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Ada kesalahan, silahkan coba lagi.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                }
+            }
         }
 
         binding.btnImage.setOnClickListener {
