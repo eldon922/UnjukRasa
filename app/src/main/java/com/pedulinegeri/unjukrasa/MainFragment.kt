@@ -2,6 +2,7 @@ package com.pedulinegeri.unjukrasa
 
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -90,7 +91,10 @@ class MainFragment : Fragment() {
         binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
 
         defaultStatusBarColor = requireActivity().window.statusBarColor
-        requireActivity().window.statusBarColor = Color.TRANSPARENT
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requireActivity().window.statusBarColor = Color.TRANSPARENT
+        }
 
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO -> {
