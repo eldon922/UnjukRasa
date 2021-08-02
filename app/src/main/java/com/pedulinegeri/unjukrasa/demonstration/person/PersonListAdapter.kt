@@ -35,14 +35,14 @@ class PersonListAdapter(
                         // TODO DEV
                         navigate(
                             ParticipationListBottomSheetDialogDirections.actionParticipationListBottomSheetDialogToNavigationProfilePage(
-                                1
+                                "isi user uid"
                             )
                         )
                     } else {
                         // TODO DEV
                         navigate(
                             DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationProfilePage(
-                                1
+                                "isi user uid"
                             )
                         )
                     }

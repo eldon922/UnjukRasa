@@ -1,7 +1,6 @@
 package com.pedulinegeri.unjukrasa.auth
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,11 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.jakewharton.processphoenix.ProcessPhoenix
+import com.pedulinegeri.unjukrasa.GlideApp
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
+import java.io.File
 
 
 class SignUpPageFragment : Fragment() {
@@ -33,7 +35,7 @@ class SignUpPageFragment : Fragment() {
 
     private val MEDIA_CODE = 1
 
-    private lateinit var profilePictureURI: String
+    private val user = Firebase.auth.currentUser!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,30 +56,32 @@ class SignUpPageFragment : Fragment() {
                     binding.etEmail.error = null
                 }
                 else -> {
-                    val user = Firebase.auth.currentUser!!
+                    binding.btnSignUp.isEnabled = false
 
                     if (binding.etEmail.text.isNotBlank()) {
                         user.updateEmail(binding.etEmail.text.toString())
                     }
 
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(binding.etName.text.toString())
-                        .setPhotoUri(
-                            Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png")
-                        ).build()
+                    val db = Firebase.firestore
 
-                    user.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                authViewModel.signedIn()
-                                ProcessPhoenix.triggerRebirth(requireContext())
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Ada kesalahan, silahkan coba lagi.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                    val userData = hashMapOf(
+                        "name" to binding.etName.text.toString()
+                    )
+
+                    db.collection("users").document(user.uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            authViewModel.signedIn()
+                            ProcessPhoenix.triggerRebirth(requireContext())
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Ada kesalahan, silahkan coba lagi.",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            binding.btnSignUp.isEnabled = true
                         }
                 }
             }
@@ -109,12 +113,25 @@ class SignUpPageFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
             val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+            val path = returnValue!![0]
 
-            profilePictureURI = returnValue!![0]
+            val imageRef =
+                Firebase.storage.reference.child("profile_picture/${user.uid}.jpg")
 
+            val file = Uri.fromFile(File(path))
+            val uploadTask = imageRef.putFile(file)
 
-            val bmImg = BitmapFactory.decodeFile(profilePictureURI)
-            binding.ivPerson.setImageBitmap(bmImg)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Unggah foto profil gagal. Silahkan coba lagi.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }.addOnSuccessListener {
+                GlideApp.with(requireContext())
+                    .load(imageRef)
+                    .into(binding.ivPerson)
+            }
         }
     }
 

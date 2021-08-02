@@ -11,6 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.pedulinegeri.unjukrasa.GlideApp
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
@@ -22,6 +27,8 @@ class ProfilePageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: ProfilePageFragmentArgs by navArgs()
+
+    private lateinit var uid: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,9 +68,25 @@ class ProfilePageFragment : Fragment() {
             }
         })
 
-        if (args.idUser != 0) {
+        if (args.userUID != "") {
             binding.appbar.visibility = View.VISIBLE
             binding.fabAdd.hide()
+            uid = args.userUID
+        } else {
+            uid = Firebase.auth.currentUser!!.uid
+        }
+
+        val imageRef =
+            Firebase.storage.reference.child("profile_picture/${uid}.jpg")
+
+        GlideApp.with(requireContext())
+            .load(imageRef)
+            .into(binding.ivPerson)
+
+        val db = Firebase.firestore
+        val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+        docRef.addSnapshotListener { snapshot, e ->
+            binding.tvName.text = snapshot?.data?.get("name").toString()
         }
     }
 

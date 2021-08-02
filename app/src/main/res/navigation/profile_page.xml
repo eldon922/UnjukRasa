@@ -11,8 +11,8 @@
         android:label="Halaman Profil"
         tools:layout="@layout/fragment_profile_page">
         <argument
-            android:name="idUser"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="userUID"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 </navigation>

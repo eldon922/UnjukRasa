@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
@@ -189,9 +190,20 @@ class MainFragment : Fragment() {
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
-                if (Firebase.auth.currentUser.displayName.isEmpty()){
-                    findNavController().navigate(R.id.action_main_screen_to_signUpPageFragment)
-                }
+                val db = Firebase.firestore
+                val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+                docRef.get()
+                    .addOnSuccessListener {
+                        if (!it.exists()) {
+                            findNavController().navigate(R.id.action_main_screen_to_signUpPageFragment)
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Tidak ada koneksi internet!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
                 drawerMenu.findItem(R.id.action_login).isVisible = false
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, true)

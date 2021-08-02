@@ -97,8 +97,8 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right">
             <argument
-                android:name="idUser"
-                app:argType="integer" />
+                android:name="userUID"
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
@@ -153,8 +153,8 @@
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right">
             <argument
-                android:name="idUser"
-                app:argType="integer" />
+                android:name="userUID"
+                app:argType="string" />
         </action>
     </dialog>
 
