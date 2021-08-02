@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_edit_profile_page.xml" value="0.22" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_profile_page.xml" value="0.1" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_sign_up_page.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/bottom_navigation_items.xml" value="0.20092592592592592" />
       </map>
     </option>

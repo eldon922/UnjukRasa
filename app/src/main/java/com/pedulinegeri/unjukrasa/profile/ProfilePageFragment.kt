@@ -15,10 +15,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.pedulinegeri.unjukrasa.GlideApp
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
+import com.squareup.picasso.Picasso
 
 
 class ProfilePageFragment : Fragment() {
@@ -79,9 +79,9 @@ class ProfilePageFragment : Fragment() {
         val imageRef =
             Firebase.storage.reference.child("profile_picture/${uid}.jpg")
 
-        GlideApp.with(requireContext())
-            .load(imageRef)
-            .into(binding.ivPerson)
+        imageRef.downloadUrl.addOnSuccessListener {
+            Picasso.get().load(it).into(binding.ivPerson)
+        }
 
         val db = Firebase.firestore
         val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)

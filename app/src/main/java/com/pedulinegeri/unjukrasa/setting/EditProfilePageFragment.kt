@@ -1,17 +1,24 @@
 package com.pedulinegeri.unjukrasa.setting
 
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditProfilePageBinding
+import com.squareup.picasso.Picasso
+import java.io.File
 
 
 class EditProfilePageFragment : Fragment() {
@@ -21,7 +28,7 @@ class EditProfilePageFragment : Fragment() {
 
     private val MEDIA_CODE = 1
 
-    private lateinit var profilePictureURI: String
+    private val user = Firebase.auth.currentUser!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +46,42 @@ class EditProfilePageFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
-        binding.btnSignUp.setOnClickListener {
-            binding.tvSuccess.isVisible = true
+        binding.btnSubmit.setOnClickListener {
+            when {
+                binding.etName.text.isBlank() -> {
+                    binding.etName.error = "Nama wajib diisi!"
+                }
+                else -> {
+                    binding.btnSubmit.isEnabled = false
+
+                    val db = Firebase.firestore
+                    db.collection("users").document(user.uid)
+                        .update("name", binding.etName.text.toString()).addOnSuccessListener {
+                            binding.tvSuccess.isVisible = true
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Ada kesalahan, silahkan coba lagi. $it",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }.addOnSuccessListener {
+                            binding.btnSubmit.isEnabled = true
+                        }
+                }
+            }
+        }
+
+        val imageRef =
+            Firebase.storage.reference.child("profile_picture/${user.uid}.jpg")
+
+        imageRef.downloadUrl.addOnSuccessListener {
+            Picasso.get().load(it).into(binding.ivPerson)
+        }
+
+        val db = Firebase.firestore
+        val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
+        docRef.addSnapshotListener { snapshot, e ->
+            binding.etName.setText(snapshot?.data?.get("name").toString())
         }
 
         binding.btnImage.setOnClickListener {
@@ -59,12 +100,25 @@ class EditProfilePageFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
             val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+            val path = returnValue!![0]
 
-            profilePictureURI = returnValue!![0]
+            val imageRef =
+                Firebase.storage.reference.child("profile_picture/${user.uid}.jpg")
 
+            val file = Uri.fromFile(File(path))
+            val uploadTask = imageRef.putFile(file)
 
-            val bmImg = BitmapFactory.decodeFile(profilePictureURI)
-            binding.ivPerson.setImageBitmap(bmImg)
+            uploadTask.addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener {
+                    Picasso.get().load(it).into(binding.ivPerson)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Unggah foto profil gagal. Silahkan coba lagi. $it",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

@@ -19,8 +19,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.pedulinegeri.unjukrasa.GlideApp
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
+import com.squareup.picasso.Picasso
 import java.io.File
 
 
@@ -121,16 +121,16 @@ class SignUpPageFragment : Fragment() {
             val file = Uri.fromFile(File(path))
             val uploadTask = imageRef.putFile(file)
 
-            uploadTask.addOnFailureListener {
+            uploadTask.addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener {
+                    Picasso.get().load(it).into(binding.ivPerson)
+                }
+            }.addOnFailureListener {
                 Toast.makeText(
                     requireContext(),
-                    "Unggah foto profil gagal. Silahkan coba lagi.",
+                    "Unggah foto profil gagal. Silahkan coba lagi. $it",
                     Toast.LENGTH_LONG
                 ).show()
-            }.addOnSuccessListener {
-                GlideApp.with(requireContext())
-                    .load(imageRef)
-                    .into(binding.ivPerson)
             }
         }
     }

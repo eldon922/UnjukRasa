@@ -30,7 +30,6 @@
         android:layout_marginStart="20dp"
         android:paddingVertical="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar" />
@@ -61,45 +60,13 @@
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nomor Handphone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verifikasi KTP untuk mendapatkan verified account. "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -109,10 +76,10 @@
         android:text="Klik disini."
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btn_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ubah"
@@ -127,7 +94,7 @@
         android:text="Peubahan data berhasil dilakukan!"
         android:textColor="@color/quantum_vanillagreenA700"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/btn_sign_up"
-        app:layout_constraintStart_toStartOf="@+id/btn_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_up" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_submit"
+        app:layout_constraintStart_toStartOf="@+id/btn_submit"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
