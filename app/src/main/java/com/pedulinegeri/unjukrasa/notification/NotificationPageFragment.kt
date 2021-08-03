@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.databinding.FragmentNotificationPageBinding
 
@@ -40,7 +41,7 @@ class NotificationPageFragment : Fragment() {
                     "abcde",
                     "abcde",
                     "abcde"
-                )
+                ), childFragmentManager, findNavController()
             )
         }
     }

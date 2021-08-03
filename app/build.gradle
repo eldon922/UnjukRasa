@@ -86,13 +86,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 
-    implementation 'com.fxn769:pix:1.5.6'
-
     implementation "io.getstream:stream-chat-android-ui-components:4.8.1"
 
     implementation 'jp.wasabeef:richeditor-android:2.0.0'
-
-    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
 
@@ -103,6 +99,10 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

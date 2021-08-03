@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
@@ -25,7 +26,7 @@ class DemonstrationPageFragment : Fragment() {
     private val binding get() = _binding!!
 
     //    TODO dev
-    private var editMode = false
+    private var editMode = true
 
     private lateinit var discussionListAdapter: DiscussionListAdapter
     private lateinit var personListAdapter: PersonListAdapter
@@ -147,20 +148,32 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupImages() {
-        demonstrationImageAdapter = DemonstrationImageAdapter()
+        demonstrationImageAdapter = DemonstrationImageAdapter(childFragmentManager, findNavController())
 
         binding.vpImages.adapter = demonstrationImageAdapter
 
         demonstrationImageAdapter.initDemonstrationImageList(
             arrayListOf(
-                R.drawable.indonesian_flag,
-                R.drawable.indonesian_flag,
-                R.drawable.indonesian_flag,
-                R.drawable.indonesian_flag
+                "https://www.youtube.com/watch?v=G7H9uo3j5FQ".takeLast(11),
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png"
             )
         )
 
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
+        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                if (position == 0) {
+                    binding.intoTabLayout.visibility = View.GONE
+                } else {
+                    binding.intoTabLayout.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     private fun setupToolbar() {
@@ -232,7 +245,7 @@ class DemonstrationPageFragment : Fragment() {
     private fun setupProgress() {
         progressInitialized = true
 
-        progressListAdapter = ProgressListAdapter()
+        progressListAdapter = ProgressListAdapter(childFragmentManager, findNavController())
 
         binding.rvProgress.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

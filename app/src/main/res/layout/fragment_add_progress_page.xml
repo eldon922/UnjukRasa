@@ -37,7 +37,7 @@
                 android:id="@+id/vp_images"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="@drawable/video_placeholder"
+                android:background="@drawable/no_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/fui_transparent"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/vp_images"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"

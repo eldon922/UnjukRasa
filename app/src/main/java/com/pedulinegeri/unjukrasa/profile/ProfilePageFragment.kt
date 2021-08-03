@@ -77,7 +77,7 @@ class ProfilePageFragment : Fragment() {
         }
 
         val imageRef =
-            Firebase.storage.reference.child("profile_picture/${uid}.jpg")
+            Firebase.storage.reference.child("profile_picture/${uid}.png")
 
         imageRef.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(binding.ivPerson)

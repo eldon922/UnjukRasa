@@ -10,23 +10,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.fxn.pix.Options
-import com.fxn.pix.Pix
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditProfilePageBinding
 import com.squareup.picasso.Picasso
-import java.io.File
 
 
 class EditProfilePageFragment : Fragment() {
 
     private var _binding: FragmentEditProfilePageBinding? = null
     private val binding get() = _binding!!
-
-    private val MEDIA_CODE = 1
 
     private val user = Firebase.auth.currentUser!!
 
@@ -61,7 +57,7 @@ class EditProfilePageFragment : Fragment() {
                         }.addOnFailureListener {
                             Toast.makeText(
                                 requireContext(),
-                                "Ada kesalahan, silahkan coba lagi. $it",
+                                "Ada kesalahan, silahkan coba lagi. ($it)",
                                 Toast.LENGTH_LONG
                             ).show()
                         }.addOnSuccessListener {
@@ -72,7 +68,7 @@ class EditProfilePageFragment : Fragment() {
         }
 
         val imageRef =
-            Firebase.storage.reference.child("profile_picture/${user.uid}.jpg")
+            Firebase.storage.reference.child("profile_picture/${user.uid}.png")
 
         imageRef.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(binding.ivPerson)
@@ -85,28 +81,21 @@ class EditProfilePageFragment : Fragment() {
         }
 
         binding.btnImage.setOnClickListener {
-            val options: Options = Options.init()
-                .setRequestCode(MEDIA_CODE) //Request code for activity results
-                .setCount(1) //Number of images to restict selection count
-                .setFrontfacing(true) //Front Facing camera on start
-                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
-
-            Pix.start(this, options)
+            ImagePicker.with(this)
+                .cropSquare()
+                .maxResultSize(170, 170)
+                .start()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == MEDIA_CODE) {
-            val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-            val path = returnValue!![0]
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == ImagePicker.REQUEST_CODE) {
+            val uri: Uri = data?.data!!
 
             val imageRef =
-                Firebase.storage.reference.child("profile_picture/${user.uid}.jpg")
-
-            val file = Uri.fromFile(File(path))
-            val uploadTask = imageRef.putFile(file)
+                Firebase.storage.reference.child("profile_picture/${user.uid}.png")
+            val uploadTask = imageRef.putFile(uri)
 
             uploadTask.addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
@@ -115,7 +104,7 @@ class EditProfilePageFragment : Fragment() {
             }.addOnFailureListener {
                 Toast.makeText(
                     requireContext(),
-                    "Unggah foto profil gagal. Silahkan coba lagi. $it",
+                    "Unggah foto profil gagal. Silahkan coba lagi. ($it)",
                     Toast.LENGTH_LONG
                 ).show()
             }

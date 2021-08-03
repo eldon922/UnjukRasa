@@ -2,18 +2,20 @@ package com.pedulinegeri.unjukrasa.demonstration.progress
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.ProgressListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationImageAdapter
 
 
-class ProgressListAdapter :
+class ProgressListAdapter(private val fragmentManager: FragmentManager, private val navController: NavController) :
     RecyclerView.Adapter<ProgressListAdapter.ViewHolder>() {
 
     private var progressList = arrayListOf<String>()
 
-    class ViewHolder(private val binding: ProgressListItemBinding) :
+    inner class ViewHolder(private val binding: ProgressListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
@@ -24,9 +26,17 @@ class ProgressListAdapter :
             binding.reContent.html =
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
 
-            val adapter = DemonstrationImageAdapter()
+            val adapter = DemonstrationImageAdapter(fragmentManager, navController)
             binding.vpImages.adapter = adapter
-            adapter.initDemonstrationImageList(arrayListOf(R.drawable.indonesian_flag))
+            adapter.initDemonstrationImageList(
+                arrayListOf(
+                    "https://www.youtube.com/watch?v=G7H9uo3j5FQ".takeLast(11),
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png"
+                )
+            )
         }
     }
 

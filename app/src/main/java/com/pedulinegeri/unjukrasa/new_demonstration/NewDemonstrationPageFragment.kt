@@ -1,19 +1,20 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
-import com.fxn.pix.Options
-import com.fxn.pix.Pix
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -91,19 +92,16 @@ class NewDemonstrationPageFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            DEMONSTRATION_MEDIA_PICKER_CODE -> {
-                if (resultCode == Pix.RESULT_OK) {
-                    val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            val uri: Uri = data?.data!!
 
-                    imageAdapter.addImage(returnValue!![0])
+            when (requestCode) {
+                DEMONSTRATION_MEDIA_PICKER_CODE -> {
+                    imageAdapter.addImage(uri)
                     binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
                 }
-            }
-            POLICE_PERMIT_MEDIA_PICKER_CODE -> {
-                if (resultCode == Pix.RESULT_OK) {
-                    val returnValue = data?.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                    binding.etPolicePermit.setText(returnValue!![0])
+                POLICE_PERMIT_MEDIA_PICKER_CODE -> {
+                    binding.etPolicePermit.setText(uri.toString())
                 }
             }
         }
@@ -144,14 +142,7 @@ class NewDemonstrationPageFragment : Fragment() {
         setupPlacePicker()
 
         binding.btnUploadPolicePermit.setOnClickListener {
-            val options: Options = Options.init()
-                .setRequestCode(POLICE_PERMIT_MEDIA_PICKER_CODE) //Request code for activity results
-                .setCount(1) //Number of images to restict selection count
-                .setFrontfacing(false) //Front Facing camera on start
-                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
-
-            Pix.start(this, options)
+            ImagePicker.with(this).start(POLICE_PERMIT_MEDIA_PICKER_CODE)
         }
     }
 
@@ -182,43 +173,15 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
-            val options: Options = Options.init()
-                .setRequestCode(DEMONSTRATION_MEDIA_PICKER_CODE) //Request code for activity results
-                .setCount(1) //Number of images to restict selection count
-                .setFrontfacing(false) //Front Facing camera on start
-                .setMode(Options.Mode.Picture) //Option to select only pictures or videos or both
-                .setScreenOrientation(Options.SCREEN_ORIENTATION_SENSOR) //Orientaion
-
-            Pix.start(this, options)
+            ImagePicker.with(this).start(DEMONSTRATION_MEDIA_PICKER_CODE)
         }
 
-        imageAdapter = NewDemonstrationImageAdapter(childFragmentManager)
+        imageAdapter = NewDemonstrationImageAdapter()
         binding.vpImages.adapter = imageAdapter
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
-        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                if (position == 0) {
-                    binding.intoTabLayout.visibility = View.GONE
-                } else {
-                    binding.intoTabLayout.visibility = View.VISIBLE
-                }
-            }
-        })
-
-        imageAdapter.onVideoLoaded = {
-            binding.vpImages.setBackgroundResource(0)
-        }
-
-        imageAdapter.onVideoRemoved = {
-            binding.etYoutubeVideo.text.clear()
-            binding.vpImages.setBackgroundResource(R.drawable.video_placeholder)
-        }
 
         binding.etYoutubeVideo.addTextChangedListener {
-            binding.vpImages.setCurrentItem(0, false)
-            imageAdapter.changeYoutubeVideo(binding.etYoutubeVideo.text.takeLast(11).toString())
+
         }
     }
 
