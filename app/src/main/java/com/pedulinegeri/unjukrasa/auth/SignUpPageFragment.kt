@@ -73,7 +73,7 @@ class SignUpPageFragment : Fragment() {
                         .addOnFailureListener {
                             Toast.makeText(
                                 requireContext(),
-                                "Ada kesalahan, silahkan coba lagi.",
+                                "Ada kesalahan, silahkan coba lagi. ($it)",
                                 Toast.LENGTH_LONG
                             ).show()
 
@@ -89,6 +89,10 @@ class SignUpPageFragment : Fragment() {
                 .maxResultSize(170, 170)
                 .start()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             return@addCallback

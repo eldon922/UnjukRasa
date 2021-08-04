@@ -18,9 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,6 +59,24 @@ class MainFragment : Fragment() {
         if (mainViewModel.bottomNavState != -1) {
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
+
+        defaultStatusBarColor = requireActivity().window.statusBarColor
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requireActivity().window.statusBarColor = Color.TRANSPARENT
+        }
+
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                requireActivity().window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
 
         addOnBackPressedCallback()
     }
@@ -85,24 +100,6 @@ class MainFragment : Fragment() {
                 remove()
                 requireActivity().onBackPressed()
                 addOnBackPressedCallback()
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
-
-        defaultStatusBarColor = requireActivity().window.statusBarColor
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requireActivity().window.statusBarColor = Color.TRANSPARENT
-        }
-
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                requireActivity().window.decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
     }
@@ -190,21 +187,6 @@ class MainFragment : Fragment() {
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
-                val db = Firebase.firestore
-                val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
-                docRef.get()
-                    .addOnSuccessListener {
-                        if (!it.exists()) {
-                            findNavController().navigate(R.id.action_main_screen_to_signUpPageFragment)
-                        }
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            requireContext(),
-                            "Tidak ada koneksi internet!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
                 drawerMenu.findItem(R.id.action_login).isVisible = false
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, true)
 
