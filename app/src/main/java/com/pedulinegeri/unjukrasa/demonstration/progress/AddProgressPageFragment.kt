@@ -3,6 +3,7 @@ package com.pedulinegeri.unjukrasa.demonstration.progress
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -27,6 +28,8 @@ class AddProgressPageFragment : Fragment() {
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var imageAdapter: NewDemonstrationImageAdapter
+
+    private var lastClickTime = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,6 +93,11 @@ class AddProgressPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnMenuItemClickListener false
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             if (it.itemId == R.id.action_add) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Tambah Perkembangan")

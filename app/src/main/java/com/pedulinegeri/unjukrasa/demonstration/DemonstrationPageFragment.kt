@@ -2,6 +2,7 @@ package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.*
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
@@ -33,6 +34,8 @@ class DemonstrationPageFragment : Fragment() {
 
     private var progressInitialized = false
     private var discussionInitialized = false
+
+    private var lastClickTime = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -158,6 +161,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnMenuItemClickListener false
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             when (it.itemId) {
                 R.id.action_edit -> {
                     findNavController().navigate(
@@ -297,6 +305,11 @@ class DemonstrationPageFragment : Fragment() {
 
     private fun setupChips() {
         binding.chipParticipant.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
                     ParticipationListBottomSheetDialog.TypeList.PARTICIPANT
@@ -305,6 +318,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipUpvote.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
                     ParticipationListBottomSheetDialog.TypeList.UPVOTE
@@ -313,6 +331,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipDownvote.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
                     ParticipationListBottomSheetDialog.TypeList.DOWNVOTE
@@ -321,6 +344,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipShare.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
                     ParticipationListBottomSheetDialog.TypeList.SHARE

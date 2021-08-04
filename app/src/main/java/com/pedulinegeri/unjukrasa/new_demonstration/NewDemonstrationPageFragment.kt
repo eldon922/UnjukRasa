@@ -3,6 +3,7 @@ package com.pedulinegeri.unjukrasa.new_demonstration
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -43,6 +44,8 @@ class NewDemonstrationPageFragment : Fragment() {
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
     private lateinit var imageAdapter: NewDemonstrationImageAdapter
+
+    private var lastClickTime = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -152,6 +155,11 @@ class NewDemonstrationPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                return@setOnMenuItemClickListener false
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             if (it.itemId == R.id.action_start) {
                 AlertDialog.Builder(requireContext())
                     .setTitle(if (args.editMode) "Ubah Unjuk Rasa" else "Mulai Unjuk Rasa")
