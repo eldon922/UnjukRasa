@@ -123,6 +123,27 @@
         android:label="AddProgressPageFragment"
         tools:layout="@layout/fragment_add_progress_page" />
 
+    <fragment
+        android:id="@+id/editProfilePageFragment"
+        android:name="com.pedulinegeri.unjukrasa.setting.EditProfilePageFragment"
+        android:label="EditProfilePageFragment" />
+
+    <fragment
+        android:id="@+id/searchPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.search.SearchPageFragment"
+        android:label="SearchPageFragment">
+        <action
+            android:id="@+id/action_searchPageFragment_to_newDemonstrationPageFragment"
+            app:destination="@id/newDemonstrationPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@+id/main_screen" />
+    </fragment>
+
+    <include app:graph="@navigation/profile_page" />
+
     <dialog
         android:id="@+id/participateBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
@@ -158,7 +179,19 @@
         </action>
     </dialog>
 
-    <include app:graph="@navigation/profile_page" />
+    <dialog
+        android:id="@+id/imageZoomBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.ImageZoomBottomSheetDialog"
+        android:label="ImageZoomBottomSheetDialog">
+        <argument
+            android:name="uri"
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/removePersonBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
+        android:label="RemovePersonBottomSheetDialog" />
 
     <action
         android:id="@+id/action_global_demonstrationPageFragment"
@@ -169,43 +202,6 @@
         app:popExitAnim="@android:anim/slide_out_right" />
 
     <action
-        android:id="@+id/action_global_imageZoomFragment"
-        app:destination="@id/imageZoomFragment"
-        app:enterAnim="@anim/fui_slide_in_right"
-        app:exitAnim="@android:anim/slide_out_right"
-        app:popEnterAnim="@anim/fui_slide_in_right"
-        app:popExitAnim="@android:anim/slide_out_right" />
-
-    <dialog
-        android:id="@+id/removePersonBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
-        android:label="RemovePersonBottomSheetDialog" />
-
-    <fragment
-        android:id="@+id/editProfilePageFragment"
-        android:name="com.pedulinegeri.unjukrasa.setting.EditProfilePageFragment"
-        android:label="EditProfilePageFragment" />
-
-    <fragment
-        android:id="@+id/searchPageFragment"
-        android:name="com.pedulinegeri.unjukrasa.search.SearchPageFragment"
-        android:label="SearchPageFragment">
-        <action
-            android:id="@+id/action_searchPageFragment_to_newDemonstrationPageFragment"
-            app:destination="@id/newDemonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@+id/main_screen" />
-    </fragment>
-    <fragment
-        android:id="@+id/imageZoomFragment"
-        android:name="com.pedulinegeri.unjukrasa.ImageZoomFragment"
-        android:label="fragment_image_zoom"
-        tools:layout="@layout/fragment_image_zoom" >
-        <argument
-            android:name="uri"
-            app:argType="string" />
-    </fragment>
+        android:id="@+id/action_global_imageZoomBottomSheetDialog"
+        app:destination="@id/imageZoomBottomSheetDialog" />
 </navigation>

@@ -1,8 +1,6 @@
 package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -49,61 +47,38 @@ class DemonstrationPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-        setupImages()
-        setupChips()
-        setupPerson()
-        setupDescription()
         setupFab()
         setupEditMode()
 
-        binding.nsv.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(
-                v: NestedScrollView?,
-                scrollX: Int,
-                scrollY: Int,
-                oldScrollX: Int,
-                oldScrollY: Int
-            ) {
-                if (isVisible(binding.rvProgress) && !progressInitialized) {
-                    setupProgress()
-                } else if (isVisible(binding.rvDiscussion) && !discussionInitialized) {
-                    setupDiscussion()
-                }
+        setupImages()
+        setupChips()
+        setupPerson()
 
-                if (scrollY > oldScrollY) {
-                    binding.fabUpvote.hide()
-                    binding.fabDownvote.hide()
-                    binding.fabShare.hide()
-                    binding.fabParticipate.hide()
-                } else if (scrollY < oldScrollY || scrollY <= 0) {
-                    if (!editMode) {
-                        binding.fabUpvote.show()
-                        binding.fabDownvote.show()
-                        binding.fabParticipate.show()
-                    }
-                    binding.fabShare.show()
-                }
-            }
-
-            fun isVisible(view: View?): Boolean {
-                if (view == null) {
-                    return false
-                }
-                if (!view.isShown) {
-                    return false
-                }
-                val actualPosition = Rect()
-                view.getGlobalVisibleRect(actualPosition)
-                val screen = Rect(
-                    0,
-                    0,
-                    Resources.getSystem().displayMetrics.widthPixels,
-                    Resources.getSystem().displayMetrics.heightPixels
-                )
-                return actualPosition.intersect(screen)
-            }
-        })
+//        if (savedInstanceState != null) {
+//            savedInstanceState.getBundle("webViewState")
+//                ?.let { binding.reDescription.restoreState(it) }
+//        } else {
+        setupDescription()
+//        }
+        setupProgress()
+        setupDiscussion()
     }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//
+//        val webviewstate = Bundle()
+//        binding.reDescription.saveState(webviewstate)
+//        outState.putBundle("webViewState", webviewstate);
+//    }
+//
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//
+//        val webviewstate = Bundle()
+//        binding.reDescription.saveState(webviewstate)
+//        savedInstanceState?.putBundle("webViewState", webviewstate);
+//    }
 
     private fun setupDiscussion() {
         discussionInitialized = true
@@ -148,7 +123,8 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupImages() {
-        demonstrationImageAdapter = DemonstrationImageAdapter(childFragmentManager, findNavController())
+        demonstrationImageAdapter =
+            DemonstrationImageAdapter(childFragmentManager, findNavController())
 
         binding.vpImages.adapter = demonstrationImageAdapter
 
@@ -269,6 +245,22 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupFab() {
+        binding.nsv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                binding.fabUpvote.hide()
+                binding.fabDownvote.hide()
+                binding.fabShare.hide()
+                binding.fabParticipate.hide()
+            } else if (scrollY < oldScrollY || scrollY <= 0) {
+                if (!editMode) {
+                    binding.fabUpvote.show()
+                    binding.fabDownvote.show()
+                    binding.fabParticipate.show()
+                }
+                binding.fabShare.show()
+            }
+        })
+
         binding.fabParticipate.setOnClickListener {
             findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
         }

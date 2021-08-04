@@ -183,15 +183,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!--            <ViewStub-->
-            <!--                android:id="@+id/rv_progress_stub"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:inflatedId="@id/rv_progress"-->
-            <!--                android:layout="@layout/shimmer_placeholder_layout"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/cv_add_progress" />-->
-
-            <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -229,7 +221,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-            <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_discussion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
