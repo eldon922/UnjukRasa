@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -165,6 +166,7 @@ class MainFragment : Fragment() {
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
+                        ProcessPhoenix.triggerRebirth(requireContext())
                     }
                 }
                 resources.getString(R.string.pengaturan) -> {
@@ -181,8 +183,6 @@ class MainFragment : Fragment() {
         }
 
         authViewModel.isSignedIn.observe(viewLifecycleOwner, { signedIn ->
-            binding.bottomNavigation.selectedItemId = R.id.navigation_home_page
-
             val drawerMenu = binding.navigationDrawer.menu
             val bottomNavigationMenu = binding.bottomNavigation.menu
 

@@ -27,9 +27,11 @@ class SignUpPageFragment : Fragment() {
     private var _binding: FragmentSignUpPageBinding? = null
     private val binding get() = _binding!!
 
-    private val authViewModel: AuthViewModel by activityViewModels()
-
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    private lateinit var toast: Toast
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private val user = Firebase.auth.currentUser!!
 
@@ -44,6 +46,8 @@ class SignUpPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         binding.btnSignUp.setOnClickListener {
             when {
@@ -71,11 +75,8 @@ class SignUpPageFragment : Fragment() {
                             ProcessPhoenix.triggerRebirth(requireContext())
                         }
                         .addOnFailureListener {
-                            Toast.makeText(
-                                requireContext(),
-                                "Ada kesalahan, silahkan coba lagi. ($it)",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                            toast.show()
 
                             binding.btnSignUp.isEnabled = true
                         }
@@ -119,11 +120,8 @@ class SignUpPageFragment : Fragment() {
                     Picasso.get().load(it).into(binding.ivPerson)
                 }
             }.addOnFailureListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Unggah foto profil gagal. Silahkan coba lagi. ($it)",
-                    Toast.LENGTH_LONG
-                ).show()
+                toast.setText("Unggah foto profil gagal. Silahkan coba lagi. ($it)")
+                toast.show()
             }
         }
     }

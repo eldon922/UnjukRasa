@@ -1,10 +1,12 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -14,7 +16,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.widget.ViewPager2
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
@@ -24,8 +25,14 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.squareup.picasso.Picasso
+import java.util.regex.Pattern
 
 
 class NewDemonstrationPageFragment : Fragment() {
@@ -36,6 +43,8 @@ class NewDemonstrationPageFragment : Fragment() {
     private val args: NewDemonstrationPageFragmentArgs by navArgs()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    private lateinit var toast: Toast
 
     private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
@@ -59,9 +68,11 @@ class NewDemonstrationPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
+
         setupToolbar()
         setupImageVideoUpload()
-        setupDemonstrationPreparation()
+        setupRoadProtests()
         setupDescriptionEditor()
 
         if (args.editMode) {
@@ -91,6 +102,13 @@ class NewDemonstrationPageFragment : Fragment() {
         super.onPause()
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         onBackPressedCallback.remove()
+
+        val v = requireActivity().currentFocus
+        if (v != null) {
+            v.clearFocus()
+            val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -115,12 +133,12 @@ class NewDemonstrationPageFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun setupDemonstrationPreparation() {
-        binding.cbDemonstration.setOnCheckedChangeListener { _, checked ->
+    private fun setupRoadProtests() {
+        binding.cbRoadProtests.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                binding.groupDemonstration.visibility = View.VISIBLE
+                binding.groupRoadProtests.visibility = View.VISIBLE
             } else {
-                binding.groupDemonstration.visibility = View.GONE
+                binding.groupRoadProtests.visibility = View.GONE
             }
         }
 
@@ -155,12 +173,45 @@ class NewDemonstrationPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnMenuItemClickListener false
             }
             lastClickTime = SystemClock.elapsedRealtime()
 
             if (it.itemId == R.id.action_start) {
+                binding.etTitle.error = null
+                binding.etTo.error = null
+                binding.etTime.error = null
+                binding.etLocation.error = null
+
+                if (imageAdapter.itemCount == 0 && binding.etYoutubeVideo.text.isBlank()) {
+                    toast.setText("Sertakan minimal 1 gambar atau video youtube.")
+                    toast.show()
+                    return@setOnMenuItemClickListener false
+                } else if (binding.etYoutubeVideo.text.isNotBlank() && getYoutubeVideoID().length != 11) {
+                    toast.setText("Tautan video youtube tidak valid.")
+                    toast.show()
+                    return@setOnMenuItemClickListener false
+                } else if (binding.etTitle.text.isBlank()) {
+                    binding.etTitle.error = "Judul wajib diisi!"
+                    return@setOnMenuItemClickListener false
+                } else if (binding.etTo.text.isBlank()) {
+                    binding.etTo.error = "Tujuan wajib diisi!"
+                    return@setOnMenuItemClickListener false
+                } else if (binding.cbRoadProtests.isChecked) {
+                    if (binding.etTime.text.isBlank()) {
+                        binding.etTime.error = "Waktu wajib diisi!"
+                        return@setOnMenuItemClickListener false
+                    } else if (binding.etLocation.text.isBlank()) {
+                        binding.etLocation.error = "Lokasi wajib diisi!"
+                        return@setOnMenuItemClickListener false
+                    }
+                } else if (binding.reDescription.html == null) {
+                    toast.setText("Deskripsi wajib diisi.")
+                    toast.show()
+                    return@setOnMenuItemClickListener false
+                }
+
                 AlertDialog.Builder(requireContext())
                     .setTitle(if (args.editMode) "Ubah Unjuk Rasa" else "Mulai Unjuk Rasa")
                     .setMessage(
@@ -169,14 +220,62 @@ class NewDemonstrationPageFragment : Fragment() {
                     )
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        requireActivity().findNavController(R.id.nav_host_container_main)
-                            .navigateUp()
+                        submit()
                     }
                     .setNegativeButton(android.R.string.cancel, null).show()
             }
 
             return@setOnMenuItemClickListener true
         }
+    }
+
+    private fun getYoutubeVideoID(): String {
+        val pattern = "^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]+).*"
+        val compiledPattern = Pattern.compile(pattern)
+        val matcher = compiledPattern.matcher(binding.etYoutubeVideo.text.toString())
+        return if (matcher.find()) {
+            matcher.group(1)!!
+        } else ""
+    }
+
+    private fun submit() {
+        val db = Firebase.firestore
+
+        val demonstrationData = hashMapOf(
+            "title" to binding.etTitle.text.toString(),
+            "to" to binding.etTo.text.toString(),
+            "description" to binding.reDescription.html,
+            "youtube_video" to getYoutubeVideoID(),
+            "images" to listOf(1, 2, 3),
+            "road_protests" to binding.cbRoadProtests.isChecked,
+            "datetime" to binding.etTime.text.toString(),
+            "location" to binding.etLocation.text.toString(),
+            "uidFrom" to Firebase.auth.currentUser!!.uid
+        )
+
+        db.collection("demonstrations").add(demonstrationData)
+            .addOnSuccessListener {
+                toast.setText("Unjuk rasa berhasil dibuat. Terima kasih.")
+                toast.show()
+
+                imageAdapter.imagesUri.forEachIndexed { index, uri ->
+                    val imageRef =
+                        Firebase.storage.reference.child("demonstration_image/${Firebase.auth.currentUser!!.uid}/${it.id}/$index.png")
+                    val uploadTask = imageRef.putFile(uri)
+
+                    uploadTask.addOnFailureListener {
+                        toast.setText("Unggah gambar ke-${index+1} gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
+                        toast.show()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                toast.show()
+            }
+
+        requireActivity().findNavController(R.id.nav_host_container_main)
+            .navigateUp()
     }
 
     private fun setupImageVideoUpload() {
@@ -216,8 +315,8 @@ class NewDemonstrationPageFragment : Fragment() {
             }
 
             override fun onError(status: Status) {
-                Toast.makeText(requireContext(), "An error occurred: $status", Toast.LENGTH_SHORT)
-                    .show()
+                toast.setText("An error occurred: $status")
+                toast.show()
             }
         })
     }

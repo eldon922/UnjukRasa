@@ -24,6 +24,8 @@ class DemonstrationPageFragment : Fragment() {
     private var _binding: FragmentDemonstrationPageBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var toast: Toast
+
     //    TODO dev
     private var editMode = true
 
@@ -48,6 +50,8 @@ class DemonstrationPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         setupToolbar()
         setupFab()
@@ -181,32 +185,20 @@ class DemonstrationPageFragment : Fragment() {
                     findNavController().navigate(R.id.action_demonstrationPageFragment_to_removePersonBottomSheetDialog)
                 }
                 R.id.action_cancel_participate -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Anda telah batal mengikuti unjuk rasa ini.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast.setText("Anda telah batal mengikuti unjuk rasa ini.")
+                    toast.show()
                 }
                 R.id.action_cancel_upvote -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Anda telah batal mendukung unjuk rasa ini.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast.setText("Anda telah batal mendukung unjuk rasa ini.")
+                    toast.show()
                 }
                 R.id.action_cancel_downvote -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Anda telah batal menolak unjuk rasa ini.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast.setText("Anda telah batal menolak unjuk rasa ini.")
+                    toast.show()
                 }
                 R.id.action_self_remove -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Anda telah menghapus anda sendiri dari unjuk rasa ini.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast.setText("Anda telah menghapus anda sendiri dari unjuk rasa ini.")
+                    toast.show()
                 }
             }
 
@@ -285,20 +277,14 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabUpvote.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Terima kasih telah mendukung! Silahkan berikan pendapatmu.",
-                Toast.LENGTH_LONG
-            ).show()
+            toast.setText("Terima kasih telah mendukung! Silahkan berikan pendapatmu.")
+            toast.show()
             binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
         }
 
         binding.fabDownvote.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Anda sudah menolak. Silahkan berikan pendapatmu.",
-                Toast.LENGTH_LONG
-            ).show()
+            toast.setText("Anda sudah menolak. Silahkan berikan pendapatmu.")
+            toast.show()
             binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
         }
     }

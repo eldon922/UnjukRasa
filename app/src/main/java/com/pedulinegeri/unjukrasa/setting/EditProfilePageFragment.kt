@@ -24,6 +24,8 @@ class EditProfilePageFragment : Fragment() {
     private var _binding: FragmentEditProfilePageBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var toast: Toast
+
     private val user = Firebase.auth.currentUser!!
 
     override fun onCreateView(
@@ -42,6 +44,8 @@ class EditProfilePageFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
+
         binding.btnSubmit.setOnClickListener {
             when {
                 binding.etName.text.isBlank() -> {
@@ -55,11 +59,8 @@ class EditProfilePageFragment : Fragment() {
                         .update("name", binding.etName.text.toString()).addOnSuccessListener {
                             binding.tvSuccess.isVisible = true
                         }.addOnFailureListener {
-                            Toast.makeText(
-                                requireContext(),
-                                "Ada kesalahan, silahkan coba lagi. ($it)",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                            toast.show()
                         }.addOnSuccessListener {
                             binding.btnSubmit.isEnabled = true
                         }
@@ -102,11 +103,8 @@ class EditProfilePageFragment : Fragment() {
                     Picasso.get().load(it).into(binding.ivPerson)
                 }
             }.addOnFailureListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Unggah foto profil gagal. Silahkan coba lagi. ($it)",
-                    Toast.LENGTH_LONG
-                ).show()
+                toast.setText("Unggah foto profil gagal. Silahkan coba lagi. ($it)")
+                toast.show()
             }
         }
     }

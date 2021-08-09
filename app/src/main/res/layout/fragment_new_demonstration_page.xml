@@ -84,10 +84,12 @@
                 android:id="@+id/textInputLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:errorEnabled="true"
                 android:hint="Judul"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
                 <EditText
+                    android:id="@+id/et_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,15 +99,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Kepada"
+                app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
                 <EditText
+                    android:id="@+id/et_to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
-                android:id="@+id/cb_demonstration"
+                android:id="@+id/cb_road_protests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Adakan unjuk rasa ke jalan"
@@ -117,8 +121,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Waktu"
+                app:errorEnabled="true"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/cb_demonstration">
+                app:layout_constraintTop_toBottomOf="@+id/cb_road_protests">
 
                 <EditText
                     android:id="@+id/et_time"
@@ -132,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lokasi"
+                app:errorEnabled="true"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/til_time">
 
@@ -204,7 +210,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/re_description" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/group_demonstration"
+                android:id="@+id/group_road_protests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

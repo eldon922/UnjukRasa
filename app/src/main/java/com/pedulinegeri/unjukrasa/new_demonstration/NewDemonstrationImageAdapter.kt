@@ -11,7 +11,7 @@ import com.pedulinegeri.unjukrasa.databinding.NewImageOrVideoItemBinding
 class NewDemonstrationImageAdapter :
     RecyclerView.Adapter<NewDemonstrationImageAdapter.ViewHolder>() {
     
-    private val imagesUri = arrayListOf<Uri>()
+    val imagesUri = arrayListOf<Uri>()
 
     inner class ViewHolder(private val binding: NewImageOrVideoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
