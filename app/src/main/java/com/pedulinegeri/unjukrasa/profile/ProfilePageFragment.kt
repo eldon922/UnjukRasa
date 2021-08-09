@@ -19,6 +19,7 @@ import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 
 class ProfilePageFragment : Fragment() {
@@ -45,17 +46,8 @@ class ProfilePageFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-
-        setupTabLayout()
-
-        binding.rvDemonstration.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(
-                arrayListOf("1111", "2222", "2222", "2222", "2222"),
-                DemonstrationListAdapter.ViewType.PROFILE,
-                requireActivity().findNavController(R.id.nav_host_container_main)
-            )
-        }
+//      TODO: DEV
+//        setupTabLayout()
 
         binding.fabAdd.setOnClickListener {
             requireActivity().findNavController(R.id.nav_host_container_main)
@@ -80,13 +72,29 @@ class ProfilePageFragment : Fragment() {
             Firebase.storage.reference.child("profile_picture/${uid}.png")
 
         imageRef.downloadUrl.addOnSuccessListener {
-            Picasso.get().load(it).into(binding.ivPerson)
+            Picasso.get().load(it).transform(CropCircleTransformation()).into(binding.ivPerson)
         }
 
         val db = Firebase.firestore
         val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
         docRef.addSnapshotListener { snapshot, e ->
-            binding.tvName.text = snapshot?.data?.get("name").toString()
+            val doc = snapshot?.data!!
+            binding.tvName.text = doc["name"].toString()
+
+            val demonstrationsTitle = arrayListOf<DemonstrationTitle>()
+
+            (doc["demonstrations"] as ArrayList<HashMap<String, String>>).forEach {
+                demonstrationsTitle.add(DemonstrationTitle(it["id"]!!, it["title"]!!))
+            }
+
+            binding.rvDemonstration.apply {
+                this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                this.adapter = ProfileDemonstrationListAdapter(
+                    demonstrationsTitle,
+                    ProfileDemonstrationListAdapter.ViewType.PROFILE,
+                    requireActivity().findNavController(R.id.nav_host_container_main)
+                )
+            }
         }
     }
 
@@ -95,7 +103,7 @@ class ProfilePageFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.fabAdd.show()
                 when (tab.text) {
-                    resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
+                    resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
                         DemonstrationListAdapter(
                             arrayListOf("1111", "2222", "2222", "2222", "2222"),
                             DemonstrationListAdapter.ViewType.PROFILE,
@@ -103,7 +111,7 @@ class ProfilePageFragment : Fragment() {
                                 R.id.nav_host_container_main
                             )
                         )
-                    resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
+                    resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
                         DemonstrationListAdapter(
                             arrayListOf("1111"),
                             DemonstrationListAdapter.ViewType.PROFILE,
@@ -111,7 +119,7 @@ class ProfilePageFragment : Fragment() {
                                 R.id.nav_host_container_main
                             )
                         )
-                    resources.getString(R.string.ditandai) -> binding.rvDemonstration.adapter =
+                    resources.getString(R.string.draft) -> binding.rvDemonstration.adapter =
                         DemonstrationListAdapter(
                             arrayListOf(),
                             DemonstrationListAdapter.ViewType.PROFILE,

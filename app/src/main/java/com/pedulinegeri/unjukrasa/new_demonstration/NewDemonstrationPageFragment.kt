@@ -26,12 +26,13 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
-import com.squareup.picasso.Picasso
+import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
 import java.util.regex.Pattern
 
 
@@ -230,7 +231,8 @@ class NewDemonstrationPageFragment : Fragment() {
     }
 
     private fun getYoutubeVideoID(): String {
-        val pattern = "^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]+).*"
+        val pattern =
+            "^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]+).*"
         val compiledPattern = Pattern.compile(pattern)
         val matcher = compiledPattern.matcher(binding.etYoutubeVideo.text.toString())
         return if (matcher.find()) {
@@ -246,7 +248,6 @@ class NewDemonstrationPageFragment : Fragment() {
             "to" to binding.etTo.text.toString(),
             "description" to binding.reDescription.html,
             "youtube_video" to getYoutubeVideoID(),
-            "images" to listOf(1, 2, 3),
             "road_protests" to binding.cbRoadProtests.isChecked,
             "datetime" to binding.etTime.text.toString(),
             "location" to binding.etLocation.text.toString(),
@@ -264,10 +265,16 @@ class NewDemonstrationPageFragment : Fragment() {
                     val uploadTask = imageRef.putFile(uri)
 
                     uploadTask.addOnFailureListener {
-                        toast.setText("Unggah gambar ke-${index+1} gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
+                        toast.setText("Unggah gambar ke-${index + 1} gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
                         toast.show()
                     }
                 }
+
+                db.collection("users").document(Firebase.auth.currentUser!!.uid).update(
+                    "demonstrations", FieldValue.arrayUnion(
+                        DemonstrationTitle(it.id, binding.etTitle.text.toString())
+                    )
+                )
             }
             .addOnFailureListener {
                 toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")

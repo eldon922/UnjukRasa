@@ -65,7 +65,8 @@ class SignUpPageFragment : Fragment() {
                     val db = Firebase.firestore
 
                     val userData = hashMapOf(
-                        "name" to binding.etName.text.toString()
+                        "name" to binding.etName.text.toString(),
+                        "demonstrations" to listOf<String>()
                     )
 
                     db.collection("users").document(user.uid)
