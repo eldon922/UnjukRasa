@@ -193,6 +193,9 @@ class MainFragment : Fragment() {
                 bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
+
+                binding.bottomNavigation.selectedItemId =
+                    R.id.navigation_profile_page
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, false)
@@ -231,7 +234,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

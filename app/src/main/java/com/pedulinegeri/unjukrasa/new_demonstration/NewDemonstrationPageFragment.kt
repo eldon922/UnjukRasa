@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -31,7 +32,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
 import java.util.regex.Pattern
 
@@ -46,6 +49,8 @@ class NewDemonstrationPageFragment : Fragment() {
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
@@ -130,8 +135,8 @@ class NewDemonstrationPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 
     private fun setupRoadProtests() {
@@ -243,18 +248,18 @@ class NewDemonstrationPageFragment : Fragment() {
     private fun submit() {
         val db = Firebase.firestore
 
-        val demonstrationData = hashMapOf(
-            "title" to binding.etTitle.text.toString(),
-            "to" to binding.etTo.text.toString(),
-            "description" to binding.reDescription.html,
-            "youtube_video" to getYoutubeVideoID(),
-            "road_protests" to binding.cbRoadProtests.isChecked,
-            "datetime" to binding.etTime.text.toString(),
-            "location" to binding.etLocation.text.toString(),
-            "uidFrom" to Firebase.auth.currentUser!!.uid
+        val demonstration = Demonstration(
+            binding.etTitle.text.toString(),
+            binding.etTo.text.toString(),
+            binding.reDescription.html,
+            getYoutubeVideoID(),
+            binding.cbRoadProtests.isChecked,
+            binding.etTime.text.toString(),
+            binding.etLocation.text.toString(),
+            arrayListOf(Person(authViewModel.uid, authViewModel.name))
         )
 
-        db.collection("demonstrations").add(demonstrationData)
+        db.collection("demonstrations").add(demonstration)
             .addOnSuccessListener {
                 toast.setText("Unjuk rasa berhasil dibuat. Terima kasih.")
                 toast.show()
@@ -272,7 +277,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
                 db.collection("users").document(Firebase.auth.currentUser!!.uid).update(
                     "demonstrations", FieldValue.arrayUnion(
-                        DemonstrationTitle(it.id, binding.etTitle.text.toString())
+                        DemonstrationTitle(it.id, demonstration.title)
                     )
                 )
             }

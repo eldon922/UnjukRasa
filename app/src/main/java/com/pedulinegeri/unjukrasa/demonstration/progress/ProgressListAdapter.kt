@@ -26,7 +26,7 @@ class ProgressListAdapter(private val fragmentManager: FragmentManager, private 
             binding.reContent.html =
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
 
-            val adapter = DemonstrationImageAdapter(fragmentManager, navController)
+            val adapter = DemonstrationImageAdapter(navController)
             binding.vpImages.adapter = adapter
             adapter.initDemonstrationImageList(
                 arrayListOf(

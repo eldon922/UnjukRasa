@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +17,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
 import com.squareup.picasso.Picasso
-import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 
 class ProfilePageFragment : Fragment() {
@@ -28,6 +29,8 @@ class ProfilePageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: ProfilePageFragmentArgs by navArgs()
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var uid: String
 
@@ -60,7 +63,7 @@ class ProfilePageFragment : Fragment() {
             }
         })
 
-        if (args.userUID != "") {
+        if (args.userUID.isNotBlank()) {
             binding.appbar.visibility = View.VISIBLE
             binding.fabAdd.hide()
             uid = args.userUID
@@ -72,7 +75,7 @@ class ProfilePageFragment : Fragment() {
             Firebase.storage.reference.child("profile_picture/${uid}.png")
 
         imageRef.downloadUrl.addOnSuccessListener {
-            Picasso.get().load(it).transform(CropCircleTransformation()).into(binding.ivPerson)
+            Picasso.get().load(it).into(binding.ivPerson)
         }
 
         val db = Firebase.firestore
@@ -80,6 +83,7 @@ class ProfilePageFragment : Fragment() {
         docRef.addSnapshotListener { snapshot, e ->
             val doc = snapshot?.data!!
             binding.tvName.text = doc["name"].toString()
+            authViewModel.saveName(doc["name"].toString())
 
             val demonstrationsTitle = arrayListOf<DemonstrationTitle>()
 
@@ -136,7 +140,7 @@ class ProfilePageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

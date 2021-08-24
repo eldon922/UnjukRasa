@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.pedulinegeri.unjukrasa.MainFragmentDirections
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.MostActiveTodayDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBinding
@@ -29,7 +30,7 @@ class ProfileDemonstrationListAdapter(
 
         fun bind(demonstrationTitle: DemonstrationTitle) {
             binding.root.setOnClickListener {
-                mainNavController.navigate(R.id.action_global_demonstrationPageFragment)
+                mainNavController.navigate(MainFragmentDirections.actionGlobalDemonstrationPageFragment(demonstrationTitle.id))
             }
 
             (binding as ProfileDemonstrationListItemBinding).tvTitle.text = demonstrationTitle.title

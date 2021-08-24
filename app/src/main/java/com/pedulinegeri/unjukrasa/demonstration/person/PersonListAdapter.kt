@@ -17,32 +17,28 @@ class PersonListAdapter(
 ) :
     RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
 
-    private var personList = arrayListOf<String>()
+    private var personList = arrayListOf<Person>()
 
     inner class ViewHolder(private val binding: PersonListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(text: String) {
-            if (text.isNotEmpty()) {
-                binding.chipRole.text = text
-            } else {
-                binding.chipRole.visibility = View.GONE
-            }
+        fun bind(person: Person) {
+            binding.chipRole.text = "Initiator"
+            binding.tvName.text = person.name
+            binding.textView7.text = person.uid
 
             binding.root.setOnClickListener {
                 with(mainNavController) {
                     if (currentDestination == graph[R.id.participationListBottomSheetDialog]) {
-                        // TODO DEV
                         navigate(
                             ParticipationListBottomSheetDialogDirections.actionParticipationListBottomSheetDialogToNavigationProfilePage(
-                                "isi user uid"
+                                person.uid
                             )
                         )
                     } else {
-                        // TODO DEV
                         navigate(
                             DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationProfilePage(
-                                "isi user uid"
+                                person.uid
                             )
                         )
                     }
@@ -64,12 +60,12 @@ class PersonListAdapter(
 
     override fun getItemCount() = personList.size
 
-    fun addPerson(name: String) {
-        personList.add(name)
+    fun addPerson(person: Person) {
+        personList.add(person)
         notifyItemInserted(itemCount - 1)
     }
 
-    fun initPersonList(personList: ArrayList<String>) {
+    fun initPersonList(personList: ArrayList<Person>) {
         this.personList = personList
         notifyDataSetChanged()
     }

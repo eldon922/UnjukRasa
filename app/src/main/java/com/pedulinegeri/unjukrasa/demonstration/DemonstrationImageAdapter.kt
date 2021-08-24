@@ -3,7 +3,6 @@ package com.pedulinegeri.unjukrasa.demonstration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pedulinegeri.unjukrasa.MainFragmentDirections
@@ -14,12 +13,11 @@ import com.squareup.picasso.Picasso
 
 
 class DemonstrationImageAdapter(
-    private val fragmentManager: FragmentManager,
     private val navController: NavController
 ) :
     RecyclerView.Adapter<DemonstrationImageAdapter.ViewHolder>() {
 
-    private var videoImagesUri = arrayListOf("")
+    private var videoImagesUrl = arrayListOf<String>()
 
     inner class ViewHolder(private val binding: DemonstrationImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -49,8 +47,13 @@ class DemonstrationImageAdapter(
         }
     }
 
+    fun addImageOrVideo(url: String) {
+        this.videoImagesUrl.add(url)
+        notifyItemChanged(itemCount - 1)
+    }
+
     fun initDemonstrationImageList(imagesUrl: ArrayList<String>) {
-        this.videoImagesUri = imagesUrl
+        this.videoImagesUrl = imagesUrl
         notifyDataSetChanged()
     }
 
@@ -65,8 +68,8 @@ class DemonstrationImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(videoImagesUri[position])
+        holder.bind(videoImagesUrl[position])
     }
 
-    override fun getItemCount(): Int = videoImagesUri.size
+    override fun getItemCount(): Int = videoImagesUrl.size
 }

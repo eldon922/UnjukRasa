@@ -7,16 +7,26 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
 import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog
+import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
+import com.pedulinegeri.unjukrasa.new_demonstration.Demonstration
 
 
 class DemonstrationPageFragment : Fragment() {
@@ -24,7 +34,11 @@ class DemonstrationPageFragment : Fragment() {
     private var _binding: FragmentDemonstrationPageBinding? = null
     private val binding get() = _binding!!
 
+    private val args: DemonstrationPageFragmentArgs by navArgs()
+
     private lateinit var toast: Toast
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     //    TODO dev
     private var editMode = true
@@ -38,6 +52,8 @@ class DemonstrationPageFragment : Fragment() {
     private var discussionInitialized = false
 
     private var lastClickTime = 0L
+
+    private lateinit var demonstration: Demonstration
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,39 +69,28 @@ class DemonstrationPageFragment : Fragment() {
 
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
+        val db = Firebase.firestore
+        val docRef = db.collection("demonstrations").document(args.id)
+        docRef.addSnapshotListener { snapshot, e ->
+            demonstration = snapshot?.toObject<Demonstration>()!!
+
+            editMode = demonstration.persons[0].uid == authViewModel.uid
+
+            binding.tvTitle.text = demonstration.title
+
+            setupFab()
+            setupEditMode()
+            setupImages()
+//            setupChips()
+            setupPerson()
+            setupDescription()
+//            setupProgress()
+//            setupDiscussion()
+        }
+
+
         setupToolbar()
-        setupFab()
-        setupEditMode()
-
-        setupImages()
-        setupChips()
-        setupPerson()
-
-//        if (savedInstanceState != null) {
-//            savedInstanceState.getBundle("webViewState")
-//                ?.let { binding.reDescription.restoreState(it) }
-//        } else {
-        setupDescription()
-//        }
-        setupProgress()
-        setupDiscussion()
     }
-
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//
-//        val webviewstate = Bundle()
-//        binding.reDescription.saveState(webviewstate)
-//        outState.putBundle("webViewState", webviewstate);
-//    }
-//
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//
-//        val webviewstate = Bundle()
-//        binding.reDescription.saveState(webviewstate)
-//        savedInstanceState?.putBundle("webViewState", webviewstate);
-//    }
 
     private fun setupDiscussion() {
         discussionInitialized = true
@@ -118,32 +123,13 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         personListAdapter.initPersonList(
-            arrayListOf(
-                "Inisiator",
-                "Koordinator",
-                "Dukung",
-                "Ikut",
-                "Koordinator",
-                "Koordinator"
-            )
+            demonstration.persons
         )
     }
 
     private fun setupImages() {
-        demonstrationImageAdapter =
-            DemonstrationImageAdapter(childFragmentManager, findNavController())
-
+        demonstrationImageAdapter = DemonstrationImageAdapter(findNavController())
         binding.vpImages.adapter = demonstrationImageAdapter
-
-        demonstrationImageAdapter.initDemonstrationImageList(
-            arrayListOf(
-                "https://www.youtube.com/watch?v=G7H9uo3j5FQ".takeLast(11),
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/320px-Image_created_with_a_mobile_phone.png"
-            )
-        )
 
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
         binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -157,6 +143,22 @@ class DemonstrationPageFragment : Fragment() {
                 }
             }
         })
+
+        if (demonstration.youtube_video.isNotBlank()) {
+            demonstrationImageAdapter.addImageOrVideo(demonstration.youtube_video)
+        }
+
+        val imageRef =
+            Firebase.storage.reference.child("demonstration_image/${demonstration.persons[0].uid}/${args.id}")
+
+        imageRef.listAll().addOnSuccessListener {
+            it.items.forEach {
+                it.downloadUrl.addOnSuccessListener { demonstrationImageAdapter.addImageOrVideo(it.toString())}
+            }
+        }.addOnFailureListener {
+            toast.setText("Gagal memuat gambar. ($it)")
+            toast.show()
+        }
     }
 
     private fun setupToolbar() {
@@ -348,12 +350,11 @@ class DemonstrationPageFragment : Fragment() {
         binding.reDescription.setEditorFontColor(binding.tvTitle.currentTextColor)
         binding.reDescription.setEditorBackgroundColor(binding.root.solidColor)
         binding.reDescription.setInputEnabled(false)
-        binding.reDescription.html =
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+        binding.reDescription.html = demonstration.description
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

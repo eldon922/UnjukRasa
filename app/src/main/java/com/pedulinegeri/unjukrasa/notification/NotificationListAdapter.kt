@@ -17,7 +17,7 @@ class NotificationListAdapter(private val dataSet: List<String>, private val fra
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
-            val adapter = DemonstrationImageAdapter(fragmentManager, navController)
+            val adapter = DemonstrationImageAdapter(navController)
             binding.vpImages.adapter = adapter
             adapter.initDemonstrationImageList(
                 arrayListOf(

@@ -10,7 +10,23 @@ class AuthRepository @Inject constructor(private val dataStoreManager: DataStore
         dataStoreManager.setSignedInStatus(status)
     }
 
+    suspend fun saveUid(uid: String) {
+        dataStoreManager.setUid(uid)
+    }
+
+    suspend fun saveName(name: String) {
+        dataStoreManager.setName(name)
+    }
+
     fun getSignedInStatus(): Flow<Boolean> {
         return dataStoreManager.signedInStatus
+    }
+
+    fun getUid(): Flow<String> {
+        return dataStoreManager.uid
+    }
+
+    fun getName(): Flow<String> {
+        return dataStoreManager.name
     }
 }

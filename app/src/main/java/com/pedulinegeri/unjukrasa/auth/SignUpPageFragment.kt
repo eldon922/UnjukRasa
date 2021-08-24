@@ -72,7 +72,7 @@ class SignUpPageFragment : Fragment() {
                     db.collection("users").document(user.uid)
                         .set(userData)
                         .addOnSuccessListener {
-                            authViewModel.signedIn()
+                            authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
                             ProcessPhoenix.triggerRebirth(requireContext())
                         }
                         .addOnFailureListener {
@@ -128,7 +128,7 @@ class SignUpPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

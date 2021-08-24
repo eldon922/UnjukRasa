@@ -40,7 +40,7 @@ class LoginPageFragment : Fragment() {
                         requireActivity().findNavController(R.id.nav_host_container_main)
                             .navigate(R.id.action_main_screen_to_signUpPageFragment)
                     } else {
-                        authViewModel.signedIn()
+                        authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
                         ProcessPhoenix.triggerRebirth(requireContext())
                     }
                 }.addOnFailureListener {
@@ -88,7 +88,7 @@ class LoginPageFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }

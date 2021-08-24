@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
+import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 
 class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
@@ -52,12 +53,11 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
         rvPersonListAdapter.initPersonList(
             arrayListOf(
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+                Person(),
+                Person(),
+                Person(),
+                Person(),
+                Person()
             )
         )
 
@@ -83,7 +83,7 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null && newText.isNotBlank()) {
-                    rvPersonListAdapter.addPerson(newText)
+                    rvPersonListAdapter.addPerson(Person("", newText))
                     return true
                 } else {
                     return false
@@ -115,7 +115,7 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 }
