@@ -111,35 +111,6 @@ class ProfilePageFragment : Fragment() {
         userSnapshotListener.remove()
     }
 
-    private fun setupTabLayout() {
-        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.fabAdd.show()
-                when (tab.text) {
-                    resources.getString(R.string.membuat) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(
-                            arrayListOf("1111", "2222", "2222", "2222", "2222"),
-                            DemonstrationListAdapter.ViewType.PROFILE,
-                            requireActivity().findNavController(
-                                R.id.nav_host_container_main
-                            )
-                        )
-                    resources.getString(R.string.mendukung) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(
-                            arrayListOf("1111"),
-                            DemonstrationListAdapter.ViewType.PROFILE,
-                            requireActivity().findNavController(
-                                R.id.nav_host_container_main
-                            )
-                        )
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
