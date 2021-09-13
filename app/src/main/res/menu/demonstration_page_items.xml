@@ -8,16 +8,6 @@
             android:icon="@drawable/ic_edit_white_24dp"
             android:title="Ubah"
             app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/action_add_person"
-            android:icon="@drawable/ic_person_add_white_24dp"
-            android:title="Tambah koordinator"
-            app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/action_remove_person"
-            android:icon="@drawable/ic_person_remove_white_24dp"
-            android:title="Hapus koordinator"
-            app:showAsAction="ifRoom" />
     </group>
 
     <group android:id="@+id/view_mode">
@@ -34,11 +24,6 @@
         <item
             android:id="@+id/action_cancel_downvote"
             android:title="Batal menolak"
-            android:visible="false"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/action_self_remove"
-            android:title="Batal kontribusi"
             android:visible="false"
             app:showAsAction="never" />
     </group>

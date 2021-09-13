@@ -158,12 +158,6 @@ class DemonstrationPageFragment : Fragment() {
                         )
                     )
                 }
-                R.id.action_add_person -> {
-                    findNavController().navigate(R.id.action_demonstrationPageFragment_to_addPersonBottomSheetDialog)
-                }
-                R.id.action_remove_person -> {
-                    findNavController().navigate(R.id.action_demonstrationPageFragment_to_removePersonBottomSheetDialog)
-                }
                 R.id.action_cancel_participate -> {
                     AlertDialog.Builder(requireContext())
                         .setTitle("Batal Ikut")
@@ -250,10 +244,6 @@ class DemonstrationPageFragment : Fragment() {
                             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
                             toast.show()
                         }
-                }
-                R.id.action_self_remove -> {
-                    toast.setText("Anda telah menghapus anda sendiri dari unjuk rasa ini.")
-                    toast.show()
                 }
             }
 
