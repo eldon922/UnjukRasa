@@ -107,9 +107,6 @@
             android:id="@+id/action_demonstrationPageFragment_to_addPersonBottomSheetDialog"
             app:destination="@id/addPersonBottomSheetDialog" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_discussionReplyBottomSheetDialog"
-            app:destination="@id/discussionReplyBottomSheetDialog" />
-        <action
             android:id="@+id/action_demonstrationPageFragment_to_participationListBottomSheetDialog"
             app:destination="@id/participationListBottomSheetDialog" />
         <action
@@ -164,11 +161,6 @@
         android:id="@+id/addPersonBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog"
         android:label="AddPersonBottomSheetDialog" />
-
-    <dialog
-        android:id="@+id/discussionReplyBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionReplyBottomSheetDialog"
-        android:label="DiscussionReplyBottomSheetDialog" />
 
     <dialog
         android:id="@+id/participationListBottomSheetDialog"

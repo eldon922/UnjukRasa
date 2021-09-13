@@ -23,7 +23,6 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
@@ -44,13 +43,11 @@ class DemonstrationPageFragment : Fragment() {
     private var editMode = false
     private var hasAction = true
 
-    private lateinit var discussionListAdapter: DiscussionListAdapter
     private lateinit var personListAdapter: PersonListAdapter
     private lateinit var demonstrationImageAdapter: DemonstrationImageAdapter
     private lateinit var progressListAdapter: ProgressListAdapter
 
     private var progressInitialized = false
-    private var discussionInitialized = false
 
     private var lastClickTime = 0L
 
@@ -87,35 +84,12 @@ class DemonstrationPageFragment : Fragment() {
             setupPerson()
             setupDescription()
             setupProgress()
-//            setupDiscussion()
         }.addOnFailureListener {
             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
             toast.show()
         }
 
         setupToolbar()
-    }
-
-    private fun setupDiscussion() {
-        discussionInitialized = true
-
-        discussionListAdapter = DiscussionListAdapter(findNavController())
-
-        binding.rvDiscussion.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = discussionListAdapter
-        }
-
-        discussionListAdapter.initDiscussionList(
-            arrayListOf(
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde"
-            )
-        )
     }
 
     private fun setupPerson() {
@@ -397,7 +371,6 @@ class DemonstrationPageFragment : Fragment() {
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
                         findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
-                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
                         binding.chipParticipant.text =
                             "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
                     } else {
@@ -437,9 +410,8 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        toast.setText("Terima kasih telah mendukung! Silahkan berikan pendapatmu.")
+                        toast.setText("Terima kasih telah mendukung!")
                         toast.show()
-                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
                         binding.chipUpvote.text =
                             "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
                     } else {
@@ -461,9 +433,8 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        toast.setText("Anda sudah menolak. Silahkan berikan pendapatmu.")
+                        toast.setText("Anda sudah menolak.")
                         toast.show()
-                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
                         binding.chipDownvote.text =
                             "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
                     } else {

@@ -191,45 +191,6 @@
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/cv_add_progress" />
 
-            <TextView
-                android:id="@+id/tv_discuss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Diskusi"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/rv_progress" />
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Suarakan pendapatmu dan unjukkan rasamu…"
-                android:inputType="textMultiLine"
-                android:minLines="3"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/tv_discuss" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mulai Diskusi"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_discussion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toStartOf="@+id/guideline6"
-                app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
-
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
                 android:layout_width="wrap_content"
