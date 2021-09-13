@@ -29,7 +29,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
-        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/tv_name" />
@@ -99,7 +98,8 @@
         android:layout_margin="20dp"
         android:backgroundTint="@color/red"
         android:contentDescription="Membuat unjuk rasa baru"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_add_circle_outline_24dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

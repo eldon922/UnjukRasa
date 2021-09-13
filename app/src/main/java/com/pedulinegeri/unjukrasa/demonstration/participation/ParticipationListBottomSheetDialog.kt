@@ -43,7 +43,8 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvPersonListAdapter = PersonListAdapter(
-            findNavController()
+            findNavController(),
+            "fdsafds"
         )
 
         binding.rvPerson.apply {
@@ -53,11 +54,11 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
         rvPersonListAdapter.initPersonList(
             arrayListOf(
-                Person(),
-                Person(),
-                Person(),
-                Person(),
-                Person()
+                Person("uid", "name"),
+                Person("uid", "name"),
+                Person("uid", "name"),
+                Person("uid", "name"),
+                Person("uid", "name")
             )
         )
 
@@ -66,7 +67,7 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
                 binding.tvTitle.text = "Partisipan Unjuk Rasa"
             }
             TypeList.UPVOTE -> {
-                binding.tvTitle.text = "Mendukung Unjuk Rasa"
+                binding.tvTitle.text = "Pendukung Unjuk Rasa"
             }
             TypeList.DOWNVOTE -> {
                 binding.tvTitle.text = "Menolak Unjuk Rasa"

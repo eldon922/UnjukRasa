@@ -17,7 +17,7 @@
         <item name="android:actionMenuTextColor">@color/white</item>
 
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
-        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorSecondary">@color/black</item>
     </style>
 
     <style name="splashScreenTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">

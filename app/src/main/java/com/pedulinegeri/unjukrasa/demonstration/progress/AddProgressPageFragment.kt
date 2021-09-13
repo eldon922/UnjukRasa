@@ -5,20 +5,28 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentAddProgressPageBinding
 import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationImageAdapter
+import java.util.*
+import java.util.regex.Pattern
 
 
 class AddProgressPageFragment : Fragment() {
@@ -26,6 +34,12 @@ class AddProgressPageFragment : Fragment() {
     private var _binding: FragmentAddProgressPageBinding? = null
     private val binding get() = _binding!!
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    private lateinit var toast: Toast
+
+    private val args: AddProgressPageFragmentArgs by navArgs()
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var imageAdapter: NewDemonstrationImageAdapter
 
@@ -42,6 +56,8 @@ class AddProgressPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         setupToolbar()
         setupImageVideoUpload()
@@ -93,10 +109,16 @@ class AddProgressPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnMenuItemClickListener false
             }
             lastClickTime = SystemClock.elapsedRealtime()
+
+            if (binding.reDescription.html == null) {
+                toast.setText("Deskripsi wajib diisi.")
+                toast.show()
+                return@setOnMenuItemClickListener false
+            }
 
             if (it.itemId == R.id.action_add) {
                 AlertDialog.Builder(requireContext())
@@ -104,14 +126,58 @@ class AddProgressPageFragment : Fragment() {
                     .setMessage("Apakah kamu yakin ingin menambahkan perkembangan ini? Tekan cancel untuk mengubah data kembali")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        requireActivity().findNavController(R.id.nav_host_container_main)
-                            .navigateUp()
+                        submit()
                     }
                     .setNegativeButton(android.R.string.cancel, null).show()
             }
 
             return@setOnMenuItemClickListener true
         }
+    }
+
+    private fun submit() {
+        val db = Firebase.firestore
+
+        val progressData = Progress(binding.reDescription.html)
+
+        if (getYoutubeVideoID().isNotBlank()) {
+            progressData.youtube_video = getYoutubeVideoID()
+        }
+
+        db.collection("demonstrations").document(args.demonstrationId)
+            .update("progress", FieldValue.arrayUnion(progressData))
+            .addOnSuccessListener {
+                toast.setText("Perkembangan berhasil ditambahkan. Terima kasih.")
+                toast.show()
+
+                imageAdapter.imagesUri.forEachIndexed { index, uri ->
+                    val imageRef =
+                        Firebase.storage.reference.child("progress_image/${args.demonstrationId}/${args.progressSize}/${authViewModel.uid}/$index.png")
+                    val uploadTask = imageRef.putFile(uri)
+
+                    uploadTask.addOnFailureListener {
+                        toast.setText("Unggah gambar ke-${index + 1} gagal. Silahkan coba lagi dengan mengubah perkembangan yang sudah dibuat. ($it)")
+                        toast.show()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                toast.show()
+            }
+
+        requireActivity().findNavController(R.id.nav_host_container_main)
+            .navigateUp()
+    }
+
+    private fun getYoutubeVideoID(): String {
+        val pattern =
+            "^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]+).*"
+        val compiledPattern = Pattern.compile(pattern)
+        val matcher = compiledPattern.matcher(binding.etYoutubeVideo.text.toString())
+        return if (matcher.find()) {
+            matcher.group(1)!!
+        } else ""
     }
 
     private fun setupImageVideoUpload() {
@@ -122,10 +188,6 @@ class AddProgressPageFragment : Fragment() {
         imageAdapter = NewDemonstrationImageAdapter()
         binding.vpImages.adapter = imageAdapter
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
-
-        binding.etYoutubeVideo.addTextChangedListener {
-
-        }
     }
 
     private fun setupDescriptionEditor() {
@@ -134,7 +196,7 @@ class AddProgressPageFragment : Fragment() {
         binding.reDescription.setEditorFontColor(binding.etYoutubeVideo.currentTextColor)
         binding.reDescription.setEditorBackgroundColor((binding.etYoutubeVideo.background as MaterialShapeDrawable).fillColor!!.defaultColor)
         binding.reDescription.setPadding(15, 15, 15, 15)
-        binding.reDescription.setPlaceholder("Deskripsikan suaramu...")
+        binding.reDescription.setPlaceholder("Deskripsikan perkembangannya...")
 
         binding.reDescription.setOnTextChangeListener { text ->
             if (text.isNotEmpty()) {

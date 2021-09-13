@@ -46,7 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="15dp"
-                android:src="@drawable/ic_create_24dp"
+                android:src="@drawable/ic_add_circle_outline_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

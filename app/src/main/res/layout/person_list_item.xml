@@ -15,7 +15,6 @@
         android:paddingEnd="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
-        app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,6 +48,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:text="Inisiator"
+        android:textColor="@color/white"
         android:textSize="15sp"
         app:chipBackgroundColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"

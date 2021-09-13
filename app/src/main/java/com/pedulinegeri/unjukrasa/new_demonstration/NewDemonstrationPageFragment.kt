@@ -12,12 +12,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -26,16 +26,13 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.person.Person
-import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
+import java.util.*
 import java.util.regex.Pattern
 
 
@@ -248,25 +245,31 @@ class NewDemonstrationPageFragment : Fragment() {
     private fun submit() {
         val db = Firebase.firestore
 
-        val demonstration = Demonstration(
+        val demonstrationData = DemonstrationData(
+            authViewModel.uid,
             binding.etTitle.text.toString(),
             binding.etTo.text.toString(),
-            binding.reDescription.html,
-            getYoutubeVideoID(),
-            binding.cbRoadProtests.isChecked,
-            binding.etTime.text.toString(),
-            binding.etLocation.text.toString(),
-            arrayListOf(Person(authViewModel.uid, authViewModel.name))
+            binding.reDescription.html
         )
 
-        db.collection("demonstrations").add(demonstration)
+        if (getYoutubeVideoID().isNotBlank()) {
+            demonstrationData.youtube_video = getYoutubeVideoID()
+        }
+
+        if (binding.cbRoadProtests.isChecked) {
+            demonstrationData.road_protests = binding.cbRoadProtests.isChecked
+            demonstrationData.datetime = binding.etTime.text.toString()
+            demonstrationData.location = binding.etLocation.text.toString()
+        }
+
+        db.collection("demonstrations").add(demonstrationData)
             .addOnSuccessListener {
                 toast.setText("Unjuk rasa berhasil dibuat. Terima kasih.")
                 toast.show()
 
                 imageAdapter.imagesUri.forEachIndexed { index, uri ->
                     val imageRef =
-                        Firebase.storage.reference.child("demonstration_image/${Firebase.auth.currentUser!!.uid}/${it.id}/$index.png")
+                        Firebase.storage.reference.child("demonstration_image/${it.id}/${authViewModel.uid}/$index.png")
                     val uploadTask = imageRef.putFile(uri)
 
                     uploadTask.addOnFailureListener {
@@ -274,12 +277,6 @@ class NewDemonstrationPageFragment : Fragment() {
                         toast.show()
                     }
                 }
-
-                db.collection("users").document(Firebase.auth.currentUser!!.uid).update(
-                    "demonstrations", FieldValue.arrayUnion(
-                        DemonstrationTitle(it.id, demonstration.title)
-                    )
-                )
             }
             .addOnFailureListener {
                 toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
@@ -292,43 +289,31 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
-            ImagePicker.with(this).start(DEMONSTRATION_MEDIA_PICKER_CODE)
+            ImagePicker.with(this).provider(ImageProvider.GALLERY).start(DEMONSTRATION_MEDIA_PICKER_CODE)
         }
 
         imageAdapter = NewDemonstrationImageAdapter()
         binding.vpImages.adapter = imageAdapter
         TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
-
-        binding.etYoutubeVideo.addTextChangedListener {
-
-        }
     }
 
     private fun setupPlacePicker() {
-        // Initialize the AutocompleteSupportFragment.
         autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
                 as AutocompleteSupportFragment
+        Places.initialize(requireContext(), getString(R.string.google_api_key))
+        Places.createClient(requireContext())
 
-        // Initialize the SDK
-        Places.initialize(requireContext(), R.string.google_api_key.toString())
-
-        // Create a new PlacesClient instance
-        val placesClient = Places.createClient(requireContext())
-
-        // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
-
-        // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-
-
                 binding.etLocation.setText(place.name)
             }
 
             override fun onError(status: Status) {
-                toast.setText("An error occurred: $status")
-                toast.show()
+                if (!status.isCanceled) {
+                    toast.setText("An error occurred: $status")
+                    toast.show()
+                }
             }
         })
     }

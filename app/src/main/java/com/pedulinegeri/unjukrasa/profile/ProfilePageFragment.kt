@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
@@ -33,6 +34,8 @@ class ProfilePageFragment : Fragment() {
     private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var uid: String
+
+    private lateinit var userSnapshotListener: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,38 +71,44 @@ class ProfilePageFragment : Fragment() {
             binding.fabAdd.hide()
             uid = args.userUID
         } else {
-            uid = Firebase.auth.currentUser!!.uid
+            uid = authViewModel.uid
         }
 
         val imageRef =
-            Firebase.storage.reference.child("profile_picture/${uid}.png")
+            Firebase.storage.reference.child("profile_picture/$uid.png")
 
         imageRef.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(binding.ivPerson)
+        }.addOnFailureListener {
+            Picasso.get().load(R.drawable.no_img).into(binding.ivPerson)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         val db = Firebase.firestore
-        val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
-        docRef.addSnapshotListener { snapshot, e ->
-            val doc = snapshot?.data!!
-            binding.tvName.text = doc["name"].toString()
-            authViewModel.saveName(doc["name"].toString())
-
-            val demonstrationsTitle = arrayListOf<DemonstrationTitle>()
-
-            (doc["demonstrations"] as ArrayList<HashMap<String, String>>).forEach {
-                demonstrationsTitle.add(DemonstrationTitle(it["id"]!!, it["title"]!!))
-            }
+        val docRef = db.collection("users").document(authViewModel.uid)
+        userSnapshotListener = docRef.addSnapshotListener { snapshot, e ->
+            val user = snapshot?.toObject<User>()!!
+            binding.tvName.text = user.name
+            authViewModel.saveName(user.name)
 
             binding.rvDemonstration.apply {
                 this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 this.adapter = ProfileDemonstrationListAdapter(
-                    demonstrationsTitle,
+                    user.demonstrations,
                     ProfileDemonstrationListAdapter.ViewType.PROFILE,
                     requireActivity().findNavController(R.id.nav_host_container_main)
                 )
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        userSnapshotListener.remove()
     }
 
     private fun setupTabLayout() {

@@ -6,14 +6,18 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.get
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragmentDirections
 import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialogDirections
+import com.squareup.picasso.Picasso
 
 
 class PersonListAdapter(
-    private val mainNavController: NavController
+    private val mainNavController: NavController,
+    private val uid: String
 ) :
     RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
 
@@ -26,6 +30,15 @@ class PersonListAdapter(
             binding.chipRole.text = "Initiator"
             binding.tvName.text = person.name
             binding.textView7.text = person.uid
+
+            val imageRef =
+                Firebase.storage.reference.child("profile_picture/$uid.png")
+
+            imageRef.downloadUrl.addOnSuccessListener {
+                Picasso.get().load(it).into(binding.ivPerson)
+            }.addOnFailureListener {
+                Picasso.get().load(R.drawable.no_img).into(binding.ivPerson)
+            }
 
             binding.root.setOnClickListener {
                 with(mainNavController) {

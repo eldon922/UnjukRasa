@@ -125,7 +125,14 @@
         android:id="@+id/addProgressPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.progress.AddProgressPageFragment"
         android:label="AddProgressPageFragment"
-        tools:layout="@layout/fragment_add_progress_page" />
+        tools:layout="@layout/fragment_add_progress_page" >
+        <argument
+            android:name="demonstrationId"
+            app:argType="string" />
+        <argument
+            android:name="progressSize"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/editProfilePageFragment"

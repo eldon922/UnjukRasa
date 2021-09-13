@@ -19,7 +19,6 @@
         android:paddingEnd="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
-        app:civ_border_width="2dp"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toTopOf="parent" />
 

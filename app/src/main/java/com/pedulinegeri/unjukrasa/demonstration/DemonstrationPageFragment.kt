@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
@@ -23,10 +25,9 @@ import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
 import com.pedulinegeri.unjukrasa.demonstration.discussion.DiscussionListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog
-import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
-import com.pedulinegeri.unjukrasa.new_demonstration.Demonstration
+import com.pedulinegeri.unjukrasa.profile.User
 
 
 class DemonstrationPageFragment : Fragment() {
@@ -40,8 +41,8 @@ class DemonstrationPageFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by activityViewModels()
 
-    //    TODO dev
-    private var editMode = true
+    private var editMode = false
+    private var hasAction = true
 
     private lateinit var discussionListAdapter: DiscussionListAdapter
     private lateinit var personListAdapter: PersonListAdapter
@@ -54,6 +55,8 @@ class DemonstrationPageFragment : Fragment() {
     private var lastClickTime = 0L
 
     private lateinit var demonstration: Demonstration
+
+    private lateinit var userSnapshotListener: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,23 +74,24 @@ class DemonstrationPageFragment : Fragment() {
 
         val db = Firebase.firestore
         val docRef = db.collection("demonstrations").document(args.id)
-        docRef.addSnapshotListener { snapshot, e ->
-            demonstration = snapshot?.toObject<Demonstration>()!!
-
-            editMode = demonstration.persons[0].uid == authViewModel.uid
+        docRef.get().addOnSuccessListener {
+            demonstration = it?.toObject<Demonstration>()!!
 
             binding.tvTitle.text = demonstration.title
 
             setupFab()
             setupEditMode()
+            updateUserData()
             setupImages()
-//            setupChips()
+            setupChips()
             setupPerson()
             setupDescription()
-//            setupProgress()
+            setupProgress()
 //            setupDiscussion()
+        }.addOnFailureListener {
+            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+            toast.show()
         }
-
 
         setupToolbar()
     }
@@ -115,7 +119,7 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupPerson() {
-        personListAdapter = PersonListAdapter(findNavController())
+        personListAdapter = PersonListAdapter(findNavController(), authViewModel.uid)
 
         binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -149,11 +153,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         val imageRef =
-            Firebase.storage.reference.child("demonstration_image/${demonstration.persons[0].uid}/${args.id}")
+            Firebase.storage.reference.child("demonstration_image/${args.id}/${demonstration.initiatorUid}")
 
         imageRef.listAll().addOnSuccessListener {
             it.items.forEach {
-                it.downloadUrl.addOnSuccessListener { demonstrationImageAdapter.addImageOrVideo(it.toString())}
+                it.downloadUrl.addOnSuccessListener { demonstrationImageAdapter.addImageOrVideo(it.toString()) }
             }
         }.addOnFailureListener {
             toast.setText("Gagal memuat gambar. ($it)")
@@ -167,7 +171,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.toolbar.setOnMenuItemClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnMenuItemClickListener false
             }
             lastClickTime = SystemClock.elapsedRealtime()
@@ -187,16 +191,91 @@ class DemonstrationPageFragment : Fragment() {
                     findNavController().navigate(R.id.action_demonstrationPageFragment_to_removePersonBottomSheetDialog)
                 }
                 R.id.action_cancel_participate -> {
-                    toast.setText("Anda telah batal mengikuti unjuk rasa ini.")
-                    toast.show()
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Batal Ikut")
+                        .setMessage(
+                            "Apakah kamu yakin ingin membatalkan partisipasi anda pada unjuk rasa ini?"
+                        )
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            val data = hashMapOf(
+                                "action" to "participation",
+                                "demonstrationId" to args.id
+                            )
+
+                            Firebase.functions("asia-southeast2")
+                                .getHttpsCallable("cancelDemonstrationAction").call(data)
+                                .addOnSuccessListener {
+                                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                                        toast.setText("Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.")
+                                        toast.show()
+                                        binding.chipParticipant.text =
+                                            "${binding.chipParticipant.text.split(" ")[0].toLong() - 1} Dukung"
+                                    } else {
+                                        toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                        toast.show()
+                                    }
+                                }.addOnFailureListener {
+                                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                                    toast.show()
+                                }
+                        }
+                        .setNegativeButton(android.R.string.cancel, null).show()
                 }
                 R.id.action_cancel_upvote -> {
-                    toast.setText("Anda telah batal mendukung unjuk rasa ini.")
-                    toast.show()
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Batal Mendukung")
+                        .setMessage(
+                            "Apakah kamu yakin ingin membatalkan dukungan anda pada unjuk rasa ini?"
+                        )
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            val data = hashMapOf(
+                                "action" to "upvote",
+                                "demonstrationId" to args.id
+                            )
+
+                            Firebase.functions("asia-southeast2")
+                                .getHttpsCallable("cancelDemonstrationAction").call(data)
+                                .addOnSuccessListener {
+                                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                                        toast.setText("Anda telah berhasil membatalkan dukungan anda pada unjuk rasa ini.")
+                                        toast.show()
+                                        binding.chipUpvote.text =
+                                            "${binding.chipUpvote.text.split(" ")[0].toLong() - 1} Dukung"
+                                    } else {
+                                        toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                        toast.show()
+                                    }
+                                }.addOnFailureListener {
+                                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                                    toast.show()
+                                }
+                        }
+                        .setNegativeButton(android.R.string.cancel, null).show()
                 }
                 R.id.action_cancel_downvote -> {
-                    toast.setText("Anda telah batal menolak unjuk rasa ini.")
-                    toast.show()
+                    val data = hashMapOf(
+                        "action" to "downvote",
+                        "demonstrationId" to args.id
+                    )
+
+                    Firebase.functions("asia-southeast2")
+                        .getHttpsCallable("cancelDemonstrationAction").call(data)
+                        .addOnSuccessListener {
+                            if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                                toast.setText("Anda telah berhasil membatalkan penolakan anda pada unjuk rasa ini.")
+                                toast.show()
+                                binding.chipDownvote.text =
+                                    "${binding.chipDownvote.text.split(" ")[0].toLong() - 1} Dukung"
+                            } else {
+                                toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                toast.show()
+                            }
+                        }.addOnFailureListener {
+                            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                            toast.show()
+                        }
                 }
                 R.id.action_self_remove -> {
                     toast.setText("Anda telah menghapus anda sendiri dari unjuk rasa ini.")
@@ -209,21 +288,73 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupEditMode() {
+        editMode = demonstration.initiatorUid == authViewModel.uid
+
         if (editMode) {
             binding.fabUpvote.hide()
             binding.fabDownvote.hide()
             binding.fabParticipate.hide()
-            binding.toolbar.menu.setGroupVisible(R.id.view_mode, false)
+            binding.toolbar.menu.setGroupVisible(R.id.edit_mode, true)
         } else {
-            binding.toolbar.menu.setGroupVisible(R.id.edit_mode, false)
             binding.cvAddProgress.visibility = View.GONE
+            if (!hasAction) {
+                binding.fabUpvote.hide()
+                binding.fabDownvote.hide()
+                binding.fabParticipate.hide()
+            } else {
+                binding.fabUpvote.show()
+                binding.fabDownvote.show()
+                binding.fabParticipate.show()
+            }
         }
+        binding.fabShare.show()
+    }
+
+    private fun updateUserData() {
+        val db = Firebase.firestore
+        val docRef = db.collection("users").document(authViewModel.uid)
+        userSnapshotListener = docRef.addSnapshotListener { snapshot, e ->
+            val user = snapshot?.toObject<User>()!!
+            hasAction = !(args.id in user.participation
+                    || args.id in user.upvote
+                    || args.id in user.downvote)
+            setupEditMode()
+
+            binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
+            binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
+            binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
+            when (args.id) {
+                in user.participation -> {
+                    binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
+                }
+                in user.upvote -> {
+                    binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
+                }
+                in user.downvote -> {
+                    binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (this::userSnapshotListener.isInitialized) {
+            updateUserData()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        userSnapshotListener.remove()
     }
 
     private fun setupProgress() {
         progressInitialized = true
 
-        progressListAdapter = ProgressListAdapter(childFragmentManager, findNavController())
+        progressListAdapter = ProgressListAdapter(findNavController(), args.id, authViewModel.uid, authViewModel.name)
 
         binding.rvProgress.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -231,18 +362,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         progressListAdapter.initProgressList(
-            arrayListOf(
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde",
-                "abcde"
-            )
+            demonstration.progress
         )
 
         binding.cvAddProgress.setOnClickListener {
-            findNavController().navigate(R.id.action_demonstrationPageFragment_to_addProgressPageFragment)
+            findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(args.id, progressListAdapter.itemCount))
         }
     }
 
@@ -254,7 +378,7 @@ class DemonstrationPageFragment : Fragment() {
                 binding.fabShare.hide()
                 binding.fabParticipate.hide()
             } else if (scrollY < oldScrollY || scrollY <= 0) {
-                if (!editMode) {
+                if (!editMode && hasAction) {
                     binding.fabUpvote.show()
                     binding.fabDownvote.show()
                     binding.fabParticipate.show()
@@ -264,7 +388,26 @@ class DemonstrationPageFragment : Fragment() {
         })
 
         binding.fabParticipate.setOnClickListener {
-            findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
+            val data = hashMapOf(
+                "action" to "participation",
+                "demonstrationId" to args.id
+            )
+
+            Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
+                .addOnSuccessListener {
+                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                        findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
+                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
+                        binding.chipParticipant.text =
+                            "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
+                    } else {
+                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.show()
+                    }
+                }.addOnFailureListener {
+                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.show()
+                }
         }
 
         binding.fabShare.setOnClickListener {
@@ -276,24 +419,72 @@ class DemonstrationPageFragment : Fragment() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+
+            val data = hashMapOf(
+                "action" to "share",
+                "demonstrationId" to args.id
+            )
+
+            Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
         }
 
         binding.fabUpvote.setOnClickListener {
-            toast.setText("Terima kasih telah mendukung! Silahkan berikan pendapatmu.")
-            toast.show()
-            binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
+            val data = hashMapOf(
+                "action" to "upvote",
+                "demonstrationId" to args.id
+            )
+
+            Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
+                .addOnSuccessListener {
+                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                        toast.setText("Terima kasih telah mendukung! Silahkan berikan pendapatmu.")
+                        toast.show()
+                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
+                        binding.chipUpvote.text =
+                            "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
+                    } else {
+                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.show()
+                    }
+                }.addOnFailureListener {
+                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.show()
+                }
         }
 
         binding.fabDownvote.setOnClickListener {
-            toast.setText("Anda sudah menolak. Silahkan berikan pendapatmu.")
-            toast.show()
-            binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
+            val data = hashMapOf(
+                "action" to "downvote",
+                "demonstrationId" to args.id
+            )
+
+            Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
+                .addOnSuccessListener {
+                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
+                        toast.setText("Anda sudah menolak. Silahkan berikan pendapatmu.")
+                        toast.show()
+                        binding.nsv.smoothScrollTo(0, binding.tvDiscuss.top, 1500)
+                        binding.chipDownvote.text =
+                            "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
+                    } else {
+                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.show()
+                    }
+                }.addOnFailureListener {
+                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.show()
+                }
         }
     }
 
     private fun setupChips() {
+        binding.chipParticipant.text = "${demonstration.participation} Ikut"
+        binding.chipUpvote.text = "${demonstration.upvote} Dukung"
+        binding.chipDownvote.text = "${demonstration.downvote} Menolak"
+        binding.chipShare.text = "${demonstration.share} Membagikan"
+
         binding.chipParticipant.setOnClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnClickListener
             }
             lastClickTime = SystemClock.elapsedRealtime()
@@ -306,7 +497,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipUpvote.setOnClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnClickListener
             }
             lastClickTime = SystemClock.elapsedRealtime()
@@ -319,7 +510,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipDownvote.setOnClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnClickListener
             }
             lastClickTime = SystemClock.elapsedRealtime()
@@ -332,7 +523,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.chipShare.setOnClickListener {
-            if (SystemClock.elapsedRealtime() - lastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnClickListener
             }
             lastClickTime = SystemClock.elapsedRealtime()

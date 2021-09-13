@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditProfilePageBinding
 import com.squareup.picasso.Picasso
 
@@ -25,6 +27,8 @@ class EditProfilePageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var toast: Toast
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private val user = Firebase.auth.currentUser!!
 
@@ -75,11 +79,7 @@ class EditProfilePageFragment : Fragment() {
             Picasso.get().load(it).into(binding.ivPerson)
         }
 
-        val db = Firebase.firestore
-        val docRef = db.collection("users").document(Firebase.auth.currentUser!!.uid)
-        docRef.addSnapshotListener { snapshot, e ->
-            binding.etName.setText(snapshot?.data?.get("name").toString())
-        }
+        binding.etName.setText(authViewModel.name)
 
         binding.btnImage.setOnClickListener {
             ImagePicker.with(this)
