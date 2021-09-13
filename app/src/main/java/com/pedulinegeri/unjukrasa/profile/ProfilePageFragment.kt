@@ -132,14 +132,6 @@ class ProfilePageFragment : Fragment() {
                                 R.id.nav_host_container_main
                             )
                         )
-                    resources.getString(R.string.draft) -> binding.rvDemonstration.adapter =
-                        DemonstrationListAdapter(
-                            arrayListOf(),
-                            DemonstrationListAdapter.ViewType.PROFILE,
-                            requireActivity().findNavController(
-                                R.id.nav_host_container_main
-                            )
-                        )
                 }
             }
 

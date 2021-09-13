@@ -5,9 +5,8 @@
     <string name="profil">Profil</string>
     <string name="open">Buka</string>
     <string name="close">Tutup</string>
-    <string name="mendukung">Mendukung (5)</string>
-    <string name="membuat">Membuat (1)</string>
-    <string name="draft">Draft (0)</string>
+    <string name="mendukung">Mendukung</string>
+    <string name="membuat">Membuat</string>
     <string name="keluar">Keluar</string>
     <string name="bantuan">Bantuan</string>
     <string name="tentang">Tentang</string>

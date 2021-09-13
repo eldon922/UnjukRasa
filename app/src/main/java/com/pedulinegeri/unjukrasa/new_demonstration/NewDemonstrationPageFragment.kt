@@ -92,7 +92,7 @@ class NewDemonstrationPageFragment : Fragment() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar? ".plus(if (args.editMode) "Perubahan yang telah dilakukan akan hilang" else "Draft akan disimpan dan bisa diakses kembali di lain waktu"))
+                .setMessage("Apakah kamu yakin ingin keluar? ".plus(if (args.editMode) "Perubahan yang telah dilakukan akan hilang." else "Data yang telah dimasukkan akan hilang."))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
