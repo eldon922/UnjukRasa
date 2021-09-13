@@ -27,7 +27,7 @@ class PersonListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
-            binding.chipRole.text = "Initiator"
+            binding.chipRole.text = "Inisiator"
             binding.tvName.text = person.name
             binding.textView7.text = person.uid
 
