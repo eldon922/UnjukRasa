@@ -35,16 +35,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
-        android:id="@+id/btn_message_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/stream_ui_accent_green"
-        android:text="Obrolan"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_view_police_permit_doc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_view_police_permit_doc" />
-
-    <Button
         android:id="@+id/btn_view_police_permit_doc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,6 +42,7 @@
         android:backgroundTint="@color/red"
         android:text="Surat Ijin Kepolisian"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/re_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

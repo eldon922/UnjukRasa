@@ -191,14 +191,12 @@ class MainFragment : Fragment() {
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, true)
 
                 bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = true
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
             } else {
                 drawerMenu.findItem(R.id.action_login).isVisible = true
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, false)
 
                 bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.navigation_message_page).isVisible = false
                 bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
             }
         })
@@ -207,7 +205,6 @@ class MainFragment : Fragment() {
     private fun setupBottomNavigation() {
         val navGraphIds = listOf(
             R.navigation.home_page,
-            R.navigation.message_page,
             R.navigation.profile_page,
             R.navigation.login_page
         )

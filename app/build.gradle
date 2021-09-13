@@ -87,8 +87,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 
-    implementation "io.getstream:stream-chat-android-ui-components:4.8.1"
-
     implementation 'jp.wasabeef:richeditor-android:2.0.0'
 
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'

@@ -5,10 +5,6 @@
         android:icon="@drawable/ic_home_white_24dp"
         android:title="@string/beranda" />
     <item
-        android:id="@+id/navigation_message_page"
-        android:icon="@drawable/ic_paper_plane"
-        android:title="@string/pesan" />
-    <item
         android:id="@+id/navigation_profile_page"
         android:icon="@drawable/ic_perm_identity_white_24dp"
         android:title="@string/profil" />
