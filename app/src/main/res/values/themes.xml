@@ -18,6 +18,12 @@
 
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:textColorSecondary">@color/black</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/Theme.UnjukRasa.OverFlow</item>
+    </style>
+
+    <style name="Theme.UnjukRasa.OverFlow" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
     </style>
 
     <style name="splashScreenTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
