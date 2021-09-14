@@ -103,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:backgroundTint="@color/quantum_googgreen"
+            android:backgroundTint="@color/quantum_vanillagreenA700"
             android:text="Terima"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

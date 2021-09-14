@@ -134,7 +134,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rv_person" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/tv_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -213,7 +213,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:backgroundTint="@color/quantum_googgreen"
+        android:backgroundTint="@color/quantum_vanillagreenA700"
         android:contentDescription="Dukung"
         android:src="@drawable/ic_arrow_upward_24dp"
         app:borderWidth="0dp"
@@ -249,7 +249,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:backgroundTint="@color/quantum_googgreen"
+        android:backgroundTint="@color/quantum_vanillagreenA700"
         android:contentDescription="Ikut unjuk rasa"
         android:text="Ikut unjuk rasa"
         app:borderWidth="0dp"

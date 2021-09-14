@@ -182,7 +182,8 @@ class AddProgressPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
-            ImagePicker.with(this).start()
+            ImagePicker.with(this).compress(1024)
+                .crop().start()
         }
 
         imageAdapter = NewDemonstrationImageAdapter()

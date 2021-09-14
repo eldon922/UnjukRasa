@@ -27,6 +27,7 @@ import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListB
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
+import java.text.SimpleDateFormat
 
 
 class DemonstrationPageFragment : Fragment() {
@@ -153,9 +154,7 @@ class DemonstrationPageFragment : Fragment() {
             when (it.itemId) {
                 R.id.action_edit -> {
                     findNavController().navigate(
-                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNewDemonstrationPageFragment(
-                            true
-                        )
+                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(args.id)
                     )
                 }
                 R.id.action_cancel_participate -> {
@@ -252,7 +251,8 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupEditMode() {
-        editMode = demonstration.initiatorUid == authViewModel.uid
+//        TODO DEV
+        editMode = false
 
         if (editMode) {
             binding.fabUpvote.hide()
@@ -268,7 +268,7 @@ class DemonstrationPageFragment : Fragment() {
             } else {
                 binding.fabUpvote.show()
                 binding.fabDownvote.show()
-                binding.fabParticipate.show()
+                if(demonstration.road_protests) binding.fabParticipate.show()
             }
         }
         binding.fabShare.show()
@@ -332,6 +332,8 @@ class DemonstrationPageFragment : Fragment() {
         binding.cvAddProgress.setOnClickListener {
             findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(args.id, progressListAdapter.itemCount))
         }
+
+        if (!editMode && progressListAdapter.itemCount == 0) binding.tvProgress.visibility = View.GONE
     }
 
     private fun setupFab() {
@@ -345,7 +347,7 @@ class DemonstrationPageFragment : Fragment() {
                 if (!editMode && hasAction) {
                     binding.fabUpvote.show()
                     binding.fabDownvote.show()
-                    binding.fabParticipate.show()
+                    if(demonstration.road_protests) binding.fabParticipate.show()
                 }
                 binding.fabShare.show()
             }
@@ -360,7 +362,8 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        findNavController().navigate(R.id.action_demonstrationPageFragment_to_participateBottomSheetDialog)
+                        findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
+                            SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime), SimpleDateFormat("hh:mm aa").format(demonstration.datetime), demonstration.location, args.id))
                         binding.chipParticipant.text =
                             "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
                     } else {
@@ -439,6 +442,8 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupChips() {
+        if (!demonstration.road_protests) binding.chipParticipant.visibility = View.GONE
+
         binding.chipParticipant.text = "${demonstration.participation} Ikut"
         binding.chipUpvote.text = "${demonstration.upvote} Dukung"
         binding.chipDownvote.text = "${demonstration.downvote} Menolak"

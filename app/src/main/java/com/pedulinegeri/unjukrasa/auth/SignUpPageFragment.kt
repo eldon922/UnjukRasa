@@ -20,6 +20,8 @@ import com.google.firebase.storage.ktx.storage
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
 import com.squareup.picasso.Picasso
+import android.text.TextUtils
+import android.util.Patterns
 
 
 class SignUpPageFragment : Fragment() {
@@ -59,7 +61,14 @@ class SignUpPageFragment : Fragment() {
                     binding.btnSignUp.isEnabled = false
 
                     if (binding.etEmail.text.isNotBlank()) {
-                        user.updateEmail(binding.etEmail.text.toString())
+                        if (isValidEmail(binding.etEmail.text)) {
+                            user.updateEmail(binding.etEmail.text.toString())
+                        } else {
+                            toast.setText("Email tidak valid.")
+                            toast.show()
+                            binding.btnSignUp.isEnabled = true
+                            return@setOnClickListener
+                        }
                     }
 
                     val db = Firebase.firestore
@@ -85,11 +94,15 @@ class SignUpPageFragment : Fragment() {
         }
 
         binding.btnImage.setOnClickListener {
-            ImagePicker.with(this)
+            ImagePicker.with(this).compress(1024)
                 .cropSquare()
                 .maxResultSize(170, 170)
                 .start()
         }
+    }
+
+    private fun isValidEmail(target: CharSequence): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 
     override fun onResume() {

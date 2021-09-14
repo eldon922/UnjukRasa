@@ -52,8 +52,6 @@ class ProfilePageFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-//      TODO: DEV
-//        setupTabLayout()
 
         binding.fabAdd.setOnClickListener {
             requireActivity().findNavController(R.id.nav_host_container_main)

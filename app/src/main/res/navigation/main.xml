@@ -64,10 +64,6 @@
         android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
         android:label="fragment_new_demonstration_page"
         tools:layout="@layout/fragment_new_demonstration_page">
-        <argument
-            android:name="edit_mode"
-            android:defaultValue="false"
-            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -75,13 +71,6 @@
         android:name="com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragment"
         android:label="fragment_demonstration_page"
         tools:layout="@layout/fragment_demonstration_page">
-        <action
-            android:id="@+id/action_demonstrationPageFragment_to_newDemonstrationPageFragment"
-            app:destination="@id/newDemonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_demonstrationPageFragment_to_addProgressPageFragment"
             app:destination="@id/addProgressPageFragment"
@@ -116,6 +105,13 @@
             android:name="id"
             app:argType="string"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_demonstrationPageFragment_to_editDemonstrationPageFragment"
+            app:destination="@id/editDemonstrationPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -155,7 +151,20 @@
     <dialog
         android:id="@+id/participateBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
-        android:label="ParticipateBottomSheetDialog" />
+        android:label="ParticipateBottomSheetDialog" >
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="time"
+            app:argType="string" />
+        <argument
+            android:name="location"
+            app:argType="string" />
+        <argument
+            android:name="demonstrationId"
+            app:argType="string" />
+    </dialog>
 
     <dialog
         android:id="@+id/addPersonBottomSheetDialog"
@@ -207,4 +216,12 @@
     <action
         android:id="@+id/action_global_imageZoomBottomSheetDialog"
         app:destination="@id/imageZoomBottomSheetDialog" />
+    <fragment
+        android:id="@+id/editDemonstrationPageFragment"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.EditDemonstrationPageFragment"
+        android:label="EditDemonstrationPageFragment">
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

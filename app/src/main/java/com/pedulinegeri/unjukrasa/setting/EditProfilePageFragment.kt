@@ -3,6 +3,8 @@ package com.pedulinegeri.unjukrasa.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,9 +56,21 @@ class EditProfilePageFragment : Fragment() {
             when {
                 binding.etName.text.isBlank() -> {
                     binding.etName.error = "Nama wajib diisi!"
+                    binding.etEmail.error = null
                 }
                 else -> {
                     binding.btnSubmit.isEnabled = false
+
+                    if (binding.etEmail.text.isNotBlank()) {
+                        if (isValidEmail(binding.etEmail.text)) {
+                            user.updateEmail(binding.etEmail.text.toString())
+                        } else {
+                            toast.setText("Email tidak valid.")
+                            toast.show()
+                            binding.btnSubmit.isEnabled = true
+                            return@setOnClickListener
+                        }
+                    }
 
                     val db = Firebase.firestore
                     db.collection("users").document(user.uid)
@@ -80,13 +94,18 @@ class EditProfilePageFragment : Fragment() {
         }
 
         binding.etName.setText(authViewModel.name)
+        binding.etEmail.setText(user.email)
 
         binding.btnImage.setOnClickListener {
-            ImagePicker.with(this)
+            ImagePicker.with(this).compress(1024)
                 .cropSquare()
                 .maxResultSize(170, 170)
                 .start()
         }
+    }
+
+    private fun isValidEmail(target: CharSequence): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

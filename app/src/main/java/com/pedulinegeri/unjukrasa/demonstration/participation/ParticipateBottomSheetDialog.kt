@@ -5,15 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.databinding.ParticipateBottomSheetLayoutBinding
 
 class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
 
     private var _binding: ParticipateBottomSheetLayoutBinding? = null
     private val binding get() = _binding!!
+
+    private val args: ParticipateBottomSheetDialogArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +35,27 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupContent()
+
+        binding.btnViewPolicePermitDoc.setOnClickListener {
+            val imageRef =
+                Firebase.storage.reference.child("/police_permit_image/${args.demonstrationId}")
+
+            imageRef.listAll().addOnSuccessListener {
+                it.items[0].downloadUrl.addOnSuccessListener {
+                    findNavController().navigate(
+                        ParticipateBottomSheetDialogDirections.actionGlobalImageZoomBottomSheetDialog(
+                            it.toString()
+                        )
+                    )
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireActivity().applicationContext,
+                    "Gagal memuat gambar. ($it)",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     private fun setupContent() {
@@ -36,17 +64,15 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
         binding.reDescription.setEditorBackgroundColor(binding.root.solidColor)
         binding.reDescription.setInputEnabled(false)
         binding.reDescription.html = "<ul style='padding-left: 1.2em'>\n" +
-                "<li>Anda sudah dimasukkan ke grup obrolan unjuk rasa ini. Silahkan klik tombol di bawah untuk menuju halaman obrolan.</li>\n" +
                 "<li>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:\n" +
                 "<ul>\n" +
-                "<li>Tanggal : 26 Februari 2021</li>\n" +
-                "<li>Pukul : 11.00 - 15.00 WIB</li>\n" +
-                "<li>Tempat : Gedung DPR, Jl. Gatot Subroto No.1, RT.1/RW.3</li>\n" +
+                "<li>Tanggal : ${args.date}</li>\n" +
+                "<li>Pukul : ${args.time}</li>\n" +
+                "<li>Tempat : ${args.location}</li>\n" +
                 "</ul>\n" +
                 "</li>\n" +
                 "<li>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian.</li>\n" +
                 "</ul>"
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

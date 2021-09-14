@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.new_demonstration
+package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
@@ -12,13 +12,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -26,37 +23,29 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
-import com.pedulinegeri.unjukrasa.auth.AuthViewModel
-import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.databinding.FragmentEditDemonstrationPageBinding
 import java.util.*
-import java.util.regex.Pattern
 
 
-class NewDemonstrationPageFragment : Fragment() {
+class EditDemonstrationPageFragment : Fragment() {
 
-    private var _binding: FragmentNewDemonstrationPageBinding? = null
+    private var _binding: FragmentEditDemonstrationPageBinding? = null
     private val binding get() = _binding!!
+
+    private val args: EditDemonstrationPageFragmentArgs by navArgs()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
 
-    private val authViewModel: AuthViewModel by activityViewModels()
-
-    private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
 
     private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
-    private lateinit var chosenDate: Date
-
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
-
-    private lateinit var imageAdapter: NewDemonstrationImageAdapter
 
     private var lastClickTime = 0L
 
@@ -65,7 +54,7 @@ class NewDemonstrationPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewDemonstrationPageBinding.inflate(inflater, container, false)
+        _binding = FragmentEditDemonstrationPageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -75,9 +64,24 @@ class NewDemonstrationPageFragment : Fragment() {
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         setupToolbar()
-        setupImageVideoUpload()
         setupRoadProtests()
         setupDescriptionEditor()
+
+        val db = Firebase.firestore
+        val docRef = db.collection("demonstrations").document(args.id)
+        docRef.get().addOnSuccessListener {
+            val demonstration = it?.toObject<Demonstration>()!!
+
+            binding.etTitle.setText(demonstration.title)
+            binding.etTo.setText(demonstration.to)
+            binding.cbRoadProtests.isChecked = demonstration.road_protests
+            binding.etLocation.setText(demonstration.location)
+            binding.etTime.setText(demonstration.datetime.toString())
+            binding.reDescription.html = demonstration.description
+        }.addOnFailureListener {
+            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+            toast.show()
+        }
     }
 
     override fun onResume() {
@@ -88,7 +92,7 @@ class NewDemonstrationPageFragment : Fragment() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar? Data yang telah dimasukkan akan hilang.")
+                .setMessage("Apakah kamu yakin ingin keluar? Perubahan yang telah dilakukan akan hilang.")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
@@ -116,10 +120,6 @@ class NewDemonstrationPageFragment : Fragment() {
             val uri: Uri = data?.data!!
 
             when (requestCode) {
-                DEMONSTRATION_MEDIA_PICKER_CODE -> {
-                    imageAdapter.addImage(uri)
-                    binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
-                }
                 POLICE_PERMIT_MEDIA_PICKER_CODE -> {
                     binding.etPolicePermit.setText(uri.toString())
                 }
@@ -148,7 +148,6 @@ class NewDemonstrationPageFragment : Fragment() {
                     .curved()
                     .listener {
                         binding.etTime.setText(it.toString())
-                        chosenDate = it
                     }
             }
 
@@ -163,8 +162,7 @@ class NewDemonstrationPageFragment : Fragment() {
         setupPlacePicker()
 
         binding.btnUploadPolicePermit.setOnClickListener {
-            ImagePicker.with(this).compress(1024)
-                .crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
+            ImagePicker.with(this).compress(1024).crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
         }
     }
 
@@ -179,21 +177,13 @@ class NewDemonstrationPageFragment : Fragment() {
             }
             lastClickTime = SystemClock.elapsedRealtime()
 
-            if (it.itemId == R.id.action_start) {
+            if (it.itemId == R.id.action_edit) {
                 binding.etTitle.error = null
                 binding.etTo.error = null
                 binding.etTime.error = null
                 binding.etLocation.error = null
 
-                if (imageAdapter.itemCount == 0 && binding.etYoutubeVideo.text.isBlank()) {
-                    toast.setText("Sertakan minimal 1 gambar atau video youtube.")
-                    toast.show()
-                    return@setOnMenuItemClickListener false
-                } else if (binding.etYoutubeVideo.text.isNotBlank() && getYoutubeVideoID().length != 11) {
-                    toast.setText("Tautan video youtube tidak valid.")
-                    toast.show()
-                    return@setOnMenuItemClickListener false
-                } else if (binding.etTitle.text.isBlank()) {
+                if (binding.etTitle.text.isBlank()) {
                     binding.etTitle.error = "Judul wajib diisi!"
                     return@setOnMenuItemClickListener false
                 } else if (binding.etTo.text.isBlank()) {
@@ -214,9 +204,9 @@ class NewDemonstrationPageFragment : Fragment() {
                 }
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Mulai Unjuk Rasa")
+                    .setTitle("Ubah Unjuk Rasa")
                     .setMessage(
-                        "Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                        "Apakah kamu yakin ingin mengubah unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         submit()
@@ -228,62 +218,25 @@ class NewDemonstrationPageFragment : Fragment() {
         }
     }
 
-    private fun getYoutubeVideoID(): String {
-        val pattern =
-            "^.*(?:(?:youtu\\.be\\/|v\\/|vi\\/|u\\/\\w\\/|embed\\/)|(?:(?:watch)?\\?v(?:i)?=|\\&v(?:i)?=))([^#\\&\\?]+).*"
-        val compiledPattern = Pattern.compile(pattern)
-        val matcher = compiledPattern.matcher(binding.etYoutubeVideo.text.toString())
-        return if (matcher.find()) {
-            matcher.group(1)!!
-        } else ""
-    }
-
     private fun submit() {
         val db = Firebase.firestore
 
-        val demonstrationData = DemonstrationData(
-            authViewModel.uid,
-            binding.etTitle.text.toString(),
-            binding.etTo.text.toString(),
-            binding.reDescription.html
+        val demonstrationData = hashMapOf(
+            "title" to binding.etTitle.text.toString(),
+            "to" to binding.etTo.text.toString(),
+            "description" to binding.reDescription.html,
+            "road_protests" to binding.cbRoadProtests.isChecked
         )
 
-        if (getYoutubeVideoID().isNotBlank()) {
-            demonstrationData.youtube_video = getYoutubeVideoID()
-        }
-
         if (binding.cbRoadProtests.isChecked) {
-            demonstrationData.road_protests = binding.cbRoadProtests.isChecked
-            demonstrationData.datetime = chosenDate
-            demonstrationData.location = binding.etLocation.text.toString()
+            demonstrationData["datetime"] = binding.etTime.text.toString()
+            demonstrationData["location"] = binding.etLocation.text.toString()
         }
 
-        db.collection("demonstrations").add(demonstrationData)
+        db.collection("demonstrations").document(args.id).update(demonstrationData as Map<String, Any>)
             .addOnSuccessListener {
-                toast.setText("Unjuk rasa berhasil dibuat. Terima kasih.")
+                toast.setText("Unjuk rasa berhasil diubah. Terima kasih.")
                 toast.show()
-
-                imageAdapter.imagesUri.forEachIndexed { index, uri ->
-                    val imageRef =
-                        Firebase.storage.reference.child("demonstration_image/${it.id}/${authViewModel.uid}/$index.png")
-                    val uploadTask = imageRef.putFile(uri)
-
-                    uploadTask.addOnFailureListener {
-                        toast.setText("Unggah gambar ke-${index + 1} gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
-                        toast.show()
-                    }
-                }
-
-                if (binding.cbRoadProtests.isChecked) {
-                    val imageRef =
-                        Firebase.storage.reference.child("/police_permit_image/${it.id}/${authViewModel.uid}.png")
-                    val uploadTask = imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
-
-                    uploadTask.addOnFailureListener {
-                        toast.setText("Unggah foto ijik kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
-                        toast.show()
-                    }
-                }
             }
             .addOnFailureListener {
                 toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
@@ -292,17 +245,6 @@ class NewDemonstrationPageFragment : Fragment() {
 
         requireActivity().findNavController(R.id.nav_host_container_main)
             .navigateUp()
-    }
-
-    private fun setupImageVideoUpload() {
-        binding.btnImage.setOnClickListener {
-            ImagePicker.with(this).compress(1024)
-                .crop().start(DEMONSTRATION_MEDIA_PICKER_CODE)
-        }
-
-        imageAdapter = NewDemonstrationImageAdapter()
-        binding.vpImages.adapter = imageAdapter
-        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
     }
 
     private fun setupPlacePicker() {
@@ -315,7 +257,6 @@ class NewDemonstrationPageFragment : Fragment() {
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 binding.etLocation.setText(place.name)
-
             }
 
             override fun onError(status: Status) {
@@ -330,8 +271,8 @@ class NewDemonstrationPageFragment : Fragment() {
     private fun setupDescriptionEditor() {
         binding.reDescription.setEditorHeight(200)
         binding.reDescription.setEditorFontSize(16)
-        binding.reDescription.setEditorFontColor(binding.etYoutubeVideo.currentTextColor)
-        binding.reDescription.setEditorBackgroundColor((binding.etYoutubeVideo.background as MaterialShapeDrawable).fillColor!!.defaultColor)
+        binding.reDescription.setEditorFontColor(binding.etTitle.currentTextColor)
+        binding.reDescription.setEditorBackgroundColor((binding.etTitle.background as MaterialShapeDrawable).fillColor!!.defaultColor)
         binding.reDescription.setPadding(15, 15, 15, 15)
         binding.reDescription.setPlaceholder("Deskripsikan suaramu...")
 

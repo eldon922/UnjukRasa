@@ -13,7 +13,7 @@ data class Demonstration(
     val description: String = "",
     val youtube_video: String = "",
     val road_protests: Boolean = false,
-    val datetime: String = "",
+    val datetime: Date = Calendar.getInstance().time,
     val location: String = "",
     val participation: Long = 0,
     val upvote: Long = 0,
