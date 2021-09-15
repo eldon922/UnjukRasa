@@ -24,6 +24,8 @@ class HomePageFragment : Fragment() {
     private lateinit var mostUpvotedDemonstrationListAdapter: MostUpvotedDemonstrationListAdapter
     private lateinit var mostRecentCreatedDemonstrationListAdapter: MostRecentCreatedDemonstrationListAdapter
 
+    private val collectionRef = Firebase.firestore.collection("demonstrations")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,9 +55,6 @@ class HomePageFragment : Fragment() {
             this.adapter = trendingDemonstrationListAdapter
         }
 
-        val db = Firebase.firestore
-        val collectionRef = db.collection("demonstrations")
-
         collectionRef.orderBy("numberOfAction", Query.Direction.DESCENDING).limit(10).get()
             .addOnSuccessListener {
                 for (document in it!!.documents) {
@@ -79,9 +78,6 @@ class HomePageFragment : Fragment() {
             this.adapter = mostUpvotedDemonstrationListAdapter
         }
 
-        val db = Firebase.firestore
-        val collectionRef = db.collection("demonstrations")
-
         collectionRef.orderBy("upvote", Query.Direction.DESCENDING).limit(10).get()
             .addOnSuccessListener {
                 for (document in it!!.documents) {
@@ -104,9 +100,6 @@ class HomePageFragment : Fragment() {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = mostRecentCreatedDemonstrationListAdapter
         }
-
-        val db = Firebase.firestore
-        val collectionRef = db.collection("demonstrations")
 
         collectionRef.orderBy("creationDate", Query.Direction.DESCENDING).limit(10).get()
             .addOnSuccessListener {

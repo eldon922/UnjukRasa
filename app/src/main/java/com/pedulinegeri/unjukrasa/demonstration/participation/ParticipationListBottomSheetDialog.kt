@@ -37,6 +37,8 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var searchTypeQuery: String
 
+    private val usersRef = Firebase.firestore.collection("users")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -75,12 +77,19 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
             }
         }
 
+        usersRef.whereArrayContains(searchTypeQuery, args.demonstrationId).limit(10).get()
+            .addOnSuccessListener {
+                for (document in it!!.documents) {
+                    val user = document?.toObject<User>()!!
+                    rvPersonListAdapter.addPerson(Person(document.id, user.name))
+                }
+            }
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val db = Firebase.firestore
-                val collectionRef = db.collection("users")
+                rvPersonListAdapter.clearPersonList()
 
-                collectionRef.whereArrayContains(searchTypeQuery, args.demonstrationId)
+                usersRef.whereArrayContains(searchTypeQuery, args.demonstrationId)
                     .whereEqualTo("name", query).get().addOnSuccessListener {
                         for (document in it!!.documents) {
                             val user = document?.toObject<User>()!!

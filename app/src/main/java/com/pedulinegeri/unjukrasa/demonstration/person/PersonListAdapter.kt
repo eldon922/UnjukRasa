@@ -26,7 +26,11 @@ class PersonListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
-            binding.chipRole.text = "Inisiator"
+            if (person.role.isNotBlank()){
+                binding.chipRole.text = person.role
+            } else {
+                binding.chipRole.visibility = View.GONE
+            }
             binding.tvName.text = person.name
             binding.textView7.text = person.uid
 
@@ -79,6 +83,11 @@ class PersonListAdapter(
 
     fun initPersonList(personList: ArrayList<Person>) {
         this.personList = personList
+        notifyDataSetChanged()
+    }
+
+    fun clearPersonList() {
+        this.personList = arrayListOf()
         notifyDataSetChanged()
     }
 }
