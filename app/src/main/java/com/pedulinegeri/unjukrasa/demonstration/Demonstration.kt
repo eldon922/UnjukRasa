@@ -1,12 +1,11 @@
 package com.pedulinegeri.unjukrasa.demonstration
 
-import com.google.type.DateTime
 import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.progress.Progress
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class Demonstration(
+    var id: String = "",
     val initiatorUid: String = "",
     val title: String = "",
     val to: String = "",

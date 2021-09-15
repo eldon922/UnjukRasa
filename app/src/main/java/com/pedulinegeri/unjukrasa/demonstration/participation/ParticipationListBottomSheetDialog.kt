@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,9 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
 import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
+import com.pedulinegeri.unjukrasa.profile.User
 
 class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
@@ -30,6 +35,8 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var rvPersonListAdapter: PersonListAdapter
 
+    private lateinit var searchTypeQuery: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,53 +49,58 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvPersonListAdapter = PersonListAdapter(
-            findNavController(),
-            "fdsafds"
-        )
+        rvPersonListAdapter = PersonListAdapter(findNavController())
 
         binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = rvPersonListAdapter
         }
 
-        rvPersonListAdapter.initPersonList(
-            arrayListOf(
-                Person("uid", "name"),
-                Person("uid", "name"),
-                Person("uid", "name"),
-                Person("uid", "name"),
-                Person("uid", "name")
-            )
-        )
-
         when (args.typeList) {
             TypeList.PARTICIPANT -> {
                 binding.tvTitle.text = "Partisipan Unjuk Rasa"
+                searchTypeQuery = "participation"
             }
             TypeList.UPVOTE -> {
                 binding.tvTitle.text = "Pendukung Unjuk Rasa"
+                searchTypeQuery = "upvote"
             }
             TypeList.DOWNVOTE -> {
                 binding.tvTitle.text = "Menolak Unjuk Rasa"
+                searchTypeQuery = "downvote"
             }
             TypeList.SHARE -> {
                 binding.tvTitle.text = "Membagikan Unjuk Rasa"
+                searchTypeQuery = "share"
             }
         }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                val db = Firebase.firestore
+                val collectionRef = db.collection("users")
+
+                collectionRef.whereArrayContains(searchTypeQuery, args.demonstrationId)
+                    .whereEqualTo("name", query).get().addOnSuccessListener {
+                        for (document in it!!.documents) {
+                            val user = document?.toObject<User>()!!
+                            rvPersonListAdapter.addPerson(Person(document.id, user.name))
+                        }
+
+                        if (rvPersonListAdapter.itemCount == 0) {
+                            Toast.makeText(
+                                requireActivity().applicationContext,
+                                "Nama yang dicari tidak ada",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.isNotBlank()) {
-                    rvPersonListAdapter.addPerson(Person("", newText))
-                    return true
-                } else {
-                    return false
-                }
+                return false
             }
         })
     }

@@ -10,8 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -20,7 +18,6 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentProfilePageBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
 import com.squareup.picasso.Picasso
 
 
@@ -94,10 +91,10 @@ class ProfilePageFragment : Fragment() {
 
             binding.tabLayout.getTabAt(0)!!.text = "Membuat (${user.demonstrations.size})"
             binding.rvDemonstration.apply {
-                this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                this.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 this.adapter = ProfileDemonstrationListAdapter(
                     user.demonstrations,
-                    ProfileDemonstrationListAdapter.ViewType.PROFILE,
                     requireActivity().findNavController(R.id.nav_host_container_main)
                 )
             }

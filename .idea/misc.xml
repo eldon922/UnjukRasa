@@ -9,7 +9,7 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_send_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/demonstration_image_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_add_progress_page.xml" value="0.1" />
-        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_demonstration_page.xml" value="0.14990942028985507" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_demonstration_page.xml" value="0.4120054570259209" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_edit_demonstration_page.xml" value="0.25" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_edit_profile_page.xml" value="0.22" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_home_page.xml" value="0.1118659420289855" />
@@ -22,6 +22,8 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_search_page.xml" value="0.15353260869565216" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_sign_up_page.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/image_zoom_bottomsheet_layout.xml" value="0.11594202898550725" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_active_today_demonstration_list_item.xml" value="0.13677536231884058" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_upvoted_demonstration_list_item.xml" value="0.75" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/new_image_or_video_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/notification_list_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/participate_bottom_sheet_layout.xml" value="0.11594202898550725" />
@@ -29,6 +31,8 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/person_list_item.xml" value="0.10371376811594203" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/profile_demonstration_list_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/progress_list_item.xml" value="0.33" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/recent_created_demonstration_list_item.xml" value="0.13677536231884058" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/trending_demonstration_list_item.xml" value="0.13677536231884058" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/bottom_navigation_items.xml" value="0.20092592592592592" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/demonstration_page_items.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/edit_demonstration_page_items.xml" value="0.26871794871794874" />

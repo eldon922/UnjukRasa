@@ -189,6 +189,9 @@
                 android:name="userUID"
                 app:argType="string" />
         </action>
+        <argument
+            android:name="demonstrationId"
+            app:argType="string" />
     </dialog>
 
     <dialog

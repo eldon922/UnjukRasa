@@ -36,14 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
-            android:text="Teraktif/Terupdate Hari Ini"
+            android:text="Paling Banyak Didukung"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/rv_trending" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_most_active_today"
+            android:id="@+id/rv_most_upvoted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -56,14 +56,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
-            android:text="Mungkin Anda Tertarik"
+            android:text="Terbaru"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/rv_most_active_today" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_most_upvoted" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recommended"
+            android:id="@+id/rv_most_recent_created"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

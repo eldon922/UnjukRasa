@@ -4,28 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.MainFragmentDirections
-import com.pedulinegeri.unjukrasa.databinding.MostActiveTodayDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.databinding.ProfileDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.databinding.RecommendedDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
 import com.squareup.picasso.Picasso
 
 class ProfileDemonstrationListAdapter(
     private val dataSet: ArrayList<DemonstrationTitle>,
-    private val viewType: ViewType,
     private val mainNavController: NavController
 ) :
     RecyclerView.Adapter<ProfileDemonstrationListAdapter.ViewHolder>() {
 
-    enum class ViewType {
-        TRENDING, MOST_ACTIVE, RECOMMENDED, PROFILE
-    }
-
-    inner class ViewHolder(private val binding: ViewBinding) :
+    inner class ViewHolder(private val binding: ProfileDemonstrationListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(demonstrationTitle: DemonstrationTitle) {
@@ -40,11 +31,11 @@ class ProfileDemonstrationListAdapter(
 
                         imageRef.downloadUrl.addOnSuccessListener {
                             Picasso.get().load(it)
-                                .into((binding as ProfileDemonstrationListItemBinding).ivThumbnail)
+                                .into(binding.ivThumbnail)
                         }
                     }
                 } else {
-                    Picasso.get().load(demonstrationTitle.youtubeThumbnailUrl).into((binding as ProfileDemonstrationListItemBinding).ivThumbnail)
+                    Picasso.get().load(demonstrationTitle.youtubeThumbnailUrl).into(binding.ivThumbnail)
                 }
             }
 
@@ -52,33 +43,16 @@ class ProfileDemonstrationListAdapter(
                 mainNavController.navigate(MainFragmentDirections.actionGlobalDemonstrationPageFragment(demonstrationTitle.id))
             }
 
-            (binding as ProfileDemonstrationListItemBinding).tvTitle.text = demonstrationTitle.title
+            binding.tvTitle.text = demonstrationTitle.title
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val binding = when (this.viewType) {
-            ViewType.TRENDING -> TrendingDemonstrationListItemBinding.inflate(
+        val binding = ProfileDemonstrationListItemBinding.inflate(
                 LayoutInflater.from(
                     viewGroup.context
                 ), viewGroup, false
             )
-            ViewType.MOST_ACTIVE -> MostActiveTodayDemonstrationListItemBinding.inflate(
-                LayoutInflater.from(viewGroup.context),
-                viewGroup,
-                false
-            )
-            ViewType.RECOMMENDED -> RecommendedDemonstrationListItemBinding.inflate(
-                LayoutInflater.from(
-                    viewGroup.context
-                ), viewGroup, false
-            )
-            ViewType.PROFILE -> ProfileDemonstrationListItemBinding.inflate(
-                LayoutInflater.from(
-                    viewGroup.context
-                ), viewGroup, false
-            )
-        }
 
         return ViewHolder(binding)
     }

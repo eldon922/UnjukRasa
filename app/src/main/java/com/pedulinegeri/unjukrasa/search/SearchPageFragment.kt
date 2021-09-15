@@ -12,7 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentSearchPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.Demonstration
+import com.pedulinegeri.unjukrasa.home.MostRecentCreatedDemonstrationListAdapter
 
 
 class SearchPageFragment : Fragment() {
@@ -20,7 +21,7 @@ class SearchPageFragment : Fragment() {
     private var _binding: FragmentSearchPageBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var resultDemonstrationListAdapter: DemonstrationListAdapter
+    private lateinit var resultDemonstrationListAdapter: MostRecentCreatedDemonstrationListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,9 +53,7 @@ class SearchPageFragment : Fragment() {
     }
 
     private fun setupResult() {
-        resultDemonstrationListAdapter = DemonstrationListAdapter(
-            arrayListOf(),
-            DemonstrationListAdapter.ViewType.RECOMMENDED,
+        resultDemonstrationListAdapter = MostRecentCreatedDemonstrationListAdapter(
             findNavController()
         )
 
@@ -66,7 +65,7 @@ class SearchPageFragment : Fragment() {
 
     private fun setupSearchEngine() {
         binding.etSearch.addTextChangedListener {
-            resultDemonstrationListAdapter.addDemonstration("abcde")
+            resultDemonstrationListAdapter.addDemonstration(Demonstration())
         }
 
         binding.etSearch.requestFocus()

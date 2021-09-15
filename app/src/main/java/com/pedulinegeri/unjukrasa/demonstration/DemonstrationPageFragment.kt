@@ -3,6 +3,7 @@ package com.pedulinegeri.unjukrasa.demonstration
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Html
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -74,6 +75,7 @@ class DemonstrationPageFragment : Fragment() {
         val docRef = db.collection("demonstrations").document(args.id)
         docRef.get().addOnSuccessListener {
             demonstration = it?.toObject<Demonstration>()!!
+            demonstration.id = args.id
 
             binding.tvTitle.text = demonstration.title
 
@@ -83,7 +85,7 @@ class DemonstrationPageFragment : Fragment() {
             setupImages()
             setupChips()
             setupPerson()
-            setupDescription()
+            binding.tvDescription.text = Html.fromHtml(demonstration.description)
             setupProgress()
         }.addOnFailureListener {
             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
@@ -94,7 +96,7 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupPerson() {
-        personListAdapter = PersonListAdapter(findNavController(), authViewModel.uid)
+        personListAdapter = PersonListAdapter(findNavController())
 
         binding.rvPerson.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -128,7 +130,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         val imageRef =
-            Firebase.storage.reference.child("demonstration_image/${args.id}/${demonstration.initiatorUid}")
+            Firebase.storage.reference.child("demonstration_image/${demonstration.id}/${demonstration.initiatorUid}")
 
         imageRef.listAll().addOnSuccessListener {
             it.items.forEach {
@@ -154,7 +156,7 @@ class DemonstrationPageFragment : Fragment() {
             when (it.itemId) {
                 R.id.action_edit -> {
                     findNavController().navigate(
-                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(args.id)
+                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(demonstration.id)
                     )
                 }
                 R.id.action_cancel_participate -> {
@@ -167,7 +169,7 @@ class DemonstrationPageFragment : Fragment() {
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             val data = hashMapOf(
                                 "action" to "participation",
-                                "demonstrationId" to args.id
+                                "demonstrationId" to demonstration.id
                             )
 
                             Firebase.functions("asia-southeast2")
@@ -199,7 +201,7 @@ class DemonstrationPageFragment : Fragment() {
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             val data = hashMapOf(
                                 "action" to "upvote",
-                                "demonstrationId" to args.id
+                                "demonstrationId" to demonstration.id
                             )
 
                             Firebase.functions("asia-southeast2")
@@ -224,7 +226,7 @@ class DemonstrationPageFragment : Fragment() {
                 R.id.action_cancel_downvote -> {
                     val data = hashMapOf(
                         "action" to "downvote",
-                        "demonstrationId" to args.id
+                        "demonstrationId" to demonstration.id
                     )
 
                     Firebase.functions("asia-southeast2")
@@ -277,17 +279,17 @@ class DemonstrationPageFragment : Fragment() {
     private fun updateUserData() {
         val db = Firebase.firestore
         val docRef = db.collection("users").document(authViewModel.uid)
-        userSnapshotListener = docRef.addSnapshotListener { snapshot, e ->
-            val user = snapshot?.toObject<User>()!!
-            hasAction = !(args.id in user.participation
-                    || args.id in user.upvote
-                    || args.id in user.downvote)
+        userSnapshotListener = docRef.addSnapshotListener { document, e ->
+            val user = document?.toObject<User>()!!
+            hasAction = !(demonstration.id in user.participation
+                    || demonstration.id in user.upvote
+                    || demonstration.id in user.downvote)
             setupEditMode()
 
             binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
-            when (args.id) {
+            when (demonstration.id) {
                 in user.participation -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
                 }
@@ -318,7 +320,7 @@ class DemonstrationPageFragment : Fragment() {
     private fun setupProgress() {
         progressInitialized = true
 
-        progressListAdapter = ProgressListAdapter(findNavController(), args.id, authViewModel.uid, authViewModel.name)
+        progressListAdapter = ProgressListAdapter(findNavController(), demonstration.id, authViewModel.uid, authViewModel.name)
 
         binding.rvProgress.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -330,7 +332,7 @@ class DemonstrationPageFragment : Fragment() {
         )
 
         binding.cvAddProgress.setOnClickListener {
-            findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(args.id, progressListAdapter.itemCount))
+            findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(demonstration.id, progressListAdapter.itemCount))
         }
 
         if (!editMode && progressListAdapter.itemCount == 0) binding.tvProgress.visibility = View.GONE
@@ -356,14 +358,14 @@ class DemonstrationPageFragment : Fragment() {
         binding.fabParticipate.setOnClickListener {
             val data = hashMapOf(
                 "action" to "participation",
-                "demonstrationId" to args.id
+                "demonstrationId" to demonstration.id
             )
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
                         findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
-                            SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime), SimpleDateFormat("hh:mm aa").format(demonstration.datetime), demonstration.location, args.id))
+                            SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime), SimpleDateFormat("hh:mm aa").format(demonstration.datetime), demonstration.location, demonstration.id))
                         binding.chipParticipant.text =
                             "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
                     } else {
@@ -388,7 +390,7 @@ class DemonstrationPageFragment : Fragment() {
 
             val data = hashMapOf(
                 "action" to "share",
-                "demonstrationId" to args.id
+                "demonstrationId" to demonstration.id
             )
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
@@ -397,7 +399,7 @@ class DemonstrationPageFragment : Fragment() {
         binding.fabUpvote.setOnClickListener {
             val data = hashMapOf(
                 "action" to "upvote",
-                "demonstrationId" to args.id
+                "demonstrationId" to demonstration.id
             )
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
@@ -420,7 +422,7 @@ class DemonstrationPageFragment : Fragment() {
         binding.fabDownvote.setOnClickListener {
             val data = hashMapOf(
                 "action" to "downvote",
-                "demonstrationId" to args.id
+                "demonstrationId" to demonstration.id
             )
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
@@ -457,7 +459,8 @@ class DemonstrationPageFragment : Fragment() {
 
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.PARTICIPANT
+                    ParticipationListBottomSheetDialog.TypeList.PARTICIPANT,
+                    demonstration.id
                 )
             )
         }
@@ -470,7 +473,8 @@ class DemonstrationPageFragment : Fragment() {
 
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.UPVOTE
+                    ParticipationListBottomSheetDialog.TypeList.UPVOTE,
+                    demonstration.id
                 )
             )
         }
@@ -483,7 +487,8 @@ class DemonstrationPageFragment : Fragment() {
 
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.DOWNVOTE
+                    ParticipationListBottomSheetDialog.TypeList.DOWNVOTE,
+                    demonstration.id
                 )
             )
         }
@@ -496,18 +501,11 @@ class DemonstrationPageFragment : Fragment() {
 
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.SHARE
+                    ParticipationListBottomSheetDialog.TypeList.SHARE,
+                    demonstration.id
                 )
             )
         }
-    }
-
-    private fun setupDescription() {
-        binding.reDescription.setEditorFontSize(16)
-        binding.reDescription.setEditorFontColor(binding.tvTitle.currentTextColor)
-        binding.reDescription.setEditorBackgroundColor(binding.root.solidColor)
-        binding.reDescription.setInputEnabled(false)
-        binding.reDescription.html = demonstration.description
     }
 
     override fun onDestroyView() {

@@ -16,8 +16,7 @@ import com.squareup.picasso.Picasso
 
 
 class PersonListAdapter(
-    private val mainNavController: NavController,
-    private val uid: String
+    private val mainNavController: NavController
 ) :
     RecyclerView.Adapter<PersonListAdapter.ViewHolder>() {
 
@@ -32,7 +31,7 @@ class PersonListAdapter(
             binding.textView7.text = person.uid
 
             val imageRef =
-                Firebase.storage.reference.child("profile_picture/$uid.png")
+                Firebase.storage.reference.child("profile_picture/${person.uid}.png")
 
             imageRef.downloadUrl.addOnSuccessListener {
                 Picasso.get().load(it).into(binding.ivPerson)

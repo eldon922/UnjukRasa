@@ -7,14 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
-import com.pedulinegeri.unjukrasa.demonstration.DemonstrationListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.Demonstration
 
 class HomePageFragment : Fragment() {
 
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var trendingDemonstrationListAdapter: TrendingDemonstrationListAdapter
+    private lateinit var mostUpvotedDemonstrationListAdapter: MostUpvotedDemonstrationListAdapter
+    private lateinit var mostRecentCreatedDemonstrationListAdapter: MostRecentCreatedDemonstrationListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,38 +36,87 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupTrendingListDemonstration()
+        setupMostVotedListDemonstration()
+        setupMostRecentCreatedListDemonstration()
+    }
+
+    private fun setupTrendingListDemonstration() {
+        trendingDemonstrationListAdapter = TrendingDemonstrationListAdapter(
+            requireActivity().findNavController(
+                R.id.nav_host_container_main
+            )
+        )
+
         binding.rvTrending.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(
-                arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"),
-                DemonstrationListAdapter.ViewType.TRENDING,
-                requireActivity().findNavController(
-                    R.id.nav_host_container_main
-                )
-            )
+            this.adapter = trendingDemonstrationListAdapter
         }
 
-        binding.rvMostActiveToday.apply {
+        val db = Firebase.firestore
+        val collectionRef = db.collection("demonstrations")
+
+        collectionRef.orderBy("numberOfAction", Query.Direction.DESCENDING).limit(10).get()
+            .addOnSuccessListener {
+                for (document in it!!.documents) {
+                    val demonstration = document?.toObject<Demonstration>()!!
+                    demonstration.id = document.id
+
+                    trendingDemonstrationListAdapter.addDemonstration(demonstration)
+                }
+            }
+    }
+
+    private fun setupMostVotedListDemonstration() {
+        mostUpvotedDemonstrationListAdapter = MostUpvotedDemonstrationListAdapter(
+            requireActivity().findNavController(
+                R.id.nav_host_container_main
+            )
+        )
+
+        binding.rvMostUpvoted.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = DemonstrationListAdapter(
-                arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"),
-                DemonstrationListAdapter.ViewType.MOST_ACTIVE,
-                requireActivity().findNavController(
-                    R.id.nav_host_container_main
-                )
-            )
+            this.adapter = mostUpvotedDemonstrationListAdapter
         }
 
-        binding.rvRecommended.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = DemonstrationListAdapter(
-                arrayListOf("abcde", "abcde", "abcde", "abcde", "abcde", "abcde"),
-                DemonstrationListAdapter.ViewType.RECOMMENDED,
-                requireActivity().findNavController(
-                    R.id.nav_host_container_main
-                )
+        val db = Firebase.firestore
+        val collectionRef = db.collection("demonstrations")
+
+        collectionRef.orderBy("upvote", Query.Direction.DESCENDING).limit(10).get()
+            .addOnSuccessListener {
+                for (document in it!!.documents) {
+                    val demonstration = document?.toObject<Demonstration>()!!
+                    demonstration.id = document.id
+
+                    mostUpvotedDemonstrationListAdapter.addDemonstration(demonstration)
+                }
+            }
+    }
+
+    private fun setupMostRecentCreatedListDemonstration() {
+        mostRecentCreatedDemonstrationListAdapter = MostRecentCreatedDemonstrationListAdapter(
+            requireActivity().findNavController(
+                R.id.nav_host_container_main
             )
+        )
+
+        binding.rvMostRecentCreated.apply {
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.adapter = mostRecentCreatedDemonstrationListAdapter
         }
+
+        val db = Firebase.firestore
+        val collectionRef = db.collection("demonstrations")
+
+        collectionRef.orderBy("creationDate", Query.Direction.DESCENDING).limit(10).get()
+            .addOnSuccessListener {
+                for (document in it!!.documents) {
+                    val demonstration = document?.toObject<Demonstration>()!!
+                    demonstration.id = document.id
+
+                    mostRecentCreatedDemonstrationListAdapter.addDemonstration(demonstration)
+                }
+            }
     }
 
     override fun onDestroyView() {
