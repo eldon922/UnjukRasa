@@ -81,7 +81,27 @@ class DemonstrationPageFragment : Fragment() {
 
             setupFab()
             setupEditMode()
-            updateUserData()
+            authViewModel.isSignedIn.observe(viewLifecycleOwner, {
+                if (it) {
+                    updateUserData()
+                } else {
+                    binding.fabParticipate.setOnClickListener {
+                        findNavController().navigate(
+                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
+                        )
+                    }
+                    binding.fabUpvote.setOnClickListener {
+                        findNavController().navigate(
+                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
+                        )
+                    }
+                    binding.fabDownvote.setOnClickListener {
+                        findNavController().navigate(
+                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
+                        )
+                    }
+                }
+            })
             setupImages()
             setupChips()
             setupPerson()
@@ -156,7 +176,9 @@ class DemonstrationPageFragment : Fragment() {
             when (it.itemId) {
                 R.id.action_edit -> {
                     findNavController().navigate(
-                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(demonstration.id)
+                        DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(
+                            demonstration.id
+                        )
                     )
                 }
                 R.id.action_cancel_participate -> {
@@ -270,7 +292,7 @@ class DemonstrationPageFragment : Fragment() {
             } else {
                 binding.fabUpvote.show()
                 binding.fabDownvote.show()
-                if(demonstration.road_protests) binding.fabParticipate.show()
+                if (demonstration.road_protests) binding.fabParticipate.show()
             }
         }
         binding.fabShare.show()
@@ -314,13 +336,20 @@ class DemonstrationPageFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        userSnapshotListener.remove()
+        if (this::userSnapshotListener.isInitialized) {
+            userSnapshotListener.remove()
+        }
     }
 
     private fun setupProgress() {
         progressInitialized = true
 
-        progressListAdapter = ProgressListAdapter(findNavController(), demonstration.id, authViewModel.uid, authViewModel.name)
+        progressListAdapter = ProgressListAdapter(
+            findNavController(),
+            demonstration.id,
+            demonstration.persons[0].uid,
+            demonstration.persons[0].name
+        )
 
         binding.rvProgress.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -332,10 +361,16 @@ class DemonstrationPageFragment : Fragment() {
         )
 
         binding.cvAddProgress.setOnClickListener {
-            findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(demonstration.id, progressListAdapter.itemCount))
+            findNavController().navigate(
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(
+                    demonstration.id,
+                    progressListAdapter.itemCount
+                )
+            )
         }
 
-        if (!editMode && progressListAdapter.itemCount == 0) binding.tvProgress.visibility = View.GONE
+        if (!editMode && progressListAdapter.itemCount == 0) binding.tvProgress.visibility =
+            View.GONE
     }
 
     private fun setupFab() {
@@ -349,7 +384,7 @@ class DemonstrationPageFragment : Fragment() {
                 if (!editMode && hasAction) {
                     binding.fabUpvote.show()
                     binding.fabDownvote.show()
-                    if(demonstration.road_protests) binding.fabParticipate.show()
+                    if (demonstration.road_protests) binding.fabParticipate.show()
                 }
                 binding.fabShare.show()
             }
@@ -364,8 +399,14 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        findNavController().navigate(DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
-                            SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime), SimpleDateFormat("hh:mm aa").format(demonstration.datetime), demonstration.location, demonstration.id))
+                        findNavController().navigate(
+                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
+                                SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime),
+                                SimpleDateFormat("hh:mm aa").format(demonstration.datetime),
+                                demonstration.location,
+                                demonstration.id
+                            )
+                        )
                         binding.chipParticipant.text =
                             "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
                     } else {

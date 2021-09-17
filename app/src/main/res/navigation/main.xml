@@ -90,6 +90,14 @@
                 app:argType="string" />
         </action>
         <action
+            android:id="@+id/action_demonstrationPageFragment_to_navigation_login_page"
+            app:destination="@id/navigation_login_page"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right">
+        </action>
+        <action
             android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
         <action
@@ -147,6 +155,7 @@
     </fragment>
 
     <include app:graph="@navigation/profile_page" />
+    <include app:graph="@navigation/login_page" />
 
     <dialog
         android:id="@+id/participateBottomSheetDialog"

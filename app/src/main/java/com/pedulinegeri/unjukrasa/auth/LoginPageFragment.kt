@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentLoginPageBinding
 
@@ -37,11 +37,15 @@ class LoginPageFragment : Fragment() {
             docRef.get()
                 .addOnSuccessListener {
                     if (!it.exists()) {
-                        requireActivity().findNavController(R.id.nav_host_container_main)
-                            .navigate(R.id.action_main_screen_to_signUpPageFragment)
+                        if (findNavController().previousBackStackEntry?.destination?.id == R.id.demonstrationPageFragment) {
+                            requireActivity().findNavController(R.id.nav_host_container_main)
+                                .navigate(R.id.action_loginPageFragment_to_signUpPageFragment)
+                        } else {
+                            requireActivity().findNavController(R.id.nav_host_container_main)
+                                .navigate(R.id.action_main_screen_to_signUpPageFragment)
+                        }
                     } else {
                         authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
-                        ProcessPhoenix.triggerRebirth(requireContext())
                     }
                 }.addOnFailureListener {
                     Toast.makeText(
@@ -65,11 +69,25 @@ class LoginPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.btnLogin.setOnClickListener { setupAuth() }
 
         if (!authLaunched) {
             setupAuth()
         }
+
+        if (findNavController().previousBackStackEntry?.destination?.id == R.id.demonstrationPageFragment) {
+            binding.appbar.visibility = View.VISIBLE
+        }
+
+        authViewModel.isSignedIn.observe(viewLifecycleOwner, {
+            if (it) {
+                requireActivity().onBackPressed()
+            }
+        })
     }
 
     private fun setupAuth() {

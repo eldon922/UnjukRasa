@@ -3,6 +3,8 @@ package com.pedulinegeri.unjukrasa.auth
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +19,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.databinding.FragmentSignUpPageBinding
 import com.squareup.picasso.Picasso
-import android.text.TextUtils
-import android.util.Patterns
 
 
 class SignUpPageFragment : Fragment() {
@@ -81,7 +80,8 @@ class SignUpPageFragment : Fragment() {
                         .set(userData)
                         .addOnSuccessListener {
                             authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
-                            ProcessPhoenix.triggerRebirth(requireContext())
+                            onBackPressedCallback.remove()
+                            requireActivity().onBackPressed()
                         }
                         .addOnFailureListener {
                             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")

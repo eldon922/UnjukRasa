@@ -9,5 +9,13 @@
         android:id="@+id/login_page_screen"
         android:name="com.pedulinegeri.unjukrasa.auth.LoginPageFragment"
         android:label="Halaman Masuk"
-        tools:layout="@layout/fragment_login_page" />
+        tools:layout="@layout/fragment_login_page">
+        <action
+            android:id="@+id/action_loginPageFragment_to_signUpPageFragment"
+            app:destination="@id/signUpPageFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

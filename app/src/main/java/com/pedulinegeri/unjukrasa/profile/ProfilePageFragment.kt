@@ -83,7 +83,7 @@ class ProfilePageFragment : Fragment() {
         super.onResume()
 
         val db = Firebase.firestore
-        val docRef = db.collection("users").document(authViewModel.uid)
+        val docRef = db.collection("users").document(uid)
         userSnapshotListener = docRef.addSnapshotListener { snapshot, e ->
             val user = snapshot?.toObject<User>()!!
             binding.tvName.text = user.name

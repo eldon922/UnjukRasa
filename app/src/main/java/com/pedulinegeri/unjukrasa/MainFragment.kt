@@ -18,7 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -166,7 +165,7 @@ class MainFragment : Fragment() {
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
-                        ProcessPhoenix.triggerRebirth(requireContext())
+                        Toast.makeText(requireContext(), "Kamu sudah keluar dari akunmu.", Toast.LENGTH_LONG).show()
                     }
                 }
                 resources.getString(R.string.pengaturan) -> {
