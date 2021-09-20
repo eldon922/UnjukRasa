@@ -43,19 +43,10 @@
                     android:focusable="false"
                     android:hint="Apa yang kamu keluhkan?"
                     android:paddingStart="20dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/notification_button"
-                    app:layout_constraintStart_toEndOf="@id/ham_icon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/notification_button"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingHorizontal="15dp"
-                    android:src="@drawable/ic_notifications_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ham_icon"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>

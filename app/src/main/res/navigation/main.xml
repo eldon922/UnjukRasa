@@ -11,13 +11,6 @@
         android:label="Menu Utama"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_main_screen_to_navigation_notification_page"
-            app:destination="@id/notificationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_main_screen_to_navigation_new_demonstration_page"
             app:destination="@id/newDemonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
@@ -52,12 +45,6 @@
         android:name="com.pedulinegeri.unjukrasa.auth.SignUpPageFragment"
         android:label="fragment_sign_up_page"
         tools:layout="@layout/fragment_sign_up_page" />
-
-    <fragment
-        android:id="@+id/notificationPageFragment"
-        android:name="com.pedulinegeri.unjukrasa.notification.NotificationPageFragment"
-        android:label="fragment_notification_page"
-        tools:layout="@layout/fragment_notification_page" />
 
     <fragment
         android:id="@+id/newDemonstrationPageFragment"
