@@ -87,14 +87,8 @@
             android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_addPersonBottomSheetDialog"
-            app:destination="@id/addPersonBottomSheetDialog" />
-        <action
             android:id="@+id/action_demonstrationPageFragment_to_participationListBottomSheetDialog"
             app:destination="@id/participationListBottomSheetDialog" />
-        <action
-            android:id="@+id/action_demonstrationPageFragment_to_removePersonBottomSheetDialog"
-            app:destination="@id/removePersonBottomSheetDialog" />
         <argument
             android:name="id"
             android:defaultValue="0"
@@ -165,11 +159,6 @@
     </dialog>
 
     <dialog
-        android:id="@+id/addPersonBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.person.AddPersonBottomSheetDialog"
-        android:label="AddPersonBottomSheetDialog" />
-
-    <dialog
         android:id="@+id/participationListBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog"
         android:label="ParticipationListBottomSheetDialog">
@@ -200,11 +189,6 @@
             android:name="uri"
             app:argType="string" />
     </dialog>
-
-    <dialog
-        android:id="@+id/removePersonBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.person.RemovePersonBottomSheetDialog"
-        android:label="RemovePersonBottomSheetDialog" />
 
     <action
         android:id="@+id/action_global_demonstrationPageFragment"
