@@ -95,8 +95,7 @@
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right">
-        </action>
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
@@ -111,8 +110,8 @@
             app:destination="@id/removePersonBottomSheetDialog" />
         <argument
             android:name="id"
-            app:argType="string"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="string" />
         <action
             android:id="@+id/action_demonstrationPageFragment_to_editDemonstrationPageFragment"
             app:destination="@id/editDemonstrationPageFragment"
@@ -120,6 +119,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="unjukrasa.com/demonstration/{id}" />
     </fragment>
 
     <fragment

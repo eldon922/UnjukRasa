@@ -422,7 +422,7 @@ class DemonstrationPageFragment : Fragment() {
         binding.fabShare.setOnClickListener {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                putExtra(Intent.EXTRA_TEXT, "unjukrasa.com/demonstration/${demonstration.id}")
                 type = "text/plain"
             }
 
