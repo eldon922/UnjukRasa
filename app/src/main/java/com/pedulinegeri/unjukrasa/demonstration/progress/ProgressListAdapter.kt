@@ -1,10 +1,9 @@
 package com.pedulinegeri.unjukrasa.demonstration.progress
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
@@ -16,7 +15,12 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 
 
-class ProgressListAdapter(private val navController: NavController, private val demonstrationId: String, private val uid: String, private val username: String) :
+class ProgressListAdapter(
+    private val navController: NavController,
+    private val demonstrationId: String,
+    private val uid: String,
+    private val username: String
+) :
     RecyclerView.Adapter<ProgressListAdapter.ViewHolder>() {
 
     private var progressList = arrayListOf<Progress>()
@@ -26,7 +30,6 @@ class ProgressListAdapter(private val navController: NavController, private val 
 
         fun bind(progress: Progress) {
             binding.tvName.text = username
-            binding.textView7.text = uid
             binding.tvDate.text = SimpleDateFormat("dd MMM yyyy").format(progress.creationDate)
             binding.tvTime.text = SimpleDateFormat("hh:mm aa").format(progress.creationDate)
 
@@ -39,11 +42,7 @@ class ProgressListAdapter(private val navController: NavController, private val 
                 Picasso.get().load(R.drawable.no_img).into(binding.ivPerson)
             }
 
-            binding.reContent.setEditorFontSize(16)
-            binding.reContent.setEditorFontColor(binding.textView7.currentTextColor)
-            binding.reContent.setEditorBackgroundColor(binding.root.solidColor)
-            binding.reContent.setInputEnabled(false)
-            binding.reContent.html = progress.description
+            binding.tvContent.text = Html.fromHtml(progress.description)
 
             val adapter = DemonstrationImageAdapter(navController)
             binding.vpImages.adapter = adapter

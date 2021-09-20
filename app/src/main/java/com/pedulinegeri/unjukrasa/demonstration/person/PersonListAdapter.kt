@@ -32,7 +32,6 @@ class PersonListAdapter(
                 binding.chipRole.visibility = View.GONE
             }
             binding.tvName.text = person.name
-            binding.textView7.text = person.uid
 
             val imageRef =
                 Firebase.storage.reference.child("profile_picture/${person.uid}.png")
