@@ -161,7 +161,11 @@ class MainFragment : Fragment() {
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
-                        Toast.makeText(requireContext(), "Kamu sudah keluar dari akunmu.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Kamu sudah keluar dari akunmu.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 resources.getString(R.string.pengaturan) -> {

@@ -16,9 +16,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -216,7 +214,8 @@ class NewDemonstrationPageFragment : Fragment() {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Mulai Unjuk Rasa")
                     .setMessage(
-                        "Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                        "Apakah kamu yakin ingin memulai unjuk rasa ini? Tekan cancel untuk mengubah data kembali"
+                    )
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         submit()
@@ -277,7 +276,8 @@ class NewDemonstrationPageFragment : Fragment() {
                 if (binding.cbRoadProtests.isChecked) {
                     val imageRef =
                         Firebase.storage.reference.child("/police_permit_image/${it.id}/${authViewModel.uid}.png")
-                    val uploadTask = imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
+                    val uploadTask =
+                        imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
 
                     uploadTask.addOnFailureListener {
                         toast.setText("Unggah foto ijik kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")

@@ -60,16 +60,18 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun setupContent() {
-        binding.tvDescription.text = Html.fromHtml("<ul style='padding-left: 1.2em'>\n" +
-                "<li>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:\n" +
-                "<ul>\n" +
-                "<li>Tanggal : ${args.date}</li>\n" +
-                "<li>Pukul : ${args.time}</li>\n" +
-                "<li>Tempat : ${args.location}</li>\n" +
-                "</ul>\n" +
-                "</li>\n" +
-                "<li>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian.</li>\n" +
-                "</ul>")
+        binding.tvDescription.text = Html.fromHtml(
+            "<ul style='padding-left: 1.2em'>\n" +
+                    "<li>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:\n" +
+                    "<ul>\n" +
+                    "<li>Tanggal : ${args.date}</li>\n" +
+                    "<li>Pukul : ${args.time}</li>\n" +
+                    "<li>Tempat : ${args.location}</li>\n" +
+                    "</ul>\n" +
+                    "</li>\n" +
+                    "<li>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian.</li>\n" +
+                    "</ul>"
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

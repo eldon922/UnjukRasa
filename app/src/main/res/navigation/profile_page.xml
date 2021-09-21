@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_profile_page">
         <argument
             android:name="userUID"
-            app:argType="string"
-            android:defaultValue=""/>
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 </navigation>

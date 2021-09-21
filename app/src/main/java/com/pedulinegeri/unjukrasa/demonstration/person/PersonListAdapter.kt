@@ -26,7 +26,7 @@ class PersonListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
-            if (person.role.isNotBlank()){
+            if (person.role.isNotBlank()) {
                 binding.chipRole.text = person.role
             } else {
                 binding.chipRole.visibility = View.GONE

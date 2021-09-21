@@ -275,8 +275,7 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupEditMode() {
-//        TODO DEV
-        editMode = false
+        editMode = demonstration.initiatorUid == authViewModel.uid
 
         if (editMode) {
             binding.fabUpvote.hide()

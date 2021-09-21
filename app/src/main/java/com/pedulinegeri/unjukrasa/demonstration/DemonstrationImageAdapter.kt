@@ -41,7 +41,11 @@ class DemonstrationImageAdapter(
 
                 Picasso.get().load(uri).into(binding.ivDemonstration)
                 binding.ivDemonstration.setOnClickListener {
-                    navController.navigate(MainFragmentDirections.actionGlobalImageZoomBottomSheetDialog(uri))
+                    navController.navigate(
+                        MainFragmentDirections.actionGlobalImageZoomBottomSheetDialog(
+                            uri
+                        )
+                    )
                 }
             }
         }

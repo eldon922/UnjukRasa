@@ -76,28 +76,28 @@
 
                 <EditText
                     android:id="@+id/et_youtube_video"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
                 android:hint="Judul"
+                app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
                 <EditText
                     android:id="@+id/et_title"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -110,11 +110,11 @@
 
                 <EditText
                     android:id="@+id/et_to"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
@@ -130,18 +130,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Waktu"
-                app:errorEnabled="true"
                 android:visibility="gone"
+                app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/cb_road_protests">
 
                 <EditText
                     android:id="@+id/et_time"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -149,18 +149,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lokasi"
-                app:errorEnabled="true"
                 android:visibility="gone"
+                app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/til_time">
 
                 <EditText
                     android:id="@+id/et_location"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -199,12 +199,12 @@
 
                 <EditText
                     android:id="@+id/et_police_permit"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View

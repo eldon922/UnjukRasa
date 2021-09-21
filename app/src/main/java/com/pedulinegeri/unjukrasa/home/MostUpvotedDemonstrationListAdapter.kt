@@ -3,10 +3,8 @@ package com.pedulinegeri.unjukrasa.home
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.MainFragmentDirections
@@ -56,7 +54,7 @@ class MostUpvotedDemonstrationListAdapter(
 
             binding.tvTitle.text = demonstration.title
             binding.tvDescription.text = Html.fromHtml(demonstration.description)
-            binding.tvNumber.text = (absoluteAdapterPosition+1).toString()
+            binding.tvNumber.text = (absoluteAdapterPosition + 1).toString()
         }
     }
 

@@ -1,11 +1,7 @@
 package com.pedulinegeri.unjukrasa.new_demonstration
 
 import com.google.firebase.firestore.ServerTimestamp
-import com.google.type.DateTime
-import com.pedulinegeri.unjukrasa.demonstration.person.Person
-import com.pedulinegeri.unjukrasa.demonstration.progress.Progress
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class DemonstrationData(
     val initiatorUid: String = "",

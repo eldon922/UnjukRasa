@@ -10,7 +10,7 @@ import com.pedulinegeri.unjukrasa.databinding.NewImageOrVideoItemBinding
 
 class NewDemonstrationImageAdapter :
     RecyclerView.Adapter<NewDemonstrationImageAdapter.ViewHolder>() {
-    
+
     val imagesUri = arrayListOf<Uri>()
 
     inner class ViewHolder(private val binding: NewImageOrVideoItemBinding) :

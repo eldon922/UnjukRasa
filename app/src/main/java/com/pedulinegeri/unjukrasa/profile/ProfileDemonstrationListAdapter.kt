@@ -35,12 +35,17 @@ class ProfileDemonstrationListAdapter(
                         }
                     }
                 } else {
-                    Picasso.get().load(demonstrationTitle.youtubeThumbnailUrl).into(binding.ivThumbnail)
+                    Picasso.get().load(demonstrationTitle.youtubeThumbnailUrl)
+                        .into(binding.ivThumbnail)
                 }
             }
 
             binding.root.setOnClickListener {
-                mainNavController.navigate(MainFragmentDirections.actionGlobalDemonstrationPageFragment(demonstrationTitle.id))
+                mainNavController.navigate(
+                    MainFragmentDirections.actionGlobalDemonstrationPageFragment(
+                        demonstrationTitle.id
+                    )
+                )
             }
 
             binding.tvTitle.text = demonstrationTitle.title
@@ -49,10 +54,10 @@ class ProfileDemonstrationListAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding = ProfileDemonstrationListItemBinding.inflate(
-                LayoutInflater.from(
-                    viewGroup.context
-                ), viewGroup, false
-            )
+            LayoutInflater.from(
+                viewGroup.context
+            ), viewGroup, false
+        )
 
         return ViewHolder(binding)
     }

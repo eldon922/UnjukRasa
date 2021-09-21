@@ -50,8 +50,7 @@
         android:id="@+id/newDemonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
         android:label="fragment_new_demonstration_page"
-        tools:layout="@layout/fragment_new_demonstration_page">
-    </fragment>
+        tools:layout="@layout/fragment_new_demonstration_page"></fragment>
 
     <fragment
         android:id="@+id/demonstrationPageFragment"
@@ -109,7 +108,7 @@
         android:id="@+id/addProgressPageFragment"
         android:name="com.pedulinegeri.unjukrasa.demonstration.progress.AddProgressPageFragment"
         android:label="AddProgressPageFragment"
-        tools:layout="@layout/fragment_add_progress_page" >
+        tools:layout="@layout/fragment_add_progress_page">
         <argument
             android:name="demonstrationId"
             app:argType="string" />
@@ -143,7 +142,7 @@
     <dialog
         android:id="@+id/participateBottomSheetDialog"
         android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
-        android:label="ParticipateBottomSheetDialog" >
+        android:label="ParticipateBottomSheetDialog">
         <argument
             android:name="date"
             app:argType="string" />

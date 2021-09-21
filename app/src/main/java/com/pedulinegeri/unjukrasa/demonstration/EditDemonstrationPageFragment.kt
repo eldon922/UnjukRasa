@@ -206,7 +206,8 @@ class EditDemonstrationPageFragment : Fragment() {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Ubah Unjuk Rasa")
                     .setMessage(
-                        "Apakah kamu yakin ingin mengubah unjuk rasa ini? Tekan cancel untuk mengubah data kembali")
+                        "Apakah kamu yakin ingin mengubah unjuk rasa ini? Tekan cancel untuk mengubah data kembali"
+                    )
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         submit()
@@ -233,7 +234,8 @@ class EditDemonstrationPageFragment : Fragment() {
             demonstrationData["location"] = binding.etLocation.text.toString()
         }
 
-        db.collection("demonstrations").document(args.id).update(demonstrationData as Map<String, Any>)
+        db.collection("demonstrations").document(args.id)
+            .update(demonstrationData as Map<String, Any>)
             .addOnSuccessListener {
                 toast.setText("Unjuk rasa berhasil diubah. Terima kasih.")
                 toast.show()
