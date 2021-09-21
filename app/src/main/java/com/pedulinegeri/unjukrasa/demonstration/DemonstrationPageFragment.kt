@@ -282,8 +282,8 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabDownvote.hide()
             binding.fabParticipate.hide()
             binding.toolbar.menu.setGroupVisible(R.id.edit_mode, true)
+            binding.cvAddProgress.visibility = View.VISIBLE
         } else {
-            binding.cvAddProgress.visibility = View.GONE
             if (!hasAction) {
                 binding.fabUpvote.hide()
                 binding.fabDownvote.hide()
@@ -360,12 +360,17 @@ class DemonstrationPageFragment : Fragment() {
         )
 
         binding.cvAddProgress.setOnClickListener {
-            findNavController().navigate(
-                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(
-                    demonstration.id,
-                    progressListAdapter.itemCount
+            if (demonstration.progress.size < 6) {
+                findNavController().navigate(
+                    DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToAddProgressPageFragment(
+                        demonstration.id,
+                        progressListAdapter.itemCount
+                    )
                 )
-            )
+            } else {
+                toast.setText("Perkembangan tidak bisa lebih dari 6 buah.")
+                toast.show()
+            }
         }
 
         if (!editMode && progressListAdapter.itemCount == 0) binding.tvProgress.visibility =

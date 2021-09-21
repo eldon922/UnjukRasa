@@ -16,4 +16,8 @@
     <string name="nama">Nama</string>
     <string name="email">Email</string>
     <string name="inisiasi_unjuk_rasa">Inisiasi Unjuk Rasa</string>
+    <string name="ikut">Ikut</string>
+    <string name="dukung">Dukung</string>
+    <string name="menolak">Menolak</string>
+    <string name="membagikan">Membagikan</string>
 </resources>

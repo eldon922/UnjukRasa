@@ -87,25 +87,29 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                rvPersonListAdapter.clearPersonList()
+                if (query != null) {
+                    rvPersonListAdapter.clearPersonList()
 
                 usersRef.whereArrayContains(searchTypeQuery, args.demonstrationId)
-                    .whereEqualTo("name", query).get().addOnSuccessListener {
+                    .whereEqualTo("name", query).limit(10).get().addOnSuccessListener {
                         for (document in it!!.documents) {
                             val user = document?.toObject<User>()!!
                             rvPersonListAdapter.addPerson(Person(document.id, user.name))
                         }
 
-                        if (rvPersonListAdapter.itemCount == 0) {
-                            Toast.makeText(
-                                requireActivity().applicationContext,
-                                "Nama yang dicari tidak ada",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            if (rvPersonListAdapter.itemCount == 0) {
+                                Toast.makeText(
+                                    requireActivity().applicationContext,
+                                    "Nama yang dicari tidak ada",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
-                    }
 
-                return true
+                    return true
+                } else {
+                    return false
+                }
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
