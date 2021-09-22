@@ -1,6 +1,7 @@
 package com.pedulinegeri.unjukrasa.demonstration
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
@@ -57,6 +58,8 @@ class DemonstrationPageFragment : Fragment() {
 
     private lateinit var userSnapshotListener: ListenerRegistration
 
+    private lateinit var chipDefaultColor: ColorStateList
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,6 +71,8 @@ class DemonstrationPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        chipDefaultColor = binding.chipUpvote.chipBackgroundColor!!
 
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
@@ -310,15 +315,21 @@ class DemonstrationPageFragment : Fragment() {
             binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
+            binding.chipParticipant.chipBackgroundColor = chipDefaultColor
+            binding.chipUpvote.chipBackgroundColor = chipDefaultColor
+            binding.chipDownvote.chipBackgroundColor = chipDefaultColor
             when (demonstration.id) {
                 in user.participation -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
+                    binding.chipParticipant.setChipBackgroundColorResource(R.color.quantum_vanillagreenA700)
                 }
                 in user.upvote -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
+                    binding.chipUpvote.setChipBackgroundColorResource(R.color.quantum_vanillagreenA700)
                 }
                 in user.downvote -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
+                    binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
                 }
             }
         }
