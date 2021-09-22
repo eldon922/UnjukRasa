@@ -13,15 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentSearchPageBinding
 import com.pedulinegeri.unjukrasa.demonstration.Demonstration
-import com.pedulinegeri.unjukrasa.home.MostRecentCreatedDemonstrationListAdapter
 
 
 class SearchPageFragment : Fragment() {
 
     private var _binding: FragmentSearchPageBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var resultDemonstrationListAdapter: MostRecentCreatedDemonstrationListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,8 +40,8 @@ class SearchPageFragment : Fragment() {
             findNavController().navigate(R.id.action_searchPageFragment_to_newDemonstrationPageFragment)
         }
 
-        setupSearchEngine()
-        setupResult()
+//        setupSearchEngine()
+//        setupResult()
     }
 
     override fun onDestroyView() {
@@ -52,24 +49,24 @@ class SearchPageFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupResult() {
-        resultDemonstrationListAdapter = MostRecentCreatedDemonstrationListAdapter(
-            findNavController()
-        )
-
-        binding.rvResult.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = resultDemonstrationListAdapter
-        }
-    }
-
-    private fun setupSearchEngine() {
-        binding.etSearch.addTextChangedListener {
-            resultDemonstrationListAdapter.addDemonstration(Demonstration())
-        }
-
-        binding.etSearch.requestFocus()
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
-    }
+//    private fun setupResult() {
+//        resultDemonstrationListAdapter = MostRecentCreatedDemonstrationListAdapter(
+//            findNavController()
+//        )
+//
+//        binding.rvResult.apply {
+//            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            this.adapter = resultDemonstrationListAdapter
+//        }
+//    }
+//
+//    private fun setupSearchEngine() {
+//        binding.etSearch.addTextChangedListener {
+//            resultDemonstrationListAdapter.addDemonstration(Demonstration())
+//        }
+//
+//        binding.etSearch.requestFocus()
+//        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
+//    }
 }

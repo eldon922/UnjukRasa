@@ -22,7 +22,7 @@ class PersonListAdapter(
 
     private var personList = arrayListOf<Person>()
 
-    inner class ViewHolder(private val binding: PersonListItemBinding) :
+    class ViewHolder(private val binding: PersonListItemBinding, private val mainNavController: NavController) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
@@ -66,7 +66,7 @@ class PersonListAdapter(
         val binding =
             PersonListItemBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
-        return ViewHolder(binding)
+        return ViewHolder(binding, mainNavController)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {

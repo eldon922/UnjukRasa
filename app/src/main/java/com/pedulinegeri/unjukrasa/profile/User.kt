@@ -1,6 +1,7 @@
 package com.pedulinegeri.unjukrasa.profile
 
 data class User(
+    var id: String = "",
     val name: String = "",
     val participation: ArrayList<String> = arrayListOf(),
     val upvote: ArrayList<String> = arrayListOf(),
