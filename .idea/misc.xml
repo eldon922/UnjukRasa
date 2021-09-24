@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_notifications_24dp.xml" value="0.2846153846153846" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/background_text_overlay.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_add_circle_outline_24dp.xml" value="0.2890625" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_add_white_24dp.xml" value="0.2890625" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_create_24dp.xml" value="0.2890625" />
@@ -24,6 +25,7 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_sign_up_page.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/image_zoom_bottomsheet_layout.xml" value="0.11594202898550725" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_active_today_demonstration_list_item.xml" value="0.13677536231884058" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_recent_created_demonstration_list_item.xml" value="0.1213768115942029" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_upvoted_demonstration_list_item.xml" value="0.75" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/navigation_drawer_header.xml" value="0.13272543059777103" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/new_image_or_video_item.xml" value="0.1" />

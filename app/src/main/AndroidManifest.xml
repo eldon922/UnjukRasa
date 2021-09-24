@@ -17,7 +17,8 @@
             android:name="com.pedulinegeri.unjukrasa.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/splashScreenTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

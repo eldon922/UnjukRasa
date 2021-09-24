@@ -6,19 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.widget.addTextChangedListener
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.dsl.attributesToRetrieve
+import com.algolia.search.dsl.query
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentSearchPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.Demonstration
+import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 
 class SearchPageFragment : Fragment() {
 
     private var _binding: FragmentSearchPageBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var imm: InputMethodManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +45,8 @@ class SearchPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -40,8 +55,7 @@ class SearchPageFragment : Fragment() {
             findNavController().navigate(R.id.action_searchPageFragment_to_newDemonstrationPageFragment)
         }
 
-//        setupSearchEngine()
-//        setupResult()
+        setupSearchEngine()
     }
 
     override fun onDestroyView() {
@@ -49,24 +63,74 @@ class SearchPageFragment : Fragment() {
         _binding = null
     }
 
-//    private fun setupResult() {
-//        resultDemonstrationListAdapter = MostRecentCreatedDemonstrationListAdapter(
-//            findNavController()
-//        )
-//
-//        binding.rvResult.apply {
-//            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//            this.adapter = resultDemonstrationListAdapter
-//        }
-//    }
-//
-//    private fun setupSearchEngine() {
-//        binding.etSearch.addTextChangedListener {
-//            resultDemonstrationListAdapter.addDemonstration(Demonstration())
-//        }
-//
-//        binding.etSearch.requestFocus()
-//        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
-//    }
+    private fun setupSearchEngine() {
+        val appID = ApplicationID("SCYCUB9LCD")
+        val apiKey = APIKey("b3d99bfd89a019f83cef2fec55bcaffb")
+
+        val client = ClientSearch(appID, apiKey)
+
+        val indexName = IndexName("demonstrations")
+        val index = client.initIndex(indexName)
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(queryText: String?): Boolean {
+                imm.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
+
+                return if (queryText != null) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val result = index.search(query {
+                            query = queryText
+                            attributesToRetrieve {
+                                +"color"
+                                +"category"
+                            }
+                        })
+
+                        val demonstrationTitleList = arrayListOf<DemonstrationTitle>()
+                        for (hit in result.hits) {
+                            val jsonObject = hit.json["_highlightResult"]!!
+                            demonstrationTitleList.add(
+                                DemonstrationTitle(
+                                    hit.json["objectID"]!!.jsonPrimitive.content,
+                                    jsonObject.jsonObject["title"]!!.jsonObject["value"]!!.jsonPrimitive.content,
+                                    jsonObject.jsonObject["description"]!!.jsonObject["value"]!!.jsonPrimitive.content,
+                                    jsonObject.jsonObject["youtubeThumbnailUrl"]!!.jsonObject["value"]!!.jsonPrimitive.content
+                                )
+                            )
+                        }
+
+                        binding.rvResult.apply {
+                            this.layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                            this.adapter = SearchPageDemonstrationListAdapter(
+                                demonstrationTitleList,
+                                findNavController()
+                            )
+                        }
+                    }
+
+                    true
+                } else {
+                    false
+                }
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.searchView.requestFocus()
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        imm.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
+    }
 }

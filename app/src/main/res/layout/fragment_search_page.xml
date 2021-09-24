@@ -24,18 +24,21 @@
                 android:id="@+id/back_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:paddingRight="15dp"
+                android:paddingEnd="15dp"
                 android:src="@drawable/ic_detail_back_no_circle_theme"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/et_search"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:background="@drawable/rounded_edge"
-                android:hint="Apa yang kamu keluhkan?"
-                android:paddingLeft="20dp"
+                app:iconifiedByDefault="false"
+                app:closeIcon="@null"
+                app:queryBackground="@null"
+                app:queryHint="@string/search_bar"
+                app:searchIcon="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/create_button"
                 app:layout_constraintStart_toEndOf="@id/back_button"
