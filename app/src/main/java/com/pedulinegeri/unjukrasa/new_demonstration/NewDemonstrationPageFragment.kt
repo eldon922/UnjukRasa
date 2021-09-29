@@ -115,6 +115,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
             when (requestCode) {
                 DEMONSTRATION_MEDIA_PICKER_CODE -> {
+                    binding.progressBar.visibility = View.GONE
                     imageAdapter.addImage(uri)
                     binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
                 }
@@ -297,6 +298,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             ImagePicker.with(this).compress(1024)
                 .crop().start(DEMONSTRATION_MEDIA_PICKER_CODE)
         }
