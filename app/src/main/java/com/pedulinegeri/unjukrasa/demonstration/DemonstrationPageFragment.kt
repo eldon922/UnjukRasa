@@ -83,6 +83,7 @@ class DemonstrationPageFragment : Fragment() {
             demonstration.id = args.id
 
             binding.tvTitle.text = demonstration.title
+            binding.tvTo.text = "Unjuk rasa ini ditujukan kepada: ${demonstration.to}"
 
             setupFab()
             setupEditMode()
@@ -194,6 +195,15 @@ class DemonstrationPageFragment : Fragment() {
                         )
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
+                            toast.setText("Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.")
+                            toast.show()
+                            binding.chipParticipant.text =
+                                "${binding.chipParticipant.text.split(" ")[0].toLong() - 1} Ikut"
+                            binding.chipParticipant.chipBackgroundColor = chipDefaultColor
+                            binding.fabUpvote.show()
+                            binding.fabDownvote.show()
+                            if (demonstration.road_protests) binding.fabParticipate.show()
+
                             val data = hashMapOf(
                                 "action" to "participation",
                                 "demonstrationId" to demonstration.id
@@ -202,12 +212,7 @@ class DemonstrationPageFragment : Fragment() {
                             Firebase.functions("asia-southeast2")
                                 .getHttpsCallable("cancelDemonstrationAction").call(data)
                                 .addOnSuccessListener {
-                                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                                        toast.setText("Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.")
-                                        toast.show()
-                                        binding.chipParticipant.text =
-                                            "${binding.chipParticipant.text.split(" ")[0].toLong() - 1} Dukung"
-                                    } else {
+                                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                                         toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                                         toast.show()
                                     }
@@ -226,6 +231,12 @@ class DemonstrationPageFragment : Fragment() {
                         )
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
+                            toast.setText("Anda telah berhasil membatalkan dukungan anda pada unjuk rasa ini.")
+                            toast.show()
+                            binding.chipUpvote.text =
+                                "${binding.chipUpvote.text.split(" ")[0].toLong() - 1} Dukung"
+                            binding.chipUpvote.chipBackgroundColor = chipDefaultColor
+
                             val data = hashMapOf(
                                 "action" to "upvote",
                                 "demonstrationId" to demonstration.id
@@ -234,12 +245,7 @@ class DemonstrationPageFragment : Fragment() {
                             Firebase.functions("asia-southeast2")
                                 .getHttpsCallable("cancelDemonstrationAction").call(data)
                                 .addOnSuccessListener {
-                                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                                        toast.setText("Anda telah berhasil membatalkan dukungan anda pada unjuk rasa ini.")
-                                        toast.show()
-                                        binding.chipUpvote.text =
-                                            "${binding.chipUpvote.text.split(" ")[0].toLong() - 1} Dukung"
-                                    } else {
+                                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                                         toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                                         toast.show()
                                     }
@@ -251,6 +257,12 @@ class DemonstrationPageFragment : Fragment() {
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
                 R.id.action_cancel_downvote -> {
+                    toast.setText("Anda telah berhasil membatalkan penolakan anda pada unjuk rasa ini.")
+                    toast.show()
+                    binding.chipDownvote.text =
+                        "${binding.chipDownvote.text.split(" ")[0].toLong() - 1} Menolak"
+                    binding.chipDownvote.chipBackgroundColor = chipDefaultColor
+
                     val data = hashMapOf(
                         "action" to "downvote",
                         "demonstrationId" to demonstration.id
@@ -259,12 +271,7 @@ class DemonstrationPageFragment : Fragment() {
                     Firebase.functions("asia-southeast2")
                         .getHttpsCallable("cancelDemonstrationAction").call(data)
                         .addOnSuccessListener {
-                            if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                                toast.setText("Anda telah berhasil membatalkan penolakan anda pada unjuk rasa ini.")
-                                toast.show()
-                                binding.chipDownvote.text =
-                                    "${binding.chipDownvote.text.split(" ")[0].toLong() - 1} Dukung"
-                            } else {
+                            if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                                 toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                                 toast.show()
                             }
@@ -315,17 +322,14 @@ class DemonstrationPageFragment : Fragment() {
             binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
-            binding.chipParticipant.chipBackgroundColor = chipDefaultColor
-            binding.chipUpvote.chipBackgroundColor = chipDefaultColor
-            binding.chipDownvote.chipBackgroundColor = chipDefaultColor
             when (demonstration.id) {
                 in user.participation -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
-                    binding.chipParticipant.setChipBackgroundColorResource(R.color.quantum_vanillagreenA700)
+                    binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
                 }
                 in user.upvote -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
-                    binding.chipUpvote.setChipBackgroundColorResource(R.color.quantum_vanillagreenA700)
+                    binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
                 }
                 in user.downvote -> {
                     binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
@@ -406,6 +410,21 @@ class DemonstrationPageFragment : Fragment() {
         })
 
         binding.fabParticipate.setOnClickListener {
+            findNavController().navigate(
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
+                    SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime),
+                    SimpleDateFormat("hh:mm aa").format(demonstration.datetime),
+                    demonstration.location,
+                    demonstration.id
+                )
+            )
+            binding.chipParticipant.text =
+                "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
+            binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
+            binding.fabUpvote.hide()
+            binding.fabDownvote.hide()
+            binding.fabParticipate.hide()
+
             val data = hashMapOf(
                 "action" to "participation",
                 "demonstrationId" to demonstration.id
@@ -413,18 +432,7 @@ class DemonstrationPageFragment : Fragment() {
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
-                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        findNavController().navigate(
-                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
-                                SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime),
-                                SimpleDateFormat("hh:mm aa").format(demonstration.datetime),
-                                demonstration.location,
-                                demonstration.id
-                            )
-                        )
-                        binding.chipParticipant.text =
-                            "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
-                    } else {
+                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                         toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                         toast.show()
                     }
@@ -453,6 +461,15 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabUpvote.setOnClickListener {
+            toast.setText("Terima kasih telah mendukung!")
+            toast.show()
+            binding.chipUpvote.text =
+                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
+            binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
+            binding.fabUpvote.hide()
+            binding.fabDownvote.hide()
+            binding.fabParticipate.hide()
+
             val data = hashMapOf(
                 "action" to "upvote",
                 "demonstrationId" to demonstration.id
@@ -460,12 +477,7 @@ class DemonstrationPageFragment : Fragment() {
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
-                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        toast.setText("Terima kasih telah mendukung!")
-                        toast.show()
-                        binding.chipUpvote.text =
-                            "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
-                    } else {
+                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                         toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                         toast.show()
                     }
@@ -476,6 +488,15 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabDownvote.setOnClickListener {
+            toast.setText("Anda sudah menolak.")
+            toast.show()
+            binding.chipDownvote.text =
+                "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
+            binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
+            binding.fabUpvote.hide()
+            binding.fabDownvote.hide()
+            binding.fabParticipate.hide()
+
             val data = hashMapOf(
                 "action" to "downvote",
                 "demonstrationId" to demonstration.id
@@ -483,12 +504,7 @@ class DemonstrationPageFragment : Fragment() {
 
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
-                    if ((it.data as HashMap<String, Any>)["success"] as Boolean) {
-                        toast.setText("Anda sudah menolak.")
-                        toast.show()
-                        binding.chipDownvote.text =
-                            "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
-                    } else {
+                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
                         toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
                         toast.show()
                     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -78,34 +79,38 @@ class SearchPageFragment : Fragment() {
 
                 return if (queryText != null) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val result = index.search(query {
-                            query = queryText
-                            attributesToRetrieve {
-                                +"color"
-                                +"category"
-                            }
-                        })
+                        try {
+                            val result = index.search(query {
+                                query = queryText
+                                attributesToRetrieve {
+                                    +"color"
+                                    +"category"
+                                }
+                            })
 
-                        val demonstrationTitleList = arrayListOf<DemonstrationTitle>()
-                        for (hit in result.hits) {
-                            val jsonObject = hit.json["_highlightResult"]!!
-                            demonstrationTitleList.add(
-                                DemonstrationTitle(
-                                    hit.json["objectID"]!!.jsonPrimitive.content,
-                                    jsonObject.jsonObject["title"]!!.jsonObject["value"]!!.jsonPrimitive.content,
-                                    jsonObject.jsonObject["description"]!!.jsonObject["value"]!!.jsonPrimitive.content,
-                                    jsonObject.jsonObject["youtubeThumbnailUrl"]!!.jsonObject["value"]!!.jsonPrimitive.content
+                            val demonstrationTitleList = arrayListOf<DemonstrationTitle>()
+                            for (hit in result.hits) {
+                                val jsonObject = hit.json["_highlightResult"]!!
+                                demonstrationTitleList.add(
+                                    DemonstrationTitle(
+                                        hit.json["objectID"]!!.jsonPrimitive.content,
+                                        jsonObject.jsonObject["title"]!!.jsonObject["value"]!!.jsonPrimitive.content,
+                                        jsonObject.jsonObject["description"]!!.jsonObject["value"]!!.jsonPrimitive.content,
+                                        jsonObject.jsonObject["youtubeThumbnailUrl"]!!.jsonObject["value"]!!.jsonPrimitive.content
+                                    )
                                 )
-                            )
-                        }
+                            }
 
-                        binding.rvResult.apply {
-                            this.layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                            this.adapter = SearchPageDemonstrationListAdapter(
-                                demonstrationTitleList,
-                                findNavController()
-                            )
+                            binding.rvResult.apply {
+                                this.layoutManager =
+                                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                                this.adapter = SearchPageDemonstrationListAdapter(
+                                    demonstrationTitleList,
+                                    findNavController()
+                                )
+                            }
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
 

@@ -124,13 +124,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
             <TextView
-                android:id="@+id/tv_description"
+                android:id="@+id/tv_to"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:paddingVertical="10dp"
+                android:text="Unjuk rasa ini ditujukan kepada: "
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
                 app:layout_constraintTop_toBottomOf="@+id/rv_person" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/tv_to" />
 
             <TextView
                 android:id="@+id/tv_progress"
@@ -213,7 +223,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:backgroundTint="@color/quantum_vanillagreenA700"
+        android:backgroundTint="@color/green"
         android:contentDescription="Dukung"
         android:src="@drawable/ic_arrow_upward_24dp"
         app:borderWidth="0dp"
@@ -249,7 +259,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:backgroundTint="@color/quantum_vanillagreenA700"
+        android:backgroundTint="@color/green"
         android:contentDescription="Ikut unjuk rasa"
         android:text="Ikut unjuk rasa"
         android:visibility="gone"
