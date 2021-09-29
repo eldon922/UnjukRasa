@@ -23,6 +23,8 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
 
     private val args: ParticipateBottomSheetDialogArgs by navArgs()
 
+    private lateinit var toast: Toast
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,42 +37,43 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
+
         setupContent()
 
-        binding.btnViewPolicePermitDoc.setOnClickListener {
+        binding.btnViewPolicePermit.setOnClickListener {
             val imageRef =
                 Firebase.storage.reference.child("/police_permit_image/${args.demonstrationId}")
 
             imageRef.listAll().addOnSuccessListener {
-                it.items[0].downloadUrl.addOnSuccessListener {
-                    findNavController().navigate(
-                        ParticipateBottomSheetDialogDirections.actionGlobalImageZoomBottomSheetDialog(
-                            it.toString()
+                if (it.items.size > 0) {
+                    it.items[0].downloadUrl.addOnSuccessListener {
+                        findNavController().navigate(
+                            ParticipateBottomSheetDialogDirections.actionGlobalImageZoomBottomSheetDialog(
+                                it.toString()
+                            )
                         )
-                    )
+                    }
+                } else {
+                    toast.setText("Belum ada ijin dari kepolisian.")
+                    toast.show()
                 }
             }.addOnFailureListener {
-                Toast.makeText(
-                    requireActivity().applicationContext,
-                    "Gagal memuat gambar. ($it)",
-                    Toast.LENGTH_LONG
-                ).show()
+                toast.setText("Gagal memuat gambar. ($it)")
+                toast.show()
             }
         }
     }
 
     private fun setupContent() {
         binding.tvDescription.text = Html.fromHtml(
-            "<ul style='padding-left: 1.2em'>\n" +
-                    "<li>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:\n" +
-                    "<ul>\n" +
+                    "<b>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:</b>" +
+                    "<ul'>\n" +
                     "<li>Tanggal : ${args.date}</li>\n" +
                     "<li>Pukul : ${args.time}</li>\n" +
                     "<li>Tempat : ${args.location}</li>\n" +
                     "</ul>\n" +
-                    "</li>\n" +
-                    "<li>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian.</li>\n" +
-                    "</ul>"
+                    "<b>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian</b>"
         )
     }
 

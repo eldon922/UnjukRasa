@@ -130,7 +130,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Waktu"
-                android:visibility="gone"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/cb_road_protests">
 
@@ -149,7 +148,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lokasi"
-                android:visibility="gone"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/til_time">
 
@@ -177,6 +175,13 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/iv_police_permit"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/no_img"
+                app:layout_constraintTop_toBottomOf="@+id/til_location" />
+
             <Button
                 android:id="@+id/btn_upload_police_permit"
                 android:layout_width="wrap_content"
@@ -195,7 +200,7 @@
                 android:hint="Surat Ijin Kepolisian"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_upload_police_permit"
-                app:layout_constraintTop_toBottomOf="@+id/ll_autocomplete_fragment">
+                app:layout_constraintTop_toBottomOf="@+id/iv_police_permit">
 
                 <EditText
                     android:id="@+id/et_police_permit"
@@ -232,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="til_time, til_location, btn_upload_police_permit, til_police_permit" />
+                app:constraint_referenced_ids="til_time, til_location, iv_police_permit, btn_upload_police_permit, til_police_permit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -12,8 +12,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
@@ -26,8 +29,12 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialogDirections
+import com.squareup.picasso.Picasso
 import java.util.*
 
 
@@ -42,9 +49,12 @@ class EditDemonstrationPageFragment : Fragment() {
 
     private lateinit var toast: Toast
 
+    private val authViewModel: AuthViewModel by activityViewModels()
+
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
 
     private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
+    private lateinit var chosenDate: Date
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
     private var lastClickTime = 0L
@@ -78,6 +88,8 @@ class EditDemonstrationPageFragment : Fragment() {
             binding.etLocation.setText(demonstration.location)
             binding.etTime.setText(demonstration.datetime.toString())
             binding.reDescription.html = demonstration.description
+
+            chosenDate = demonstration.datetime
         }.addOnFailureListener {
             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
             toast.show()
@@ -148,6 +160,7 @@ class EditDemonstrationPageFragment : Fragment() {
                     .curved()
                     .listener {
                         binding.etTime.setText(it.toString())
+                        chosenDate = it
                     }
             }
 
@@ -163,6 +176,18 @@ class EditDemonstrationPageFragment : Fragment() {
 
         binding.btnUploadPolicePermit.setOnClickListener {
             ImagePicker.with(this).compress(1024).crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
+        }
+
+        val imageRef =
+            Firebase.storage.reference.child("/police_permit_image/${args.id}")
+
+        imageRef.listAll().addOnSuccessListener {
+            if (it.items.size > 0) {
+                it.items[0].downloadUrl.addOnSuccessListener {
+                    binding.etPolicePermit.setText(it.toString())
+                    Picasso.get().load(it).into(binding.ivPolicePermit)
+                }
+            }
         }
     }
 
@@ -226,19 +251,28 @@ class EditDemonstrationPageFragment : Fragment() {
             "title" to binding.etTitle.text.toString(),
             "to" to binding.etTo.text.toString(),
             "description" to binding.reDescription.html,
-            "road_protests" to binding.cbRoadProtests.isChecked
+            "road_protests" to binding.cbRoadProtests.isChecked,
+            "datetime" to chosenDate,
+            "location" to binding.etLocation.text.toString()
         )
-
-        if (binding.cbRoadProtests.isChecked) {
-            demonstrationData["datetime"] = binding.etTime.text.toString()
-            demonstrationData["location"] = binding.etLocation.text.toString()
-        }
 
         db.collection("demonstrations").document(args.id)
             .update(demonstrationData as Map<String, Any>)
             .addOnSuccessListener {
                 toast.setText("Unjuk rasa berhasil diubah. Terima kasih.")
                 toast.show()
+
+                if (binding.cbRoadProtests.isChecked) {
+                    val imageRef =
+                        Firebase.storage.reference.child("/police_permit_image/${args.id}/${authViewModel.uid}.png")
+                    val uploadTask =
+                        imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
+
+                    uploadTask.addOnFailureListener {
+                        toast.setText("Unggah foto ijin kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
+                        toast.show()
+                    }
+                }
             }
             .addOnFailureListener {
                 toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")

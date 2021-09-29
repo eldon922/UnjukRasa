@@ -119,6 +119,7 @@ class NewDemonstrationPageFragment : Fragment() {
                     binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
                 }
                 POLICE_PERMIT_MEDIA_PICKER_CODE -> {
+                    binding.ivPolicePermit.setImageURI(uri)
                     binding.etPolicePermit.setText(uri.toString())
                 }
             }
@@ -280,7 +281,7 @@ class NewDemonstrationPageFragment : Fragment() {
                         imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
 
                     uploadTask.addOnFailureListener {
-                        toast.setText("Unggah foto ijik kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
+                        toast.setText("Unggah foto ijin kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
                         toast.show()
                     }
                 }

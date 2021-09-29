@@ -161,6 +161,8 @@ class MainFragment : Fragment() {
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
+                        binding.bottomNavigation.selectedItemId =
+                            R.id.navigation_home_page
                         Toast.makeText(
                             requireContext(),
                             "Kamu sudah keluar dari akunmu.",

@@ -14,9 +14,11 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentLoginPageBinding
+import com.pedulinegeri.unjukrasa.profile.User
 
 
 class LoginPageFragment : Fragment() {
@@ -46,6 +48,7 @@ class LoginPageFragment : Fragment() {
                         }
                     } else {
                         authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
+                        authViewModel.saveName(it?.toObject<User>()!!.name)
                     }
                 }.addOnFailureListener {
                     Toast.makeText(
