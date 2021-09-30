@@ -199,6 +199,10 @@ class NewDemonstrationPageFragment : Fragment() {
                 } else if (binding.etTo.text.isBlank()) {
                     binding.etTo.error = "Tujuan wajib diisi!"
                     return@setOnMenuItemClickListener false
+                } else if (binding.reDescription.html == null) {
+                    toast.setText("Deskripsi wajib diisi.")
+                    toast.show()
+                    return@setOnMenuItemClickListener false
                 } else if (binding.cbRoadProtests.isChecked) {
                     if (binding.etTime.text.isBlank()) {
                         binding.etTime.error = "Waktu wajib diisi!"
@@ -207,10 +211,6 @@ class NewDemonstrationPageFragment : Fragment() {
                         binding.etLocation.error = "Lokasi wajib diisi!"
                         return@setOnMenuItemClickListener false
                     }
-                } else if (binding.reDescription.html == null) {
-                    toast.setText("Deskripsi wajib diisi.")
-                    toast.show()
-                    return@setOnMenuItemClickListener false
                 }
 
                 AlertDialog.Builder(requireContext())
