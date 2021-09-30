@@ -66,7 +66,7 @@ class SearchPageFragment : Fragment() {
 
     private fun setupSearchEngine() {
         val appID = ApplicationID("SCYCUB9LCD")
-        val apiKey = APIKey("b3d99bfd89a019f83cef2fec55bcaffb")
+        val apiKey = APIKey("19199877c74e2be872ffad9c21aaa3aa")
 
         val client = ClientSearch(appID, apiKey)
 
