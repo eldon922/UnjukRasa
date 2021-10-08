@@ -14,8 +14,8 @@ android {
         applicationId "com.pedulinegeri.unjukrasa"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -103,6 +103,8 @@ dependencies {
 
     implementation "com.algolia:algoliasearch-client-kotlin:1.10.0"
     implementation "io.ktor:ktor-client-android:1.6.3"
+
+    implementation "io.grpc:grpc-okhttp:1.32.2"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

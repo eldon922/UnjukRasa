@@ -3,12 +3,32 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_add_circle_outline_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_arrow_downward_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_arrow_upward_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_comment_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_notifications_24dp.xml" value="0.2846153846153846" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/background_text_overlay.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_add_circle_outline_24dp.xml" value="0.2890625" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_add_white_24dp.xml" value="0.2890625" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_arrow_downward_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_arrow_upward_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_comment_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_create_24dp.xml" value="0.2890625" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_detail_back_no_circle_theme.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_edit_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_help_center_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_more_vert_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_perm_identity_white_24dp.xml" value="0.2890625" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_person_add_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_person_remove_white_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_send_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_settings_applications_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_share_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/rounded_edge.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/selected_pager_dot.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/tab_pager_selector.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/activity_main.xml" value="0.11322463768115942" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/demonstration_image_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_add_progress_page.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/fragment_demonstration_page.xml" value="0.22" />

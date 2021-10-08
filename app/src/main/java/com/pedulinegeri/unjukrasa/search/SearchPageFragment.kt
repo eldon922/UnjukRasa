@@ -32,6 +32,8 @@ class SearchPageFragment : Fragment() {
     private var _binding: FragmentSearchPageBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var toast: Toast
+
     private lateinit var imm: InputMethodManager
 
     override fun onCreateView(
@@ -45,6 +47,8 @@ class SearchPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -101,6 +105,11 @@ class SearchPageFragment : Fragment() {
                                 )
                             }
 
+                            if (result.hits.isEmpty()) {
+                                toast.setText("Tidak ada unjuk rasa yang relevan dengan pencarian anda, silahkan coba lagi pakai keyword lain.")
+                                toast.show()
+                            }
+
                             binding.rvResult.apply {
                                 this.layoutManager =
                                     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -110,7 +119,8 @@ class SearchPageFragment : Fragment() {
                                 )
                             }
                         } catch (e: Exception) {
-                            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
+                            toast.setText("Ada kesalahan, silahkan coba lagi. ($e)")
+                            toast.show()
                         }
                     }
 

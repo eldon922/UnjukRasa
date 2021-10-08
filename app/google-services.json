@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "571880896906-o9o53ubsnk7e3rov4ahshcaqef2olf4o.apps.googleusercontent.com",
+          "client_id": "571880896906-q5651pubnm1oi7dh6dteq8lp4q5sehle.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pedulinegeri.unjukrasa",
-            "certificate_hash": "582d8580f5c23c8a232a4bc41a8317db6d2f139a"
+            "certificate_hash": "05e9b52dec1a4850c2cb944f018998d688cac5d4"
           }
         },
         {

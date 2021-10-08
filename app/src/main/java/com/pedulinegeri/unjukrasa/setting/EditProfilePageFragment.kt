@@ -63,7 +63,11 @@ class EditProfilePageFragment : Fragment() {
 
                     if (binding.etEmail.text.isNotBlank()) {
                         if (isValidEmail(binding.etEmail.text)) {
-                            user.updateEmail(binding.etEmail.text.toString())
+                            user.updateEmail(binding.etEmail.text.toString()).addOnFailureListener {
+                                toast.setText("Email sudah dipakai. Silahkan pakai email lain.")
+                                toast.show()
+                                binding.etEmail.setText(user.email)
+                            }
                         } else {
                             toast.setText("Email tidak valid.")
                             toast.show()

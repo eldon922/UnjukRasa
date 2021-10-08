@@ -35,7 +35,6 @@
                 android:layout_height="30dp"
                 android:background="@drawable/rounded_edge"
                 app:iconifiedByDefault="false"
-                app:closeIcon="@null"
                 app:queryBackground="@null"
                 app:queryHint="@string/search_bar"
                 app:searchIcon="@null"

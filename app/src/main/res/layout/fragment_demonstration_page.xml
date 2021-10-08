@@ -226,6 +226,7 @@
         android:backgroundTint="@color/green"
         android:contentDescription="Dukung"
         android:src="@drawable/ic_arrow_upward_24dp"
+        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_downvote"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -238,6 +239,7 @@
         android:backgroundTint="@color/red"
         android:contentDescription="Tolak"
         android:src="@drawable/ic_arrow_downward_24dp"
+        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/fab_share"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -264,6 +266,7 @@
         android:text="Ikut unjuk rasa"
         android:visibility="gone"
         app:borderWidth="0dp"
+        android:textColor="@color/white"
         app:icon="@mipmap/ic_launcher_round"
         app:iconTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"

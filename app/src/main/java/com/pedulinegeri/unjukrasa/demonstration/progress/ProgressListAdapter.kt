@@ -39,7 +39,7 @@ class ProgressListAdapter(
             profileImageRef.downloadUrl.addOnSuccessListener {
                 Picasso.get().load(it).into(binding.ivPerson)
             }.addOnFailureListener {
-                Picasso.get().load(R.drawable.no_img).into(binding.ivPerson)
+                Picasso.get().load(R.drawable.profile_avatar_placeholder_large).into(binding.ivPerson)
             }
 
             binding.tvContent.text = Html.fromHtml(progress.description)

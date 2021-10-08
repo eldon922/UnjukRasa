@@ -295,6 +295,7 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabParticipate.hide()
             binding.toolbar.menu.setGroupVisible(R.id.edit_mode, true)
             binding.cvAddProgress.visibility = View.VISIBLE
+            binding.toolbar.menu.setGroupVisible(R.id.view_mode, false)
         } else {
             if (!hasAction) {
                 binding.fabUpvote.hide()
@@ -317,25 +318,24 @@ class DemonstrationPageFragment : Fragment() {
             hasAction = !(demonstration.id in user.participation
                     || demonstration.id in user.upvote
                     || demonstration.id in user.downvote)
-            setupEditMode()
 
             binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
-            when (demonstration.id) {
-                in user.participation -> {
-                    binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
-                    binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
-                }
-                in user.upvote -> {
-                    binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
-                    binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
-                }
-                in user.downvote -> {
-                    binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
-                    binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
-                }
+            if (demonstration.id in user.participation) {
+                binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
+                binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
             }
+            if (demonstration.id in user.upvote) {
+                binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
+                binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
+            }
+            if (demonstration.id in user.downvote) {
+                binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
+                binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
+            }
+
+            setupEditMode()
         }
     }
 
