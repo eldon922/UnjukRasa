@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "571880896906-q5651pubnm1oi7dh6dteq8lp4q5sehle.apps.googleusercontent.com",
+          "client_id": "571880896906-5l9eok4e30gck8t4thk390grs5unk6p0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pedulinegeri.unjukrasa",
             "certificate_hash": "05e9b52dec1a4850c2cb944f018998d688cac5d4"
+          }
+        },
+        {
+          "client_id": "571880896906-ao86bht1lk6eah1q4m13bup0ourgijb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pedulinegeri.unjukrasa",
+            "certificate_hash": "13005cfaceb36ae4103a38f0a2b004626347312d"
+          }
+        },
+        {
+          "client_id": "571880896906-bl82kdlf289tqgj2c1d7j4rhnk1id062.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pedulinegeri.unjukrasa",
+            "certificate_hash": "0b4198089ede22ec53d745aa45d4d1b04187ad1b"
           }
         },
         {

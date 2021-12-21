@@ -14,6 +14,7 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -33,7 +34,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var addOnBackPressedCallbackJob: Job
