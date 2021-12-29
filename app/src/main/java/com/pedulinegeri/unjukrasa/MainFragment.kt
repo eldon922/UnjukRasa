@@ -86,7 +86,7 @@ class MainFragment : Fragment() {
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
             if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
                 binding.drawer.closeDrawer(GravityCompat.START)
-            } else if (binding.bottomNavigation.selectedItemId == R.id.navigation_home_page) {
+            } else if (binding.bottomNavigation.selectedItemId == R.id.navigationHomePage) {
                 remove()
                 Toast.makeText(
                     requireContext(),
@@ -127,7 +127,7 @@ class MainFragment : Fragment() {
         }
 
         binding.etSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_main_screen_to_searchPageFragment)
+            findNavController().navigate(R.id.actionMainScreenToSearchPageFragment)
         }
     }
 
@@ -155,15 +155,15 @@ class MainFragment : Fragment() {
         binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.title) {
                 resources.getString(R.string.inisiasi_unjuk_rasa) -> {
-                    findNavController().navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
+                    findNavController().navigate(R.id.actionMainScreenToNavigationNewDemonstrationPage)
                 }
                 resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
-                    R.id.navigation_login_page
+                    R.id.navigationLoginPage
                 resources.getString(R.string.keluar) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
                         binding.bottomNavigation.selectedItemId =
-                            R.id.navigation_home_page
+                            R.id.navigationHomePage
                         Toast.makeText(
                             requireContext(),
                             "Kamu sudah keluar dari akunmu.",
@@ -172,7 +172,7 @@ class MainFragment : Fragment() {
                     }
                 }
                 resources.getString(R.string.pengaturan) -> {
-                    findNavController().navigate(R.id.action_main_screen_to_editProfilePageFragment)
+                    findNavController().navigate(R.id.actionMainScreenToEditProfilePageFragment)
                 }
                 resources.getString(R.string.bantuan) -> false
                 resources.getString(R.string.tentang) -> false
@@ -189,17 +189,17 @@ class MainFragment : Fragment() {
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
             if (signedIn) {
-                drawerMenu.findItem(R.id.action_login).isVisible = false
+                drawerMenu.findItem(R.id.actionLogin).isVisible = false
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, true)
 
-                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = false
-                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = true
+                bottomNavigationMenu.findItem(R.id.navigationLoginPage).isVisible = false
+                bottomNavigationMenu.findItem(R.id.navigationProfilePage).isVisible = true
             } else {
-                drawerMenu.findItem(R.id.action_login).isVisible = true
+                drawerMenu.findItem(R.id.actionLogin).isVisible = true
                 drawerMenu.setGroupVisible(R.id.signed_in_menu, false)
 
-                bottomNavigationMenu.findItem(R.id.navigation_login_page).isVisible = true
-                bottomNavigationMenu.findItem(R.id.navigation_profile_page).isVisible = false
+                bottomNavigationMenu.findItem(R.id.navigationLoginPage).isVisible = true
+                bottomNavigationMenu.findItem(R.id.navigationProfilePage).isVisible = false
             }
         })
     }
@@ -214,7 +214,7 @@ class MainFragment : Fragment() {
         binding.bottomNavigation.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = childFragmentManager,
-            containerId = R.id.nav_host_container,
+            containerId = R.id.navHostContainer,
             intent = requireActivity().intent
         )
     }

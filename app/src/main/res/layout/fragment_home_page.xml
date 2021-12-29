@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvTrending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
@@ -23,16 +23,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_trending"
+            android:id="@+id/rvTrending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingEnd="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTrending" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvMostUpvoted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
@@ -40,19 +40,19 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/rv_trending" />
+            app:layout_constraintTop_toBottomOf="@+id/rvTrending" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_most_upvoted"
+            android:id="@+id/rvMostUpvoted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingEnd="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMostUpvoted" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvMostRecentCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
@@ -60,14 +60,14 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/rv_most_upvoted" />
+            app:layout_constraintTop_toBottomOf="@+id/rvMostUpvoted" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_most_recent_created"
+            android:id="@+id/rvMostRecentCreated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMostRecentCreate" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"

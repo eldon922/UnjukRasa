@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/navigation_profile_page"
-    app:startDestination="@id/profile_page_screen">
+    android:id="@id/navigationProfilePage"
+    app:startDestination="@id/profilePageScreen">
 
     <fragment
-        android:id="@+id/profile_page_screen"
+        android:id="@+id/profilePageScreen"
         android:name="com.pedulinegeri.unjukrasa.profile.ProfilePageFragment"
         android:label="Halaman Profil"
         tools:layout="@layout/fragment_profile_page">

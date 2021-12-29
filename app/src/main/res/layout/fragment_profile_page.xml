@@ -25,7 +25,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_person"
+        android:id="@+id/ivPerson"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingEnd="10dp"
@@ -35,22 +35,22 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:lines="1"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_person"
-        app:layout_constraintStart_toEndOf="@+id/iv_person"
-        app:layout_constraintTop_toTopOf="@+id/iv_person" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+        app:layout_constraintStart_toEndOf="@+id/ivPerson"
+        app:layout_constraintTop_toTopOf="@+id/ivPerson" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/tabDemonstration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_person">
+        app:layout_constraintTop_toBottomOf="@+id/ivPerson">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -59,14 +59,14 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_demonstration"
+        android:id="@+id/rvDemonstration"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tabDemonstration" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -83,7 +83,7 @@
         app:layout_constraintGuide_end="20dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

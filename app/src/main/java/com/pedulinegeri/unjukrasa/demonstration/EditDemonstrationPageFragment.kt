@@ -16,7 +16,6 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
@@ -33,7 +32,6 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialogDirections
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -107,7 +105,7 @@ class EditDemonstrationPageFragment : Fragment() {
                 .setMessage("Apakah kamu yakin ingin keluar? Perubahan yang telah dilakukan akan hilang.")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
+                    requireActivity().findNavController(R.id.navHostContainerMain).navigateUp()
                 }
                 .setNegativeButton(android.R.string.cancel, null).show()
         }
@@ -202,7 +200,7 @@ class EditDemonstrationPageFragment : Fragment() {
             }
             lastClickTime = SystemClock.elapsedRealtime()
 
-            if (it.itemId == R.id.action_edit) {
+            if (it.itemId == R.id.actionEdit) {
                 binding.etTitle.error = null
                 binding.etTo.error = null
                 binding.etTime.error = null
@@ -279,12 +277,12 @@ class EditDemonstrationPageFragment : Fragment() {
                 toast.show()
             }
 
-        requireActivity().findNavController(R.id.nav_host_container_main)
+        requireActivity().findNavController(R.id.navHostContainerMain)
             .navigateUp()
     }
 
     private fun setupPlacePicker() {
-        autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+        autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocompleteFragment)
                 as AutocompleteSupportFragment
         Places.initialize(requireContext(), getString(R.string.google_api_key))
         Places.createClient(requireContext())

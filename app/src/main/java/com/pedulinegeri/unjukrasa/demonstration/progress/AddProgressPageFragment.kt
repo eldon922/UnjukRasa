@@ -75,7 +75,7 @@ class AddProgressPageFragment : Fragment() {
                 .setMessage("Apakah kamu yakin ingin keluar?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    requireActivity().findNavController(R.id.nav_host_container_main).navigateUp()
+                    requireActivity().findNavController(R.id.navHostContainerMain).navigateUp()
                 }
                 .setNegativeButton(android.R.string.cancel, null).show()
         }
@@ -120,7 +120,7 @@ class AddProgressPageFragment : Fragment() {
                 return@setOnMenuItemClickListener false
             }
 
-            if (it.itemId == R.id.action_add) {
+            if (it.itemId == R.id.actionAdd) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Tambah Perkembangan")
                     .setMessage("Apakah kamu yakin ingin menambahkan perkembangan ini? Tekan cancel untuk mengubah data kembali")
@@ -166,7 +166,7 @@ class AddProgressPageFragment : Fragment() {
                 toast.show()
             }
 
-        requireActivity().findNavController(R.id.nav_host_container_main)
+        requireActivity().findNavController(R.id.navHostContainerMain)
             .navigateUp()
     }
 

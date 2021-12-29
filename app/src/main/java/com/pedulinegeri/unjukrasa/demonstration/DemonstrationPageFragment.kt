@@ -180,14 +180,14 @@ class DemonstrationPageFragment : Fragment() {
             lastClickTime = SystemClock.elapsedRealtime()
 
             when (it.itemId) {
-                R.id.action_edit -> {
+                R.id.actionEdit -> {
                     findNavController().navigate(
                         DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToEditDemonstrationPageFragment(
                             demonstration.id
                         )
                     )
                 }
-                R.id.action_cancel_participate -> {
+                R.id.actionCancelParticipate -> {
                     AlertDialog.Builder(requireContext())
                         .setTitle("Batal Ikut")
                         .setMessage(
@@ -223,7 +223,7 @@ class DemonstrationPageFragment : Fragment() {
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
-                R.id.action_cancel_upvote -> {
+                R.id.actionCancelUpvote -> {
                     AlertDialog.Builder(requireContext())
                         .setTitle("Batal Mendukung")
                         .setMessage(
@@ -256,7 +256,7 @@ class DemonstrationPageFragment : Fragment() {
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
-                R.id.action_cancel_downvote -> {
+                R.id.actionCancelDownvote -> {
                     toast.setText("Anda telah berhasil membatalkan penolakan anda pada unjuk rasa ini.")
                     toast.show()
                     binding.chipDownvote.text =
@@ -293,9 +293,9 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabUpvote.hide()
             binding.fabDownvote.hide()
             binding.fabParticipate.hide()
-            binding.toolbar.menu.setGroupVisible(R.id.edit_mode, true)
+            binding.toolbar.menu.setGroupVisible(R.id.editMode, true)
             binding.cvAddProgress.visibility = View.VISIBLE
-            binding.toolbar.menu.setGroupVisible(R.id.view_mode, false)
+            binding.toolbar.menu.setGroupVisible(R.id.viewMode, false)
         } else {
             if (!hasAction) {
                 binding.fabUpvote.hide()
@@ -319,19 +319,19 @@ class DemonstrationPageFragment : Fragment() {
                     || demonstration.id in user.upvote
                     || demonstration.id in user.downvote)
 
-            binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = false
-            binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = false
-            binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = false
+            binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = false
+            binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = false
+            binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = false
             if (demonstration.id in user.participation) {
-                binding.toolbar.menu.findItem(R.id.action_cancel_participate).isVisible = true
+                binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = true
                 binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
             }
             if (demonstration.id in user.upvote) {
-                binding.toolbar.menu.findItem(R.id.action_cancel_upvote).isVisible = true
+                binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = true
                 binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
             }
             if (demonstration.id in user.downvote) {
-                binding.toolbar.menu.findItem(R.id.action_cancel_downvote).isVisible = true
+                binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = true
                 binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
             }
 

@@ -49,7 +49,7 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/image_zoom_bottomsheet_layout.xml" value="0.11594202898550725" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_active_today_demonstration_list_item.xml" value="0.13677536231884058" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_recent_created_demonstration_list_item.xml" value="0.1213768115942029" />
-        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_upvoted_demonstration_list_item.xml" value="0.75" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/most_upvoted_demonstration_list_item.xml" value="0.18" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/navigation_drawer_header.xml" value="0.13272543059777103" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/new_image_or_video_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/notification_list_item.xml" value="0.14130434782608695" />
@@ -61,10 +61,12 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/recent_created_demonstration_list_item.xml" value="0.13677536231884058" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/remove_person_list_item.xml" value="0.13272543059777103" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/trending_demonstration_list_item.xml" value="0.13677536231884058" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/add_progress_page_items.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/bottom_navigation_items.xml" value="0.20092592592592592" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/demonstration_page_items.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/edit_demonstration_page_items.xml" value="0.26871794871794874" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/navigation_drawer_items.xml" value="0.26871794871794874" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/menu/new_demonstration_page_items.xml" value="0.1" />
       </map>
     </option>
   </component>

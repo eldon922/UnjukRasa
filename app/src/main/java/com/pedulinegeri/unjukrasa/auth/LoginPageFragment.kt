@@ -40,11 +40,11 @@ class LoginPageFragment : Fragment() {
                 .addOnSuccessListener {
                     if (!it.exists()) {
                         if (findNavController().previousBackStackEntry?.destination?.id == R.id.demonstrationPageFragment) {
-                            requireActivity().findNavController(R.id.nav_host_container_main)
-                                .navigate(R.id.action_loginPageFragment_to_signUpPageFragment)
+                            requireActivity().findNavController(R.id.navHostContainerMain)
+                                .navigate(R.id.actionLoginPageFragmentToSignUpPageFragment)
                         } else {
-                            requireActivity().findNavController(R.id.nav_host_container_main)
-                                .navigate(R.id.action_main_screen_to_signUpPageFragment)
+                            requireActivity().findNavController(R.id.navHostContainerMain)
+                                .navigate(R.id.actionMainScreenToSignUpPageFragment)
                         }
                     } else {
                         authViewModel.signedIn(Firebase.auth.currentUser!!.uid)

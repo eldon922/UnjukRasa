@@ -100,7 +100,7 @@ class EditProfilePageFragment : Fragment() {
         binding.etName.setText(authViewModel.name)
         binding.etEmail.setText(user.email)
 
-        binding.btnImage.setOnClickListener {
+        binding.btnPhotoProfile.setOnClickListener {
             ImagePicker.with(this).compress(1024)
                 .cropSquare()
                 .maxResultSize(170, 170)

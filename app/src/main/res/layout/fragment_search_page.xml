@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/back_button"
+                android:id="@+id/backButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingEnd="15dp"
@@ -39,12 +39,12 @@
                 app:queryHint="@string/search_bar"
                 app:searchIcon="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/create_button"
-                app:layout_constraintStart_toEndOf="@id/back_button"
+                app:layout_constraintEnd_toStartOf="@+id/createButton"
+                app:layout_constraintStart_toEndOf="@id/backButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/create_button"
+                android:id="@+id/createButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="15dp"
@@ -55,7 +55,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_result"
+        android:id="@+id/rvResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />

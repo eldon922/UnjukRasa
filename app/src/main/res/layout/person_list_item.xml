@@ -9,7 +9,7 @@
     android:foreground="?android:attr/selectableItemBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_person"
+        android:id="@+id/ivPerson"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingEnd="10dp"
@@ -19,19 +19,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_person"
-        app:layout_constraintEnd_toStartOf="@+id/chip_role"
-        app:layout_constraintStart_toEndOf="@+id/iv_person"
-        app:layout_constraintTop_toTopOf="@+id/iv_person" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+        app:layout_constraintEnd_toStartOf="@+id/chipRole"
+        app:layout_constraintStart_toEndOf="@+id/ivPerson"
+        app:layout_constraintTop_toTopOf="@+id/ivPerson" />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chip_role"
+        android:id="@+id/chipRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
@@ -39,8 +39,8 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         app:chipBackgroundColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_person"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_person" />
+        app:layout_constraintTop_toTopOf="@+id/ivPerson" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

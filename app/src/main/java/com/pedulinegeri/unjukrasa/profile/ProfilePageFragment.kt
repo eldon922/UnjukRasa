@@ -51,8 +51,8 @@ class ProfilePageFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener {
-            requireActivity().findNavController(R.id.nav_host_container_main)
-                .navigate(R.id.action_main_screen_to_navigation_new_demonstration_page)
+            requireActivity().findNavController(R.id.navHostContainerMain)
+                .navigate(R.id.actionMainScreenToNavigationNewDemonstrationPage)
         }
 
         binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -89,13 +89,13 @@ class ProfilePageFragment : Fragment() {
             binding.tvName.text = user.name
             authViewModel.saveName(user.name)
 
-            binding.tabLayout.getTabAt(0)!!.text = "Membuat (${user.demonstrations.size})"
+            binding.tabDemonstration.getTabAt(0)!!.text = "Membuat (${user.demonstrations.size})"
             binding.rvDemonstration.apply {
                 this.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 this.adapter = ProfileDemonstrationListAdapter(
                     user.demonstrations,
-                    requireActivity().findNavController(R.id.nav_host_container_main)
+                    requireActivity().findNavController(R.id.navHostContainerMain)
                 )
             }
         }

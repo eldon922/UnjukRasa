@@ -23,7 +23,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_person"
+        android:id="@+id/ivPerson"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="20dp"
@@ -34,54 +34,54 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
     <Button
-        android:id="@+id/btn_image"
+        android:id="@+id/btnPhotoProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Unggah Foto Profil"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_person"
-        app:layout_constraintStart_toEndOf="@+id/iv_person"
-        app:layout_constraintTop_toTopOf="@+id/iv_person" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+        app:layout_constraintStart_toEndOf="@+id/ivPerson"
+        app:layout_constraintTop_toTopOf="@+id/ivPerson" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/tilName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/nama"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_person">
+        app:layout_constraintTop_toBottomOf="@+id/ivPerson">
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
+        android:id="@+id/tilEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/tilName">
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Daftar Baru"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

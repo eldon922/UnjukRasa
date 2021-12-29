@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/navigation_home_page"
-    app:startDestination="@id/home_page_screen">
+    android:id="@id/navigationHomePage"
+    app:startDestination="@id/homePageScreen">
 
     <fragment
-        android:id="@+id/home_page_screen"
+        android:id="@+id/homePageScreen"
         android:name="com.pedulinegeri.unjukrasa.home.HomePageFragment"
         android:label="Halaman Beranda"
         tools:layout="@layout/fragment_home_page" />

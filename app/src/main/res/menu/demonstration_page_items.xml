@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group
-        android:id="@+id/edit_mode"
+        android:id="@+id/editMode"
         android:visible="false">
         <item
-            android:id="@+id/action_edit"
+            android:id="@+id/actionEdit"
             android:icon="@drawable/ic_edit_white_24dp"
             android:title="Ubah"
             app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@+id/view_mode">
+    <group android:id="@+id/viewMode">
         <item
-            android:id="@+id/action_cancel_participate"
+            android:id="@+id/actionCancelParticipate"
             android:title="Batal ikut"
             android:visible="false"
             app:showAsAction="never" />
         <item
-            android:id="@+id/action_cancel_upvote"
+            android:id="@+id/actionCancelUpvote"
             android:title="Batal mendukung"
             android:visible="false"
             app:showAsAction="never" />
         <item
-            android:id="@+id/action_cancel_downvote"
+            android:id="@+id/actionCancelDownvote"
             android:title="Batal menolak"
             android:visible="false"
             app:showAsAction="never" />

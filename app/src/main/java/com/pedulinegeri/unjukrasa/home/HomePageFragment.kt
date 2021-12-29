@@ -73,7 +73,7 @@ class HomePageFragment : Fragment() {
 
                 return TrendingDemonstrationViewHolder(
                     binding, requireActivity().findNavController(
-                        R.id.nav_host_container_main
+                        R.id.navHostContainerMain
                     )
                 )
             }
@@ -122,7 +122,7 @@ class HomePageFragment : Fragment() {
 
                 return MostUpvotedDemonstrationViewHolder(
                     binding, requireActivity().findNavController(
-                        R.id.nav_host_container_main
+                        R.id.navHostContainerMain
                     )
                 )
             }
@@ -171,7 +171,7 @@ class HomePageFragment : Fragment() {
 
                 return MostRecentCreatedDemonstrationViewHolder(
                     binding, requireActivity().findNavController(
-                        R.id.nav_host_container_main
+                        R.id.navHostContainerMain
                     )
                 )
             }

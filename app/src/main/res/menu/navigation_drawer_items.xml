@@ -2,28 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/signed_in_menu">
         <item
-            android:id="@+id/action_create"
+            android:id="@+id/actionCreate"
             android:icon="@drawable/ic_add_circle_outline_24dp"
             android:title="@string/inisiasi_unjuk_rasa" />
         <item
-            android:id="@+id/action_logout"
+            android:id="@+id/actionLogout"
             android:icon="@drawable/ic_logout_white_24dp"
             android:title="@string/keluar" />
         <item
-            android:id="@+id/action_setting_page"
+            android:id="@+id/actionSettingPage"
             android:icon="@drawable/ic_settings_applications_white_24dp"
             android:title="@string/pengaturan" />
     </group>
     <item
-        android:id="@+id/action_login"
+        android:id="@+id/actionLogin"
         android:icon="@drawable/ic_login_white_24dp"
         android:title="@string/masuk" />
     <item
-        android:id="@+id/action_help_page"
+        android:id="@+id/actionHelpPage"
         android:icon="@drawable/ic_help_center_white_24dp"
         android:title="@string/bantuan" />
     <item
-        android:id="@+id/action_about_page"
+        android:id="@+id/actionAboutPage"
         android:icon="@drawable/ic_business_white_24dp"
         android:title="@string/tentang" />
 </menu>

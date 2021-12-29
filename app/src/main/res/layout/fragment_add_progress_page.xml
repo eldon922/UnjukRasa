@@ -26,7 +26,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/hsv_editor"
+        app:layout_constraintBottom_toTopOf="@id/hsvEditor"
         app:layout_constraintTop_toBottomOf="@+id/appbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_images"
+                android:id="@+id/vpImages"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/no_img"
@@ -42,38 +42,38 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/into_tab_layout"
+                android:id="@+id/intoTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/fui_transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/vp_images"
+                app:layout_constraintBottom_toBottomOf="@+id/vpImages"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
             <Button
-                android:id="@+id/btn_image"
+                android:id="@+id/btnImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Unggah Foto"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
+                app:layout_constraintBottom_toBottomOf="@+id/tilYoutubeVideo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout6" />
+                app:layout_constraintTop_toTopOf="@+id/tilYoutubeVideo" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout6"
+                android:id="@+id/tilYoutubeVideo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:hint="Youtube Video"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_image"
-                app:layout_constraintTop_toBottomOf="@+id/vp_images">
+                app:layout_constraintStart_toEndOf="@+id/btnImage"
+                app:layout_constraintTop_toBottomOf="@+id/vpImages">
 
                 <EditText
-                    android:id="@+id/et_youtube_video"
+                    android:id="@+id/etYoutubeVideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -83,10 +83,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/line_color"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+                app:layout_constraintTop_toBottomOf="@+id/tilYoutubeVideo" />
 
             <jp.wasabeef.richeditor.RichEditor
-                android:id="@+id/re_description"
+                android:id="@+id/reDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
@@ -96,12 +96,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/line_color"
-                app:layout_constraintTop_toBottomOf="@+id/re_description" />
+                app:layout_constraintTop_toBottomOf="@+id/reDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <HorizontalScrollView
-        android:id="@+id/hsv_editor"
+        android:id="@+id/hsvEditor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -115,28 +115,28 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/action_undo"
+                android:id="@+id/actionUndo"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/undo" />
 
             <ImageView
-                android:id="@+id/action_redo"
+                android:id="@+id/actionRedo"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/redo" />
 
             <ImageView
-                android:id="@+id/action_bold"
+                android:id="@+id/actionBold"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/bold" />
 
             <ImageView
-                android:id="@+id/action_italic"
+                android:id="@+id/actionItalic"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"

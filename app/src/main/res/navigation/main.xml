@@ -2,37 +2,37 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_main"
-    app:startDestination="@id/main_screen">
+    android:id="@+id/navigationMain"
+    app:startDestination="@id/mainScreen">
 
     <fragment
-        android:id="@+id/main_screen"
+        android:id="@+id/mainScreen"
         android:name="com.pedulinegeri.unjukrasa.MainFragment"
         android:label="Menu Utama"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_main_screen_to_navigation_new_demonstration_page"
+            android:id="@+id/actionMainScreenToNavigationNewDemonstrationPage"
             app:destination="@id/newDemonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_main_screen_to_signUpPageFragment"
+            android:id="@+id/actionMainScreenToSignUpPageFragment"
             app:destination="@id/signUpPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_main_screen_to_editProfilePageFragment"
+            android:id="@+id/actionMainScreenToEditProfilePageFragment"
             app:destination="@id/editProfilePageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_main_screen_to_searchPageFragment"
+            android:id="@+id/actionMainScreenToSearchPageFragment"
             app:destination="@id/searchPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
@@ -50,7 +50,7 @@
         android:id="@+id/newDemonstrationPageFragment"
         android:name="com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationPageFragment"
         android:label="fragment_new_demonstration_page"
-        tools:layout="@layout/fragment_new_demonstration_page"></fragment>
+        tools:layout="@layout/fragment_new_demonstration_page" />
 
     <fragment
         android:id="@+id/demonstrationPageFragment"
@@ -58,15 +58,15 @@
         android:label="fragment_demonstration_page"
         tools:layout="@layout/fragment_demonstration_page">
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_addProgressPageFragment"
+            android:id="@+id/actionDemonstrationPageFragmentToAddProgressPageFragment"
             app:destination="@id/addProgressPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_navigation_profile_page"
-            app:destination="@id/navigation_profile_page"
+            android:id="@+id/actionDemonstrationPageFragmentToNavigationProfilePage"
+            app:destination="@id/navigationProfilePage"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
@@ -76,24 +76,24 @@
                 app:argType="string" />
         </action>
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_navigation_login_page"
-            app:destination="@id/navigation_login_page"
+            android:id="@+id/actionDemonstrationPageFragmentToNavigationLoginPage"
+            app:destination="@id/navigationLoginPage"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_participateBottomSheetDialog"
+            android:id="@+id/actionDemonstrationPageFragmentToParticipateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_participationListBottomSheetDialog"
+            android:id="@+id/actionDemonstrationPageFragmentToParticipationListBottomSheetDialog"
             app:destination="@id/participationListBottomSheetDialog" />
         <argument
             android:name="id"
             android:defaultValue="0"
             app:argType="string" />
         <action
-            android:id="@+id/action_demonstrationPageFragment_to_editDemonstrationPageFragment"
+            android:id="@+id/actionDemonstrationPageFragmentToEditDemonstrationPageFragment"
             app:destination="@id/editDemonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
@@ -127,13 +127,13 @@
         android:name="com.pedulinegeri.unjukrasa.search.SearchPageFragment"
         android:label="SearchPageFragment">
         <action
-            android:id="@+id/action_searchPageFragment_to_newDemonstrationPageFragment"
+            android:id="@+id/actionSearchPageFragmentToNewDemonstrationPageFragment"
             app:destination="@id/newDemonstrationPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@+id/main_screen" />
+            app:popUpTo="@+id/mainScreen" />
     </fragment>
 
     <include app:graph="@navigation/profile_page" />
@@ -165,8 +165,8 @@
             android:name="typeList"
             app:argType="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog$TypeList" />
         <action
-            android:id="@+id/action_participationListBottomSheetDialog_to_navigation_profile_page"
-            app:destination="@id/navigation_profile_page"
+            android:id="@+id/actionParticipationListBottomSheetDialogToNavigationProfilePage"
+            app:destination="@id/navigationProfilePage"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@anim/fui_slide_in_right"
@@ -190,7 +190,7 @@
     </dialog>
 
     <action
-        android:id="@+id/action_global_demonstrationPageFragment"
+        android:id="@+id/actionGlobalDemonstrationPageFragment"
         app:destination="@id/demonstrationPageFragment"
         app:enterAnim="@anim/fui_slide_in_right"
         app:exitAnim="@android:anim/slide_out_right"
@@ -198,7 +198,7 @@
         app:popExitAnim="@android:anim/slide_out_right" />
 
     <action
-        android:id="@+id/action_global_imageZoomBottomSheetDialog"
+        android:id="@+id/actionGlobalImageZoomBottomSheetDialog"
         app:destination="@id/imageZoomBottomSheetDialog" />
     <fragment
         android:id="@+id/editDemonstrationPageFragment"

@@ -57,7 +57,7 @@ class SearchPageFragment : Fragment() {
         }
 
         binding.createButton.setOnClickListener {
-            findNavController().navigate(R.id.action_searchPageFragment_to_newDemonstrationPageFragment)
+            findNavController().navigate(R.id.actionSearchPageFragmentToNewDemonstrationPageFragment)
         }
 
         setupSearchEngine()

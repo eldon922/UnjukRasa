@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/navigation_login_page"
-    app:startDestination="@id/login_page_screen">
+    android:id="@id/navigationLoginPage"
+    app:startDestination="@id/loginPageScreen">
 
     <fragment
-        android:id="@+id/login_page_screen"
+        android:id="@+id/loginPageScreen"
         android:name="com.pedulinegeri.unjukrasa.auth.LoginPageFragment"
         android:label="Halaman Masuk"
         tools:layout="@layout/fragment_login_page">
         <action
-            android:id="@+id/action_loginPageFragment_to_signUpPageFragment"
+            android:id="@+id/actionLoginPageFragmentToSignUpPageFragment"
             app:destination="@id/signUpPageFragment"
             app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"

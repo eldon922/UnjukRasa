@@ -28,7 +28,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/hsv_editor"
+        app:layout_constraintBottom_toTopOf="@id/hsvEditor"
         app:layout_constraintTop_toBottomOf="@+id/appbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_images"
+                android:id="@+id/vpImages"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/no_img"
@@ -44,50 +44,50 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
-                android:id="@+id/progress_bar"
+                android:id="@+id/progressBar"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:indeterminate="true"
                 android:background="@color/white"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/vp_images"
-                app:layout_constraintEnd_toEndOf="@+id/vp_images"
-                app:layout_constraintStart_toStartOf="@+id/vp_images"
-                app:layout_constraintTop_toTopOf="@+id/vp_images" />
+                app:layout_constraintBottom_toBottomOf="@+id/vpImages"
+                app:layout_constraintEnd_toEndOf="@+id/vpImages"
+                app:layout_constraintStart_toStartOf="@+id/vpImages"
+                app:layout_constraintTop_toTopOf="@+id/vpImages" />
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/into_tab_layout"
+                android:id="@+id/intoTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/fui_transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/vp_images"
+                app:layout_constraintBottom_toBottomOf="@+id/vpImages"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
             <Button
-                android:id="@+id/btn_image"
+                android:id="@+id/btnImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Unggah Foto"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
+                app:layout_constraintBottom_toBottomOf="@+id/tilYoutubeVideo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout6" />
+                app:layout_constraintTop_toTopOf="@+id/tilYoutubeVideo" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout6"
+                android:id="@+id/tilYoutubeVideo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:hint="Youtube Video"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_image"
-                app:layout_constraintTop_toBottomOf="@+id/vp_images">
+                app:layout_constraintStart_toEndOf="@+id/btnImage"
+                app:layout_constraintTop_toBottomOf="@+id/vpImages">
 
                 <EditText
-                    android:id="@+id/et_youtube_video"
+                    android:id="@+id/etYoutubeVideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -96,15 +96,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout3"
+                android:id="@+id/tilTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Judul"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+                app:layout_constraintTop_toBottomOf="@+id/tilYoutubeVideo">
 
                 <EditText
-                    android:id="@+id/et_title"
+                    android:id="@+id/etTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -113,15 +113,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout4"
+                android:id="@+id/tilTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Kepada"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+                app:layout_constraintTop_toBottomOf="@+id/tilTitle">
 
                 <EditText
-                    android:id="@+id/et_to"
+                    android:id="@+id/etTo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -130,23 +130,23 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
-                android:id="@+id/cb_road_protests"
+                android:id="@+id/cbRoadProtests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Adakan unjuk rasa ke jalan"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+                app:layout_constraintTop_toBottomOf="@+id/tilTo" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_time"
+                android:id="@+id/tilTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Waktu"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@+id/cb_road_protests">
+                app:layout_constraintTop_toBottomOf="@+id/cbRoadProtests">
 
                 <EditText
-                    android:id="@+id/et_time"
+                    android:id="@+id/etTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -156,15 +156,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_location"
+                android:id="@+id/tilLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lokasi"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@+id/til_time">
+                app:layout_constraintTop_toBottomOf="@+id/tilTime">
 
                 <EditText
-                    android:id="@+id/et_location"
+                    android:id="@+id/etLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -174,48 +174,48 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/ll_autocomplete_fragment"
+                android:id="@+id/llAutocompleteFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/til_location">
+                app:layout_constraintTop_toBottomOf="@+id/tilLocation">
 
                 <fragment
-                    android:id="@+id/autocomplete_fragment"
+                    android:id="@+id/autocompleteFragment"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/iv_police_permit"
+                android:id="@+id/ivPolicePermit"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:src="@drawable/no_img"
-                app:layout_constraintTop_toBottomOf="@+id/til_location" />
+                app:layout_constraintTop_toBottomOf="@+id/tilLocation" />
 
             <Button
-                android:id="@+id/btn_upload_police_permit"
+                android:id="@+id/btnUploadPolicePermit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Unggah"
-                app:layout_constraintBottom_toBottomOf="@+id/til_police_permit"
+                app:layout_constraintBottom_toBottomOf="@+id/tilPolicePermit"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/til_police_permit" />
+                app:layout_constraintTop_toTopOf="@+id/tilPolicePermit" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_police_permit"
+                android:id="@+id/tilPolicePermit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:hint="Surat Ijin Kepolisian"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_upload_police_permit"
-                app:layout_constraintTop_toBottomOf="@+id/iv_police_permit">
+                app:layout_constraintStart_toEndOf="@+id/btnUploadPolicePermit"
+                app:layout_constraintTop_toBottomOf="@+id/ivPolicePermit">
 
                 <EditText
-                    android:id="@+id/et_police_permit"
+                    android:id="@+id/etPolicePermit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -229,10 +229,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/line_color"
-                app:layout_constraintTop_toBottomOf="@+id/til_police_permit" />
+                app:layout_constraintTop_toBottomOf="@+id/tilPolicePermit" />
 
             <jp.wasabeef.richeditor.RichEditor
-                android:id="@+id/re_description"
+                android:id="@+id/reDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
@@ -242,19 +242,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/line_color"
-                app:layout_constraintTop_toBottomOf="@+id/re_description" />
+                app:layout_constraintTop_toBottomOf="@+id/reDescription" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/group_road_protests"
+                android:id="@+id/groupRoadProtests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="til_time, til_location, iv_police_permit, btn_upload_police_permit, til_police_permit" />
+                app:constraint_referenced_ids="tilTime, tilLocation, ivPolicePermit, btnUploadPolicePermit, tilPolicePermit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <HorizontalScrollView
-        android:id="@+id/hsv_editor"
+        android:id="@+id/hsvEditor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -268,28 +268,28 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/action_undo"
+                android:id="@+id/actionUndo"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/undo" />
 
             <ImageView
-                android:id="@+id/action_redo"
+                android:id="@+id/actionRedo"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/redo" />
 
             <ImageView
-                android:id="@+id/action_bold"
+                android:id="@+id/actionBold"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
                 android:src="@drawable/bold" />
 
             <ImageView
-                android:id="@+id/action_italic"
+                android:id="@+id/actionItalic"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="10dp"
