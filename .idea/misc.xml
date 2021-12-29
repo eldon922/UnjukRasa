@@ -8,6 +8,7 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_arrow_downward_white_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_arrow_upward_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_arrow_upward_white_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_close_24dp.xml" value="0.2203125" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_comment_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable-night/ic_notifications_24dp.xml" value="0.2846153846153846" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/background_text_overlay.xml" value="0.16979166666666667" />
@@ -15,6 +16,8 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_add_white_24dp.xml" value="0.2890625" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_arrow_downward_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_arrow_upward_24dp.xml" value="0.16979166666666667" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_business_white_24dp.xml" value="0.2203125" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_close_24dp.xml" value="0.2203125" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_comment_24dp.xml" value="0.16979166666666667" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_create_24dp.xml" value="0.2890625" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/drawable/ic_detail_back_no_circle.xml" value="0.2890625" />
@@ -54,7 +57,7 @@
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/new_image_or_video_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/notification_list_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/participate_bottom_sheet_layout.xml" value="0.11594202898550725" />
-        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/person_list_bottom_sheet_layout.xml" value="0.15353260869565216" />
+        <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/person_list_bottom_sheet_layout.xml" value="0.22" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/person_list_item.xml" value="0.33" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/profile_demonstration_list_item.xml" value="0.1" />
         <entry key="..\:/Projects/UnjukRasa/app/src/main/res/layout/progress_list_item.xml" value="0.33" />

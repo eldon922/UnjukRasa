@@ -25,6 +25,18 @@ import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.person.Person
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
+import android.R.string.no
+import android.view.View.OnFocusChangeListener
+import io.reactivex.rxjava3.exceptions.UndeliverableException
+
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
+
+import android.R.string.no
+import java.io.IOException
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
+import java.lang.NullPointerException
+import java.net.SocketException
 
 
 class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
@@ -165,6 +177,10 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
                 return false
             }
         })
+
+        binding.ivClose.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

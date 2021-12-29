@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,8 @@ class HomePageFragment : Fragment() {
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
 
+    private val homePageViewModel: HomePageViewModel by viewModels()
+
     private val collectionRef = Firebase.firestore.collection("demonstrations")
 
     override fun onCreateView(
@@ -43,6 +46,16 @@ class HomePageFragment : Fragment() {
         setupTrendingListDemonstration()
         setupMostVotedListDemonstration()
         setupMostRecentCreatedListDemonstration()
+
+        binding.nsv.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            binding.nsv.scrollY = homePageViewModel.nsvScrollPosition
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        homePageViewModel.nsvScrollPosition = binding.nsv.scrollY
     }
 
     private fun setupTrendingListDemonstration() {
