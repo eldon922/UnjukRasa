@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,7 @@ class DemonstrationPageFragment : Fragment() {
     private lateinit var toast: Toast
 
     private val authViewModel: AuthViewModel by activityViewModels()
+    private val demonstrationPageViewModel: DemonstrationPageViewModel by viewModels()
 
     private var editMode = false
     private var hasAction = true
@@ -113,6 +115,10 @@ class DemonstrationPageFragment : Fragment() {
             setupPerson()
             binding.tvDescription.text = Html.fromHtml(demonstration.description)
             setupProgress()
+
+            binding.nsv.post {
+                binding.nsv.scrollY = demonstrationPageViewModel.nsvScrollPosition
+            }
         }.addOnFailureListener {
             toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
             toast.show()
@@ -353,6 +359,8 @@ class DemonstrationPageFragment : Fragment() {
         if (this::userSnapshotListener.isInitialized) {
             userSnapshotListener.remove()
         }
+
+        demonstrationPageViewModel.nsvScrollPosition = binding.nsv.scrollY
     }
 
     private fun setupProgress() {
