@@ -4,26 +4,26 @@
         <item
             android:id="@+id/actionCreate"
             android:icon="@drawable/ic_add_circle_outline_24dp"
-            android:title="@string/inisiasi_unjuk_rasa" />
+            android:title="@string/initiate_demonstration" />
         <item
             android:id="@+id/actionLogout"
             android:icon="@drawable/ic_logout_white_24dp"
-            android:title="@string/keluar" />
+            android:title="@string/logout" />
         <item
             android:id="@+id/actionSettingPage"
             android:icon="@drawable/ic_settings_applications_white_24dp"
-            android:title="@string/pengaturan" />
+            android:title="@string/settings" />
     </group>
     <item
         android:id="@+id/actionLogin"
         android:icon="@drawable/ic_login_white_24dp"
-        android:title="@string/masuk" />
+        android:title="@string/login" />
     <item
         android:id="@+id/actionHelpPage"
         android:icon="@drawable/ic_help_center_white_24dp"
-        android:title="@string/bantuan" />
+        android:title="@string/help" />
     <item
         android:id="@+id/actionAboutPage"
         android:icon="@drawable/ic_business_white_24dp"
-        android:title="@string/tentang" />
+        android:title="@string/about" />
 </menu>

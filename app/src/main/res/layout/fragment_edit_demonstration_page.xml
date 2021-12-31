@@ -39,7 +39,7 @@
                 android:id="@+id/tilTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Judul"
+                android:hint="@string/title"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -73,7 +73,7 @@
                 android:id="@+id/cbRoadProtests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Adakan unjuk rasa ke jalan"
+                android:text="@string/participation_detail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilTo" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/tilTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Waktu"
+                android:hint="@string/time"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/cbRoadProtests">
 
@@ -99,7 +99,7 @@
                 android:id="@+id/tilLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Lokasi"
+                android:hint="@string/location"
                 app:errorEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/tilTime">
 
@@ -139,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Unggah"
+                android:text="@string/upload"
                 app:layout_constraintBottom_toBottomOf="@+id/tilPolicePermit"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tilPolicePermit" />
@@ -149,7 +149,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="Surat Ijin Kepolisian"
+                android:hint="@string/police_permit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnUploadPolicePermit"
                 app:layout_constraintTop_toBottomOf="@+id/ivPolicePermit">

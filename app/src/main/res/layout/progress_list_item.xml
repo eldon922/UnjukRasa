@@ -39,7 +39,7 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 April 2021"
+            tools:text="8 April 2021"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivPerson" />
@@ -48,7 +48,7 @@
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07:00 PM"
+            tools:text="07:00 PM"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
             app:layout_constraintEnd_toEndOf="parent"

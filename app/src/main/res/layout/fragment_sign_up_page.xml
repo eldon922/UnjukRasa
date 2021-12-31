@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Daftar Pengguna Baru"
+            app:title="@string/register_new_user"
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="Unggah Foto Profil"
+        android:text="@string/upload_photo_profile"
         app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
         app:layout_constraintStart_toEndOf="@+id/ivPerson"
         app:layout_constraintTop_toTopOf="@+id/ivPerson" />
@@ -47,7 +47,7 @@
         android:id="@+id/tilName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/nama"
+        android:hint="@string/name"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
         android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Daftar Baru"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilEmail" />

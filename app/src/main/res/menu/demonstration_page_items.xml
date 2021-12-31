@@ -8,24 +8,24 @@
         <item
             android:id="@+id/actionEdit"
             android:icon="@drawable/ic_edit_white_24dp"
-            android:title="Ubah"
+            android:title="@string/edit"
             app:showAsAction="ifRoom" />
     </group>
 
     <group android:id="@+id/viewMode">
         <item
             android:id="@+id/actionCancelParticipate"
-            android:title="Batal ikut"
+            android:title="@string/cancel_participate"
             android:visible="false"
             app:showAsAction="never" />
         <item
             android:id="@+id/actionCancelUpvote"
-            android:title="Batal mendukung"
+            android:title="@string/cancel_upvote"
             android:visible="false"
             app:showAsAction="never" />
         <item
             android:id="@+id/actionCancelDownvote"
-            android:title="Batal menolak"
+            android:title="@string/cancel_downvote"
             android:visible="false"
             app:showAsAction="never" />
     </group>

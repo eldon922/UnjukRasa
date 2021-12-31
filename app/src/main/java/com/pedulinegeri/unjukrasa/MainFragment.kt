@@ -154,12 +154,12 @@ class MainFragment : Fragment() {
 
         binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.title) {
-                resources.getString(R.string.inisiasi_unjuk_rasa) -> {
+                resources.getString(R.string.initiate_demonstration) -> {
                     findNavController().navigate(R.id.actionMainScreenToNavigationNewDemonstrationPage)
                 }
-                resources.getString(R.string.masuk) -> binding.bottomNavigation.selectedItemId =
+                resources.getString(R.string.login) -> binding.bottomNavigation.selectedItemId =
                     R.id.navigationLoginPage
-                resources.getString(R.string.keluar) -> {
+                resources.getString(R.string.logout) -> {
                     AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
                         authViewModel.signedOut()
                         binding.bottomNavigation.selectedItemId =
@@ -171,11 +171,11 @@ class MainFragment : Fragment() {
                         ).show()
                     }
                 }
-                resources.getString(R.string.pengaturan) -> {
+                resources.getString(R.string.settings) -> {
                     findNavController().navigate(R.id.actionMainScreenToEditProfilePageFragment)
                 }
-                resources.getString(R.string.bantuan) -> false
-                resources.getString(R.string.tentang) -> false
+                resources.getString(R.string.help) -> false
+                resources.getString(R.string.about) -> false
                 else -> false
             }
 

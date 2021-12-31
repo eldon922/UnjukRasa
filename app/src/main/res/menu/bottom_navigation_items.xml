@@ -3,13 +3,13 @@
     <item
         android:id="@+id/navigationHomePage"
         android:icon="@drawable/ic_home_white_24dp"
-        android:title="@string/beranda" />
+        android:title="@string/home" />
     <item
         android:id="@+id/navigationProfilePage"
         android:icon="@drawable/ic_perm_identity_white_24dp"
-        android:title="@string/profil" />
+        android:title="@string/profile" />
     <item
         android:id="@+id/navigationLoginPage"
         android:icon="@drawable/ic_login_white_24dp"
-        android:title="@string/masuk" />
+        android:title="@string/login" />
 </menu>

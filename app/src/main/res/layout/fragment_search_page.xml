@@ -36,7 +36,7 @@
                 android:background="@drawable/rounded_edge"
                 app:iconifiedByDefault="false"
                 app:queryBackground="@null"
-                app:queryHint="@string/search_bar"
+                app:queryHint="@string/search_bar_title"
                 app:searchIcon="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/createButton"
