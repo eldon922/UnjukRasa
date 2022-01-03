@@ -189,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:constraint_referenced_ids="tilTime, tilLocation, ivPolicePermit, btnUploadPolicePermit, tilPolicePermit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -200,6 +201,7 @@
         android:background="@color/black"
         android:paddingHorizontal="10dp"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout

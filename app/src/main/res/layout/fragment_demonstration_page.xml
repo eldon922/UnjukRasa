@@ -52,6 +52,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/vpImages"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"
+                android:visibility="gone"
+                tools:visibility="visible"
                 app:tabIndicatorHeight="0dp" />
 
             <TextView
@@ -163,6 +165,7 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -265,6 +268,7 @@
         android:contentDescription="@string/participate"
         android:text="@string/participate"
         android:visibility="gone"
+        tools:visibility="visible"
         app:borderWidth="0dp"
         android:textColor="@color/white"
         app:icon="@mipmap/ic_launcher_round"

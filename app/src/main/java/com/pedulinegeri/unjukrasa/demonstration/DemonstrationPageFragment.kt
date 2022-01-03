@@ -144,19 +144,6 @@ class DemonstrationPageFragment : Fragment() {
         demonstrationImageAdapter = DemonstrationImageAdapter(findNavController())
         binding.vpImages.adapter = demonstrationImageAdapter
 
-        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
-        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                if (position == 0) {
-                    binding.intoTabLayout.visibility = View.GONE
-                } else {
-                    binding.intoTabLayout.visibility = View.VISIBLE
-                }
-            }
-        })
-
         if (demonstration.youtube_video.isNotBlank()) {
             demonstrationImageAdapter.addImageOrVideo(demonstration.youtube_video)
         }
@@ -168,10 +155,29 @@ class DemonstrationPageFragment : Fragment() {
             it.items.forEach {
                 it.downloadUrl.addOnSuccessListener { demonstrationImageAdapter.addImageOrVideo(it.toString()) }
             }
+
+            if (it.items.size > 1 && demonstration.youtube_video.isBlank()) {
+                binding.intoTabLayout.visibility = View.VISIBLE
+            }
         }.addOnFailureListener {
             toast.setText("Gagal memuat gambar. ($it)")
             toast.show()
         }
+
+        TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
+        binding.vpImages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                if (demonstrationImageAdapter.itemCount > 1 || (demonstrationImageAdapter.itemCount > 0 && demonstration.youtube_video.isNotBlank())) {
+                    if (position == 0 && demonstration.youtube_video.isNotBlank()) {
+                        binding.intoTabLayout.visibility = View.GONE
+                    } else {
+                        binding.intoTabLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
     }
 
     private fun setupToolbar() {

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
@@ -13,6 +15,7 @@ import com.pedulinegeri.unjukrasa.databinding.ProgressListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationImageAdapter
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ProgressListAdapter(
@@ -30,8 +33,10 @@ class ProgressListAdapter(
 
         fun bind(progress: Progress) {
             binding.tvName.text = username
-            binding.tvDate.text = SimpleDateFormat("dd MMM yyyy").format(progress.creationDate)
-            binding.tvTime.text = SimpleDateFormat("hh:mm aa").format(progress.creationDate)
+            binding.tvDate.text =
+                SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(progress.creationDate)
+            binding.tvTime.text =
+                SimpleDateFormat("hh:mm aa", Locale.ENGLISH).format(progress.creationDate)
 
             val profileImageRef =
                 Firebase.storage.reference.child("profile_picture/${uid}.png")
@@ -39,7 +44,8 @@ class ProgressListAdapter(
             profileImageRef.downloadUrl.addOnSuccessListener {
                 Picasso.get().load(it).into(binding.ivPerson)
             }.addOnFailureListener {
-                Picasso.get().load(R.drawable.profile_avatar_placeholder_large).into(binding.ivPerson)
+                Picasso.get().load(R.drawable.profile_avatar_placeholder_large)
+                    .into(binding.ivPerson)
             }
 
             binding.tvContent.text = Html.fromHtml(progress.description)
@@ -59,10 +65,30 @@ class ProgressListAdapter(
                     it.downloadUrl.addOnSuccessListener { adapter.addImageOrVideo(it.toString()) }
                 }
 
-                if (it.items.size == 0 && progress.youtube_video.isBlank()) {
-                    binding.cvImages.visibility = View.GONE
+                if (progress.youtube_video.isBlank()) {
+                    if (it.items.size == 0) {
+                        binding.cvImages.visibility = View.GONE
+                    } else if (it.items.size > 1) {
+                        binding.intoTabLayout.visibility = View.VISIBLE
+                    }
                 }
             }
+
+            TabLayoutMediator(binding.intoTabLayout, binding.vpImages) { _, _ -> }.attach()
+            binding.vpImages.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+
+                    if (adapter.itemCount > 1 || (adapter.itemCount > 0 && progress.youtube_video.isNotBlank())) {
+                        if (position == 0 && progress.youtube_video.isNotBlank()) {
+                            binding.intoTabLayout.visibility = View.GONE
+                        } else {
+                            binding.intoTabLayout.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            })
         }
     }
 

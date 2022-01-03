@@ -60,6 +60,7 @@
         android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="5"
+        android:lines="5"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.firebase.firestore.Query
@@ -46,10 +47,6 @@ class HomePageFragment : Fragment() {
         setupTrendingListDemonstration()
         setupMostVotedListDemonstration()
         setupMostRecentCreatedListDemonstration()
-
-        binding.nsv.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-            binding.nsv.scrollY = homePageViewModel.nsvScrollPosition
-        }
     }
 
     override fun onPause() {
@@ -200,7 +197,17 @@ class HomePageFragment : Fragment() {
         }
 
         binding.rvMostRecentCreated.apply {
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.layoutManager = object : LinearLayoutManager(context, VERTICAL, false) {
+                override fun onLayoutCompleted(state: RecyclerView.State?) {
+                    super.onLayoutCompleted(state)
+
+                    if (this.height != homePageViewModel.lastRvMostRecentCreatedDemonstrationHeight) {
+                        binding.nsv.scrollY = homePageViewModel.nsvScrollPosition
+                    }
+
+                    homePageViewModel.lastRvMostRecentCreatedDemonstrationHeight = this.height
+                }
+            }
             this.adapter = adapter
         }
     }
