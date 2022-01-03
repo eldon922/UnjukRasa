@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
@@ -30,6 +31,7 @@ import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListB
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 
 
@@ -152,8 +154,13 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.storage.reference.child("demonstration_image/${demonstration.id}/${demonstration.initiatorUid}")
 
         imageRef.listAll().addOnSuccessListener {
-            it.items.forEach {
-                it.downloadUrl.addOnSuccessListener { demonstrationImageAdapter.addImageOrVideo(it.toString()) }
+            CoroutineScope(Dispatchers.IO).launch {
+                it.items.forEach {
+                    val downloadUri = Tasks.await(it.downloadUrl)
+                    withContext(Dispatchers.Main) {
+                        demonstrationImageAdapter.addImageOrVideo(downloadUri.toString())
+                    }
+                }
             }
 
             if (it.items.size > 1 && demonstration.youtube_video.isBlank()) {
