@@ -115,7 +115,6 @@ class NewDemonstrationPageFragment : Fragment() {
 
             when (requestCode) {
                 DEMONSTRATION_MEDIA_PICKER_CODE -> {
-                    binding.progressBar.visibility = View.GONE
                     imageAdapter.addImage(uri)
                     binding.vpImages.setCurrentItem(imageAdapter.itemCount - 1, true)
                 }
@@ -125,6 +124,8 @@ class NewDemonstrationPageFragment : Fragment() {
                 }
             }
         }
+        binding.progressBar.visibility = View.GONE
+        binding.progressBarPolicePermit.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -163,8 +164,11 @@ class NewDemonstrationPageFragment : Fragment() {
         setupPlacePicker()
 
         binding.btnUploadPolicePermit.setOnClickListener {
-            ImagePicker.with(this).compress(1024)
-                .crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
+            ImagePicker.with(this)
+                .setImageProviderInterceptor {
+                    binding.progressBarPolicePermit.visibility = View.VISIBLE
+                }
+                .compress(1024).crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
         }
     }
 
@@ -298,9 +302,9 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
-            ImagePicker.with(this).compress(1024)
-                .crop().start(DEMONSTRATION_MEDIA_PICKER_CODE)
+            ImagePicker.with(this)
+                .setImageProviderInterceptor { binding.progressBar.visibility = View.VISIBLE }
+                .compress(1024).crop().start(DEMONSTRATION_MEDIA_PICKER_CODE)
         }
 
         imageAdapter = NewDemonstrationImageAdapter()
