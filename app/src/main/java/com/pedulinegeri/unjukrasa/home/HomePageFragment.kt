@@ -201,11 +201,11 @@ class HomePageFragment : Fragment() {
                 override fun onLayoutCompleted(state: RecyclerView.State?) {
                     super.onLayoutCompleted(state)
 
-                    if (this.height != homePageViewModel.lastRvMostRecentCreatedDemonstrationHeight) {
+                    if (this.height != homePageViewModel.rvMostRecentCreatedDemonstrationLastHeight) {
                         binding.nsv.scrollY = homePageViewModel.nsvScrollPosition
                     }
 
-                    homePageViewModel.lastRvMostRecentCreatedDemonstrationHeight = this.height
+                    homePageViewModel.rvMostRecentCreatedDemonstrationLastHeight = this.height
                 }
             }
             this.adapter = adapter

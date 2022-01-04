@@ -159,6 +159,7 @@ class DemonstrationPageFragment : Fragment() {
                     val downloadUri = Tasks.await(it.downloadUrl)
                     withContext(Dispatchers.Main) {
                         demonstrationImageAdapter.addImageOrVideo(downloadUri.toString())
+                        binding.vpImages.currentItem = demonstrationPageViewModel.vpImagesCurrentItem
                     }
                 }
             }
@@ -374,6 +375,7 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         demonstrationPageViewModel.nsvScrollPosition = binding.nsv.scrollY
+        demonstrationPageViewModel.vpImagesCurrentItem = binding.vpImages.currentItem
     }
 
     private fun setupProgress() {
