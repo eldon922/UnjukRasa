@@ -121,7 +121,7 @@
                 android:id="@+id/cbRoadProtests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/participation_detail"
+                android:text="@string/participation_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilTo" />
 
@@ -306,7 +306,7 @@
         android:id="@+id/tvLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/upload_image_loading_detail"
+        android:text="@string/upload_image_loading_message"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />

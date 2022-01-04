@@ -18,7 +18,7 @@ class UnjukRasaApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        FirebaseApp.initializeApp(/*context=*/this)
+        FirebaseApp.initializeApp(this)
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
         firebaseAppCheck.installAppCheckProviderFactory(
             SafetyNetAppCheckProviderFactory.getInstance()
