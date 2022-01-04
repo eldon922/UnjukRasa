@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
@@ -58,6 +59,8 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private var lastClickTime = 0L
 
+    private lateinit var imagePicker: ImagePicker.Builder
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,6 +74,10 @@ class NewDemonstrationPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
+
+        imagePicker = ImagePicker.with(this)
+            .setImageProviderInterceptor { binding.groupLoading.visibility = View.VISIBLE }
+            .compress(1024).crop()
 
         setupToolbar()
         setupImageVideoUpload()
@@ -124,8 +131,7 @@ class NewDemonstrationPageFragment : Fragment() {
                 }
             }
         }
-        binding.progressBar.visibility = View.GONE
-        binding.progressBarPolicePermit.visibility = View.GONE
+        binding.groupLoading.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -164,11 +170,7 @@ class NewDemonstrationPageFragment : Fragment() {
         setupPlacePicker()
 
         binding.btnUploadPolicePermit.setOnClickListener {
-            ImagePicker.with(this)
-                .setImageProviderInterceptor {
-                    binding.progressBarPolicePermit.visibility = View.VISIBLE
-                }
-                .compress(1024).crop().start(POLICE_PERMIT_MEDIA_PICKER_CODE)
+            imagePicker.provider(ImageProvider.BOTH).start(POLICE_PERMIT_MEDIA_PICKER_CODE)
         }
     }
 
@@ -302,9 +304,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private fun setupImageVideoUpload() {
         binding.btnImage.setOnClickListener {
-            ImagePicker.with(this)
-                .setImageProviderInterceptor { binding.progressBar.visibility = View.VISIBLE }
-                .compress(1024).crop().start(DEMONSTRATION_MEDIA_PICKER_CODE)
+            imagePicker.provider(ImageProvider.BOTH).start(DEMONSTRATION_MEDIA_PICKER_CODE)
         }
 
         imageAdapter = NewDemonstrationImageAdapter()

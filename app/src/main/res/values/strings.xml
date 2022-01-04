@@ -59,4 +59,5 @@
     <string name="cancel_upvote">Batal mendukung</string>
     <string name="cancel_downvote">Batal menolak</string>
     <string name="start">Mulai</string>
+    <string name="upload_image_loading_detail">Gambar sedang diproses, mohon tunggu sebentar.</string>
 </resources>

@@ -43,18 +43,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:indeterminate="true"
-                android:background="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/vpImages"
-                app:layout_constraintEnd_toEndOf="@+id/vpImages"
-                app:layout_constraintStart_toStartOf="@+id/vpImages"
-                app:layout_constraintTop_toTopOf="@+id/vpImages" />
-
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/intoTabLayout"
                 android:layout_width="match_parent"
@@ -194,18 +182,6 @@
                 android:src="@drawable/no_img"
                 app:layout_constraintTop_toBottomOf="@+id/tilLocation" />
 
-            <ProgressBar
-                android:id="@+id/progressBarPolicePermit"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:indeterminate="true"
-                android:background="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/ivPolicePermit"
-                app:layout_constraintEnd_toEndOf="@+id/ivPolicePermit"
-                app:layout_constraintStart_toStartOf="@+id/ivPolicePermit"
-                app:layout_constraintTop_toTopOf="@+id/ivPolicePermit" />
-
             <Button
                 android:id="@+id/btnUploadPolicePermit"
                 android:layout_width="wrap_content"
@@ -261,8 +237,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                tools:visibility="visible"
-                app:constraint_referenced_ids="tilTime, tilLocation, ivPolicePermit, btnUploadPolicePermit, tilPolicePermit" />
+                app:constraint_referenced_ids="tilTime, tilLocation, ivPolicePermit, btnUploadPolicePermit, tilPolicePermit"
+                tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -273,8 +249,8 @@
         android:background="@color/black"
         android:paddingHorizontal="10dp"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -310,5 +286,37 @@
                 android:src="@drawable/italic" />
         </LinearLayout>
     </HorizontalScrollView>
+
+    <View
+        android:id="@+id/transparentLayerLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E6FFFFFF" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_image_loading_detail"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="transparentLayerLoading, progressBar, tvLoading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
