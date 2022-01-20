@@ -48,7 +48,16 @@ class EditDemonstrationPageFragment : Fragment() {
 
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
 
-    private lateinit var datePicker: SingleDateAndTimePickerDialog.Builder
+    private val datePicker by lazy {
+        SingleDateAndTimePickerDialog.Builder(requireContext())
+            .bottomSheet()
+            .curved()
+            .listener {
+                binding.etTime.setText(it.toString())
+                chosenDate = it
+            }
+    }
+
     private lateinit var chosenDate: Date
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
@@ -148,16 +157,6 @@ class EditDemonstrationPageFragment : Fragment() {
         }
 
         binding.etTime.setOnClickListener {
-            if (!this::datePicker.isInitialized) {
-                datePicker = SingleDateAndTimePickerDialog.Builder(requireContext())
-                    .bottomSheet()
-                    .curved()
-                    .listener {
-                        binding.etTime.setText(it.toString())
-                        chosenDate = it
-                    }
-            }
-
             datePicker.display()
         }
 
