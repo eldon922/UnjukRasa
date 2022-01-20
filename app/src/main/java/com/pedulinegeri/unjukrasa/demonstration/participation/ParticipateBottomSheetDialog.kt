@@ -67,13 +67,13 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
 
     private fun setupContent() {
         binding.tvDescription.text = Html.fromHtml(
-                    "<b>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:</b>" +
-                    "<ul'>\n" +
-                    "<li>Tanggal : ${args.date}</li>\n" +
-                    "<li>Pukul : ${args.time}</li>\n" +
-                    "<li>Tempat : ${args.location}</li>\n" +
-                    "</ul>\n" +
-                    "<b>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian</b>"
+            "<b>Silahkan koordinasi dengan koordinator dan peserta lain. Unjuk rasa ini akan diadakan pada:</b>" +
+                    "<br/>" +
+                    "<br/>&#8226; Tanggal : ${args.date}" +
+                    "<br/>&#8226; Pukul : ${args.time}" +
+                    "<br/>&#8226; Tempat : ${args.location}" +
+                    "<br/>" +
+                    "<br/><b>Waktu dan tempat dapat berubah sewaktu-waktu apabila koordinator menggantinya. Pastikan lagi kepada koordinator saat dekat hari h dan sesuaikan dengan surat ijin dari kepolisian</b>"
         )
     }
 

@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#2E2E2E</color>
     <color name="red">#F44336</color>
+    <color name="light_red">#F36B60</color>
     <color name="dark">#272727</color>
     <color name="green">#4CAF50</color>
+    <color name="light_green">#80CF83</color>
 
     <color name="line_color">#000000</color>
 </resources>

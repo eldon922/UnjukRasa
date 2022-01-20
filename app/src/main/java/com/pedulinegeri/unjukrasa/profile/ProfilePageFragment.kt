@@ -55,18 +55,18 @@ class ProfilePageFragment : Fragment() {
                 .navigate(R.id.actionMainScreenToNavigationNewDemonstrationPage)
         }
 
-        binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) binding.fabAdd.hide() else if (dy < 0) binding.fabAdd.show()
-            }
-        })
-
         if (args.userUID.isNotBlank()) {
             binding.appbar.visibility = View.VISIBLE
             binding.fabAdd.hide()
             uid = args.userUID
         } else {
             uid = authViewModel.uid
+
+            binding.rvDemonstration.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy > 0) binding.fabAdd.hide() else if (dy < 0) binding.fabAdd.show()
+                }
+            })
         }
 
         val imageRef =

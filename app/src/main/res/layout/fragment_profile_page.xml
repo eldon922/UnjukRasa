@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -29,7 +29,7 @@
         android:id="@+id/ivPerson"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:paddingEnd="10dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profile_avatar_placeholder_large"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -39,6 +39,8 @@
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:lines="1"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
@@ -91,8 +93,8 @@
         android:backgroundTint="@color/red"
         android:contentDescription="@string/create_new_demonstration"
         android:src="@drawable/ic_add_white_24dp"
-        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

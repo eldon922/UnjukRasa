@@ -49,6 +49,7 @@ class DemonstrationPageFragment : Fragment() {
 
     private var editMode = false
     private var hasAction = true
+    private var showParticipate = true
 
     private lateinit var personListAdapter: PersonListAdapter
     private lateinit var demonstrationImageAdapter: DemonstrationImageAdapter
@@ -96,16 +97,31 @@ class DemonstrationPageFragment : Fragment() {
                     updateUserData()
                 } else {
                     binding.fabParticipate.setOnClickListener {
+                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                            return@setOnClickListener
+                        }
+                        lastClickTime = SystemClock.elapsedRealtime()
+
                         findNavController().navigate(
                             DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
                         )
                     }
                     binding.fabUpvote.setOnClickListener {
+                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                            return@setOnClickListener
+                        }
+                        lastClickTime = SystemClock.elapsedRealtime()
+
                         findNavController().navigate(
                             DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
                         )
                     }
                     binding.fabDownvote.setOnClickListener {
+                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                            return@setOnClickListener
+                        }
+                        lastClickTime = SystemClock.elapsedRealtime()
+
                         findNavController().navigate(
                             DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
                         )
@@ -159,7 +175,8 @@ class DemonstrationPageFragment : Fragment() {
                     val downloadUri = Tasks.await(it.downloadUrl)
                     withContext(Dispatchers.Main) {
                         demonstrationImageAdapter.addImageOrVideo(downloadUri.toString())
-                        binding.vpImages.currentItem = demonstrationPageViewModel.vpImagesCurrentItem
+                        binding.vpImages.currentItem =
+                            demonstrationPageViewModel.vpImagesCurrentItem
                     }
                 }
             }
@@ -220,9 +237,6 @@ class DemonstrationPageFragment : Fragment() {
                             binding.chipParticipant.text =
                                 "${binding.chipParticipant.text.split(" ")[0].toLong() - 1} Ikut"
                             binding.chipParticipant.chipBackgroundColor = chipDefaultColor
-                            binding.fabUpvote.show()
-                            binding.fabDownvote.show()
-                            if (demonstration.road_protests) binding.fabParticipate.show()
 
                             val data = hashMapOf(
                                 "action" to "participation",
@@ -317,14 +331,18 @@ class DemonstrationPageFragment : Fragment() {
             binding.cvAddProgress.visibility = View.VISIBLE
             binding.toolbar.menu.setGroupVisible(R.id.viewMode, false)
         } else {
-            if (!hasAction) {
-                binding.fabUpvote.hide()
-                binding.fabDownvote.hide()
-                binding.fabParticipate.hide()
-            } else {
+            if (hasAction) {
                 binding.fabUpvote.show()
                 binding.fabDownvote.show()
-                if (demonstration.road_protests) binding.fabParticipate.show()
+            } else {
+                binding.fabUpvote.hide()
+                binding.fabDownvote.hide()
+            }
+
+            if (showParticipate) {
+                binding.fabParticipate.show()
+            } else {
+                binding.fabParticipate.hide()
             }
         }
         binding.fabShare.show()
@@ -335,24 +353,26 @@ class DemonstrationPageFragment : Fragment() {
         val docRef = db.collection("users").document(authViewModel.uid)
         userSnapshotListener = docRef.addSnapshotListener { document, e ->
             val user = document?.toObject<User>()!!
-            hasAction = !(demonstration.id in user.participation
-                    || demonstration.id in user.upvote
-                    || demonstration.id in user.downvote)
+            hasAction = !(demonstration.id in user.upvote || demonstration.id in user.downvote)
+            showParticipate =
+                demonstration.id !in user.participation && demonstration.road_protests && demonstration.id !in user.downvote
 
             binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = false
-            if (demonstration.id in user.participation) {
+            if (demonstration.id in user.participation && demonstration.road_protests) {
                 binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = true
                 binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
             }
             if (demonstration.id in user.upvote) {
-                binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = true
-                binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
+                if (demonstration.id !in user.participation) {
+                    binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = true
+                }
+                binding.chipUpvote.setChipBackgroundColorResource(R.color.light_green)
             }
             if (demonstration.id in user.downvote) {
                 binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = true
-                binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
+                binding.chipDownvote.setChipBackgroundColorResource(R.color.light_red)
             }
 
             setupEditMode()
@@ -423,16 +443,30 @@ class DemonstrationPageFragment : Fragment() {
                 binding.fabShare.hide()
                 binding.fabParticipate.hide()
             } else if (scrollY < oldScrollY || scrollY <= 0) {
-                if (!editMode && hasAction) {
-                    binding.fabUpvote.show()
-                    binding.fabDownvote.show()
-                    if (demonstration.road_protests) binding.fabParticipate.show()
+                if (!editMode) {
+                    if (hasAction) {
+                        binding.fabUpvote.show()
+                        binding.fabDownvote.show()
+                    }
+
+                    if (showParticipate) {
+                        binding.fabParticipate.show()
+                    }
                 }
                 binding.fabShare.show()
             }
         })
 
         binding.fabParticipate.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
+            binding.fabParticipate.hide()
+            binding.fabUpvote.hide()
+            binding.fabDownvote.hide()
+
             findNavController().navigate(
                 DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipateBottomSheetDialog(
                     SimpleDateFormat("dd MMMM yyyy").format(demonstration.datetime),
@@ -441,12 +475,15 @@ class DemonstrationPageFragment : Fragment() {
                     demonstration.id
                 )
             )
+
             binding.chipParticipant.text =
                 "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
+            if (hasAction) binding.chipUpvote.text =
+                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
             binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
-            binding.fabUpvote.hide()
-            binding.fabDownvote.hide()
-            binding.fabParticipate.hide()
+
+            hasAction = false
+            showParticipate = false
 
             val data = hashMapOf(
                 "action" to "participation",
@@ -466,6 +503,11 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabShare.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "unjukrasa.com/demonstration/${demonstration.id}")
@@ -484,14 +526,22 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabUpvote.setOnClickListener {
-            toast.setText("Terima kasih telah mendukung!")
-            toast.show()
-            binding.chipUpvote.text =
-                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
-            binding.chipUpvote.setChipBackgroundColorResource(R.color.green)
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             binding.fabUpvote.hide()
             binding.fabDownvote.hide()
-            binding.fabParticipate.hide()
+
+            toast.setText("Terima kasih telah mendukung!")
+            toast.show()
+
+            binding.chipUpvote.text =
+                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
+            binding.chipUpvote.setChipBackgroundColorResource(R.color.light_green)
+
+            hasAction = false
 
             val data = hashMapOf(
                 "action" to "upvote",
@@ -511,14 +561,24 @@ class DemonstrationPageFragment : Fragment() {
         }
 
         binding.fabDownvote.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
+            binding.fabDownvote.hide()
+            binding.fabUpvote.hide()
+            binding.fabParticipate.hide()
+
             toast.setText("Anda sudah menolak.")
             toast.show()
+
             binding.chipDownvote.text =
                 "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
-            binding.chipDownvote.setChipBackgroundColorResource(R.color.red)
-            binding.fabUpvote.hide()
-            binding.fabDownvote.hide()
-            binding.fabParticipate.hide()
+            binding.chipDownvote.setChipBackgroundColorResource(R.color.light_red)
+
+            hasAction = false
+            showParticipate = false
 
             val data = hashMapOf(
                 "action" to "downvote",
