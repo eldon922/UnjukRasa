@@ -7,8 +7,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:scaleType="centerCrop"
         android:contentDescription="@string/demonstration"
+        android:scaleType="centerCrop"
         android:src="@drawable/banner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

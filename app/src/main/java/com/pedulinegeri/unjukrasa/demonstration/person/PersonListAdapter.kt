@@ -22,7 +22,10 @@ class PersonListAdapter(
 
     private var personList = arrayListOf<Person>()
 
-    class ViewHolder(private val binding: PersonListItemBinding, private val mainNavController: NavController) :
+    class ViewHolder(
+        private val binding: PersonListItemBinding,
+        private val mainNavController: NavController
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
@@ -39,7 +42,8 @@ class PersonListAdapter(
             imageRef.downloadUrl.addOnSuccessListener {
                 Picasso.get().load(it).into(binding.ivPerson)
             }.addOnFailureListener {
-                Picasso.get().load(R.drawable.profile_avatar_placeholder_large).into(binding.ivPerson)
+                Picasso.get().load(R.drawable.profile_avatar_placeholder_large)
+                    .into(binding.ivPerson)
             }
 
             binding.root.setOnClickListener {

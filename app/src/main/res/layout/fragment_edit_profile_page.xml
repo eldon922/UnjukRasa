@@ -92,8 +92,8 @@
         android:text="@string/edit_profile_success"
         android:textColor="@color/green"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/btnSubmit"
         app:layout_constraintStart_toStartOf="@+id/btnSubmit"
-        app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmit"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

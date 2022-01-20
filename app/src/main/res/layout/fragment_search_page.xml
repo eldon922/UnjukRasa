@@ -35,13 +35,13 @@
                 android:layout_height="30dp"
                 android:background="@drawable/rounded_edge"
                 app:iconifiedByDefault="false"
-                app:queryBackground="@null"
-                app:queryHint="@string/search_bar_title"
-                app:searchIcon="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/createButton"
                 app:layout_constraintStart_toEndOf="@id/backButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:queryBackground="@null"
+                app:queryHint="@string/search_bar_title"
+                app:searchIcon="@null" />
 
             <ImageView
                 android:id="@+id/createButton"

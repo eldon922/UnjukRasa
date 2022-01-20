@@ -9,12 +9,12 @@
         android:id="@+id/ivIcon"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:contentDescription="@string/participated"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toStartOf="@id/tvTitle"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/participated" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitle"

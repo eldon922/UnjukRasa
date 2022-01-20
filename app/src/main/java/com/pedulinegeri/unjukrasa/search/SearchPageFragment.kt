@@ -112,7 +112,11 @@ class SearchPageFragment : Fragment() {
 
                             binding.rvResult.apply {
                                 this.layoutManager =
-                                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                                    LinearLayoutManager(
+                                        context,
+                                        LinearLayoutManager.VERTICAL,
+                                        false
+                                    )
                                 this.adapter = SearchPageDemonstrationListAdapter(
                                     demonstrationTitleList,
                                     findNavController()

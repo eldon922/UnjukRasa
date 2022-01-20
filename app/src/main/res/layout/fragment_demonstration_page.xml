@@ -49,24 +49,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/fui_transparent"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/vpImages"
                 app:tabBackground="@drawable/tab_pager_selector"
                 app:tabGravity="center"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:tabIndicatorHeight="0dp" />
+                app:tabIndicatorHeight="0dp"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/vpImages" />
+                app:layout_constraintTop_toBottomOf="@+id/vpImages"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
 
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
@@ -165,11 +165,11 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline6"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/tvProgress">
+                app:layout_constraintTop_toBottomOf="@+id/tvProgress"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -229,10 +229,10 @@
         android:backgroundTint="@color/light_green"
         android:contentDescription="@string/upvote"
         android:src="@drawable/ic_arrow_upward_24dp"
-        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/fabDownvote"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabDownvote"
@@ -242,10 +242,10 @@
         android:backgroundTint="@color/light_red"
         android:contentDescription="@string/downvote"
         android:src="@drawable/ic_arrow_downward_24dp"
-        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/fabShare"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabShare"
@@ -267,12 +267,12 @@
         android:backgroundTint="@color/green"
         android:contentDescription="@string/participate"
         android:text="@string/participate"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:borderWidth="0dp"
         android:textColor="@color/white"
+        android:visibility="gone"
+        app:borderWidth="0dp"
         app:icon="@mipmap/ic_launcher_round"
         app:iconTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
