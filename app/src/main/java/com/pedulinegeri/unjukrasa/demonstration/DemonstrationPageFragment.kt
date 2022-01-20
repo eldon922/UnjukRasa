@@ -12,6 +12,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -170,7 +171,7 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.storage.reference.child("demonstration_image/${demonstration.id}/${demonstration.initiatorUid}")
 
         imageRef.listAll().addOnSuccessListener {
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 it.items.forEach {
                     val downloadUri = Tasks.await(it.downloadUrl)
                     withContext(Dispatchers.Main) {
