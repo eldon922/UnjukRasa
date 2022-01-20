@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -22,7 +21,6 @@ import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -35,9 +33,6 @@ class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val authViewModel: AuthViewModel by activityViewModels()
-
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
-    private lateinit var addOnBackPressedCallbackJob: Job
 
     private var defaultStatusBarColor: Int = 0
 
@@ -83,7 +78,7 @@ class MainFragment : Fragment() {
     }
 
     private fun addOnBackPressedCallback() {
-        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
                 binding.drawer.closeDrawer(GravityCompat.START)
             } else if (binding.bottomNavigation.selectedItemId == R.id.navigationHomePage) {
@@ -93,7 +88,7 @@ class MainFragment : Fragment() {
                     "Tekan sekali lagi untuk keluar",
                     Toast.LENGTH_SHORT
                 ).show()
-                addOnBackPressedCallbackJob = lifecycleScope.launch {
+                lifecycleScope.launch {
                     delay(3000L)
                     addOnBackPressedCallback()
                 }
@@ -108,8 +103,6 @@ class MainFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         mainViewModel.bottomNavState = binding.bottomNavigation.selectedItemId
-
-        onBackPressedCallback.remove()
 
         requireActivity().window.statusBarColor = defaultStatusBarColor
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
@@ -141,11 +134,6 @@ class MainFragment : Fragment() {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
 
-                if (this@MainFragment::addOnBackPressedCallbackJob.isInitialized) {
-                    addOnBackPressedCallbackJob.cancel()
-                }
-
-                onBackPressedCallback.remove()
                 addOnBackPressedCallback()
             }
         }

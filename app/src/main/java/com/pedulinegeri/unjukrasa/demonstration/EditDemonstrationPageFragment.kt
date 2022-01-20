@@ -8,7 +8,6 @@ import android.os.SystemClock
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -42,8 +41,6 @@ class EditDemonstrationPageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: EditDemonstrationPageFragmentArgs by navArgs()
-
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
 
@@ -99,7 +96,7 @@ class EditDemonstrationPageFragment : Fragment() {
 
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
                 .setMessage("Apakah kamu yakin ingin keluar? Perubahan yang telah dilakukan akan hilang.")
@@ -114,7 +111,6 @@ class EditDemonstrationPageFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        onBackPressedCallback.remove()
 
         val v = requireActivity().currentFocus
         if (v != null) {

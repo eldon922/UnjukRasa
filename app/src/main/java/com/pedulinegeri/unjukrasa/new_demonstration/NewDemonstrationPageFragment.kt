@@ -8,7 +8,6 @@ import android.os.SystemClock
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -40,8 +39,6 @@ class NewDemonstrationPageFragment : Fragment() {
 
     private var _binding: FragmentNewDemonstrationPageBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
 
@@ -90,7 +87,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
                 .setMessage("Apakah kamu yakin ingin keluar? Data yang telah dimasukkan akan hilang.")
@@ -105,7 +102,6 @@ class NewDemonstrationPageFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        onBackPressedCallback.remove()
 
         val v = requireActivity().currentFocus
         if (v != null) {

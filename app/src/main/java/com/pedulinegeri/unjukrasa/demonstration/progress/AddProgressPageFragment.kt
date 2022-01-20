@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +32,6 @@ class AddProgressPageFragment : Fragment() {
 
     private var _binding: FragmentAddProgressPageBinding? = null
     private val binding get() = _binding!!
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
 
@@ -69,7 +67,7 @@ class AddProgressPageFragment : Fragment() {
 
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Keluar")
                 .setMessage("Apakah kamu yakin ingin keluar?")
@@ -84,7 +82,6 @@ class AddProgressPageFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        onBackPressedCallback.remove()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

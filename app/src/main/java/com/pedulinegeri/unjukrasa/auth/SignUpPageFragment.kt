@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -27,8 +26,6 @@ class SignUpPageFragment : Fragment() {
 
     private var _binding: FragmentSignUpPageBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var toast: Toast
 
@@ -84,7 +81,6 @@ class SignUpPageFragment : Fragment() {
                         .set(userData)
                         .addOnSuccessListener {
                             authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
-                            onBackPressedCallback.remove()
                             requireActivity().onBackPressed()
                         }
                         .addOnFailureListener {
@@ -112,15 +108,9 @@ class SignUpPageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             return@addCallback
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        onBackPressedCallback.remove()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
