@@ -13,9 +13,9 @@
         <action
             android:id="@+id/actionLoginPageFragmentToSignUpPageFragment"
             app:destination="@id/signUpPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 </navigation>

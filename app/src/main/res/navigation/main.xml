@@ -13,31 +13,31 @@
         <action
             android:id="@+id/actionMainScreenToNavigationNewDemonstrationPage"
             app:destination="@id/newDemonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/actionMainScreenToSignUpPageFragment"
             app:destination="@id/signUpPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/actionMainScreenToEditProfilePageFragment"
             app:destination="@id/editProfilePageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/actionMainScreenToSearchPageFragment"
             app:destination="@id/searchPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 
     <fragment
@@ -60,17 +60,17 @@
         <action
             android:id="@+id/actionDemonstrationPageFragmentToAddProgressPageFragment"
             app:destination="@id/addProgressPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/actionDemonstrationPageFragmentToNavigationProfilePage"
             app:destination="@id/navigationProfilePage"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right">
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right">
             <argument
                 android:name="userUID"
                 app:argType="string" />
@@ -78,10 +78,10 @@
         <action
             android:id="@+id/actionDemonstrationPageFragmentToNavigationLoginPage"
             app:destination="@id/navigationLoginPage"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/actionDemonstrationPageFragmentToParticipateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
@@ -95,10 +95,10 @@
         <action
             android:id="@+id/actionDemonstrationPageFragmentToEditDemonstrationPageFragment"
             app:destination="@id/editDemonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right" />
         <deepLink
             android:id="@+id/deepLink"
             app:uri="unjukrasa.com/demonstration/{id}" />
@@ -129,10 +129,10 @@
         <action
             android:id="@+id/actionSearchPageFragmentToNewDemonstrationPageFragment"
             app:destination="@id/newDemonstrationPageFragment"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right"
             app:popUpTo="@+id/mainScreen" />
     </fragment>
 
@@ -167,10 +167,10 @@
         <action
             android:id="@+id/actionParticipationListBottomSheetDialogToNavigationProfilePage"
             app:destination="@id/navigationProfilePage"
-            app:enterAnim="@anim/fui_slide_in_right"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/fui_slide_in_right"
-            app:popExitAnim="@android:anim/slide_out_right">
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/wait_anim"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/to_right">
             <argument
                 android:name="userUID"
                 app:argType="string" />
@@ -192,10 +192,10 @@
     <action
         android:id="@+id/actionGlobalDemonstrationPageFragment"
         app:destination="@id/demonstrationPageFragment"
-        app:enterAnim="@anim/fui_slide_in_right"
-        app:exitAnim="@android:anim/slide_out_right"
-        app:popEnterAnim="@anim/fui_slide_in_right"
-        app:popExitAnim="@android:anim/slide_out_right" />
+        app:enterAnim="@anim/from_right"
+        app:exitAnim="@anim/wait_anim"
+        app:popEnterAnim="@anim/wait_anim"
+        app:popExitAnim="@anim/to_right" />
 
     <action
         android:id="@+id/actionGlobalImageZoomBottomSheetDialog"
