@@ -69,8 +69,8 @@ class AddProgressPageFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
-                .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar?")
+                .setTitle(getString(R.string.exit))
+                .setMessage(getString(R.string.exit_edit_page_confirmation_message))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.navHostContainerMain).navigateUp()
@@ -112,15 +112,15 @@ class AddProgressPageFragment : Fragment() {
             lastClickTime = SystemClock.elapsedRealtime()
 
             if (binding.reDescription.html == null) {
-                toast.setText("Deskripsi wajib diisi.")
+                toast.setText(getString(R.string.description_input_empty))
                 toast.show()
                 return@setOnMenuItemClickListener false
             }
 
             if (it.itemId == R.id.actionAdd) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Tambah Perkembangan")
-                    .setMessage("Apakah kamu yakin ingin menambahkan perkembangan ini? Tekan cancel untuk mengubah data kembali")
+                    .setTitle(getString(R.string.add_progress))
+                    .setMessage(getString(R.string.add_progress_confirmation_message))
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         submit()
@@ -144,7 +144,7 @@ class AddProgressPageFragment : Fragment() {
         db.collection("demonstrations").document(args.demonstrationId)
             .update("progress", FieldValue.arrayUnion(progressData))
             .addOnSuccessListener {
-                toast.setText("Perkembangan berhasil ditambahkan. Terima kasih.")
+                toast.setText(getString(R.string.add_progress_success_message))
                 toast.show()
 
                 imageAdapter.imagesUri.forEachIndexed { index, uri ->
@@ -153,13 +153,13 @@ class AddProgressPageFragment : Fragment() {
                     val uploadTask = imageRef.putFile(uri)
 
                     uploadTask.addOnFailureListener {
-                        toast.setText("Unggah gambar ke-${index + 1} gagal. Silahkan coba lagi dengan mengubah perkembangan yang sudah dibuat. ($it)")
+                        toast.setText(getString(R.string.upload_progress_image_failed_message, index + 1, it))
                         toast.show()
                     }
                 }
             }
             .addOnFailureListener {
-                toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                toast.setText(getString(R.string.unknown_error_message, it))
                 toast.show()
             }
 
@@ -194,7 +194,7 @@ class AddProgressPageFragment : Fragment() {
         binding.reDescription.setEditorFontColor(binding.etYoutubeVideo.currentTextColor)
         binding.reDescription.setEditorBackgroundColor((binding.etYoutubeVideo.background as MaterialShapeDrawable).fillColor!!.defaultColor)
         binding.reDescription.setPadding(15, 15, 15, 15)
-        binding.reDescription.setPlaceholder("Deskripsikan perkembangannya...")
+        binding.reDescription.setPlaceholder(getString(R.string.description_input_placeholder))
 
         binding.reDescription.setOnTextChangeListener { text ->
             if (text.isNotEmpty()) {

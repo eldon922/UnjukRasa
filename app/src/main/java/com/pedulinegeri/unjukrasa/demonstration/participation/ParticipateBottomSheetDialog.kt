@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.ParticipateBottomSheetLayoutBinding
 
 class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
@@ -55,11 +56,11 @@ class ParticipateBottomSheetDialog : BottomSheetDialogFragment() {
                         )
                     }
                 } else {
-                    toast.setText("Belum ada ijin dari kepolisian.")
+                    toast.setText(getString(R.string.police_permit_not_exist))
                     toast.show()
                 }
             }.addOnFailureListener {
-                toast.setText("Gagal memuat gambar. ($it)")
+                toast.setText(getString(R.string.image_load_failed, it))
                 toast.show()
             }
         }

@@ -18,6 +18,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentEditProfilePageBinding
 import com.squareup.picasso.Picasso
@@ -55,7 +56,7 @@ class EditProfilePageFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             when {
                 binding.etName.text.isBlank() -> {
-                    binding.etName.error = "Nama wajib diisi!"
+                    binding.etName.error = getString(R.string.name_input_empty)
                     binding.etEmail.error = null
                 }
                 else -> {
@@ -64,12 +65,12 @@ class EditProfilePageFragment : Fragment() {
                     if (binding.etEmail.text.isNotBlank()) {
                         if (isValidEmail(binding.etEmail.text)) {
                             user.updateEmail(binding.etEmail.text.toString()).addOnFailureListener {
-                                toast.setText("Email sudah dipakai. Silahkan pakai email lain.")
+                                toast.setText(getString(R.string.email_input_exist))
                                 toast.show()
                                 binding.etEmail.setText(user.email)
                             }
                         } else {
-                            toast.setText("Email tidak valid.")
+                            toast.setText(getString(R.string.email_not_valid))
                             toast.show()
                             binding.btnSubmit.isEnabled = true
                             return@setOnClickListener
@@ -81,7 +82,7 @@ class EditProfilePageFragment : Fragment() {
                         .update("name", binding.etName.text.toString()).addOnSuccessListener {
                             binding.tvSuccess.isVisible = true
                         }.addOnFailureListener {
-                            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                            toast.setText(getString(R.string.unknown_error_message, it))
                             toast.show()
                         }.addOnSuccessListener {
                             binding.btnSubmit.isEnabled = true
@@ -126,7 +127,7 @@ class EditProfilePageFragment : Fragment() {
                     Picasso.get().load(it).into(binding.ivPerson)
                 }
             }.addOnFailureListener {
-                toast.setText("Unggah foto profil gagal. Silahkan coba lagi. ($it)")
+                toast.setText(getString(R.string.upload_photo_profile_failed, it))
                 toast.show()
             }
         }

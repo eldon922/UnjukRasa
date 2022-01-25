@@ -101,7 +101,7 @@
             app:popExitAnim="@anim/to_right" />
         <deepLink
             android:id="@+id/deepLink"
-            app:uri="unjukrasa.com/demonstration/{id}" />
+            app:uri="unjukrasa.com/{id}" />
     </fragment>
 
     <fragment

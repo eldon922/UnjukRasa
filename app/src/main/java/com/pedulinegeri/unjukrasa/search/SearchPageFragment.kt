@@ -106,7 +106,7 @@ class SearchPageFragment : Fragment() {
                             }
 
                             if (result.hits.isEmpty()) {
-                                toast.setText("Tidak ada unjuk rasa yang relevan dengan pencarian anda, silahkan coba lagi pakai keyword lain.")
+                                toast.setText(getString(R.string.search_result_empty_message))
                                 toast.show()
                             }
 
@@ -123,7 +123,7 @@ class SearchPageFragment : Fragment() {
                                 )
                             }
                         } catch (e: Exception) {
-                            toast.setText("Ada kesalahan, silahkan coba lagi. ($e)")
+                            toast.setText(getString(R.string.unknown_error_message, e))
                             toast.show()
                         }
                     }

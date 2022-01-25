@@ -89,7 +89,7 @@ class ProfilePageFragment : Fragment() {
             binding.tvName.text = user.name
             authViewModel.saveName(user.name)
 
-            binding.tabDemonstration.getTabAt(0)!!.text = "Membuat (${user.demonstrations.size})"
+            binding.tabDemonstration.getTabAt(0)!!.text = getString(R.string.demonstration_tab_title, user.demonstrations.size)
             binding.rvDemonstration.apply {
                 this.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

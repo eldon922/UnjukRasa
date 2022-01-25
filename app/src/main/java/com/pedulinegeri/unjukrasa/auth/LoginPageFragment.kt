@@ -53,7 +53,7 @@ class LoginPageFragment : Fragment() {
                 }.addOnFailureListener {
                     Toast.makeText(
                         requireContext(),
-                        "Ada kesalahan, silahkan coba lagi. ($it)",
+                        getString(R.string.unknown_error_message, it),
                         Toast.LENGTH_LONG
                     ).show()
                 }

@@ -89,7 +89,7 @@ class DemonstrationPageFragment : Fragment() {
             demonstration.id = args.id
 
             binding.tvTitle.text = demonstration.title
-            binding.tvTo.text = "Unjuk rasa ini ditujukan kepada: ${demonstration.to}"
+            binding.tvTo.text = getString(R.string.demonstration_destination, demonstration.to)
 
             setupFab()
             setupEditMode()
@@ -139,7 +139,7 @@ class DemonstrationPageFragment : Fragment() {
                 binding.nsv.scrollY = demonstrationPageViewModel.nsvScrollPosition
             }
         }.addOnFailureListener {
-            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+            toast.setText(getString(R.string.unknown_error_message, it))
             toast.show()
         }
 
@@ -186,7 +186,7 @@ class DemonstrationPageFragment : Fragment() {
                 binding.intoTabLayout.visibility = View.VISIBLE
             }
         }.addOnFailureListener {
-            toast.setText("Gagal memuat gambar. ($it)")
+            toast.setText(getString(R.string.image_load_failed, it))
             toast.show()
         }
 
@@ -227,16 +227,15 @@ class DemonstrationPageFragment : Fragment() {
                 }
                 R.id.actionCancelParticipate -> {
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Batal Ikut")
+                        .setTitle(getString(R.string.cancel_participation))
                         .setMessage(
-                            "Apakah kamu yakin ingin membatalkan partisipasi anda pada unjuk rasa ini?"
+                            getString(R.string.cancel_participation_confirmation_message)
                         )
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
-                            toast.setText("Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.")
+                            toast.setText(getString(R.string.cancel_participation_success_message))
                             toast.show()
-                            binding.chipParticipant.text =
-                                "${binding.chipParticipant.text.split(" ")[0].toLong() - 1} Ikut"
+                            binding.chipParticipant.text = getString(R.string.participation_count, binding.chipParticipant.text.split(" ")[0].toLong() - 1)
                             binding.chipParticipant.chipBackgroundColor = chipDefaultColor
 
                             val data = hashMapOf(
@@ -248,11 +247,11 @@ class DemonstrationPageFragment : Fragment() {
                                 .getHttpsCallable("cancelDemonstrationAction").call(data)
                                 .addOnSuccessListener {
                                     if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                        toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                        toast.setText(getString(R.string.cancel_action_not_exist))
                                         toast.show()
                                     }
                                 }.addOnFailureListener {
-                                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                                    toast.setText(getString(R.string.unknown_error_message, it))
                                     toast.show()
                                 }
                         }
@@ -260,16 +259,13 @@ class DemonstrationPageFragment : Fragment() {
                 }
                 R.id.actionCancelUpvote -> {
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Batal Mendukung")
-                        .setMessage(
-                            "Apakah kamu yakin ingin membatalkan dukungan anda pada unjuk rasa ini?"
-                        )
+                        .setTitle(getString(R.string.cancel_upvote))
+                        .setMessage(getString(R.string.cancel_upvote_confirmation_message))
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
-                            toast.setText("Anda telah berhasil membatalkan dukungan anda pada unjuk rasa ini.")
+                            toast.setText(getString(R.string.cancel_upvote_success_message))
                             toast.show()
-                            binding.chipUpvote.text =
-                                "${binding.chipUpvote.text.split(" ")[0].toLong() - 1} Dukung"
+                            binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() - 1)
                             binding.chipUpvote.chipBackgroundColor = chipDefaultColor
 
                             val data = hashMapOf(
@@ -281,21 +277,20 @@ class DemonstrationPageFragment : Fragment() {
                                 .getHttpsCallable("cancelDemonstrationAction").call(data)
                                 .addOnSuccessListener {
                                     if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                        toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                        toast.setText(getString(R.string.cancel_action_not_exist))
                                         toast.show()
                                     }
                                 }.addOnFailureListener {
-                                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                                    toast.setText(getString(R.string.unknown_error_message, it))
                                     toast.show()
                                 }
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
                 R.id.actionCancelDownvote -> {
-                    toast.setText("Anda telah berhasil membatalkan penolakan anda pada unjuk rasa ini.")
+                    toast.setText(getString(R.string.cancel_downvote_success_message))
                     toast.show()
-                    binding.chipDownvote.text =
-                        "${binding.chipDownvote.text.split(" ")[0].toLong() - 1} Menolak"
+                    binding.chipDownvote.text = getString(R.string.downvote_count, binding.chipDownvote.text.split(" ")[0].toLong() - 1)
                     binding.chipDownvote.chipBackgroundColor = chipDefaultColor
 
                     val data = hashMapOf(
@@ -307,11 +302,11 @@ class DemonstrationPageFragment : Fragment() {
                         .getHttpsCallable("cancelDemonstrationAction").call(data)
                         .addOnSuccessListener {
                             if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                toast.setText("Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                                toast.setText(getString(R.string.cancel_action_not_exist))
                                 toast.show()
                             }
                         }.addOnFailureListener {
-                            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                            toast.setText(getString(R.string.unknown_error_message, it))
                             toast.show()
                         }
                 }
@@ -427,7 +422,7 @@ class DemonstrationPageFragment : Fragment() {
                     )
                 )
             } else {
-                toast.setText("Perkembangan tidak bisa lebih dari 6 buah.")
+                toast.setText(getString(R.string.add_progress_limit_message))
                 toast.show()
             }
         }
@@ -477,10 +472,8 @@ class DemonstrationPageFragment : Fragment() {
                 )
             )
 
-            binding.chipParticipant.text =
-                "${binding.chipParticipant.text.split(" ")[0].toLong() + 1} Ikut"
-            if (hasAction) binding.chipUpvote.text =
-                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
+            binding.chipParticipant.text = getString(R.string.participation_count, binding.chipParticipant.text.split(" ")[0].toLong() + 1)
+            if (hasAction) binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
             binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
 
             hasAction = false
@@ -494,11 +487,11 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.setText(getString(R.string.action_already_done_message))
                         toast.show()
                     }
                 }.addOnFailureListener {
-                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.setText(getString(R.string.unknown_error_message, it))
                     toast.show()
                 }
         }
@@ -511,7 +504,7 @@ class DemonstrationPageFragment : Fragment() {
 
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "unjukrasa.com/demonstration/${demonstration.id}")
+                putExtra(Intent.EXTRA_TEXT, "unjukrasa.com/${demonstration.id}")
                 type = "text/plain"
             }
 
@@ -535,11 +528,10 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabUpvote.hide()
             binding.fabDownvote.hide()
 
-            toast.setText("Terima kasih telah mendukung!")
+            toast.setText(getString(R.string.upvote_success_message))
             toast.show()
 
-            binding.chipUpvote.text =
-                "${binding.chipUpvote.text.split(" ")[0].toLong() + 1} Dukung"
+            binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
             binding.chipUpvote.setChipBackgroundColorResource(R.color.light_green)
 
             hasAction = false
@@ -552,11 +544,11 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.setText(getString(R.string.action_already_done_message))
                         toast.show()
                     }
                 }.addOnFailureListener {
-                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.setText(getString(R.string.unknown_error_message, it))
                     toast.show()
                 }
         }
@@ -571,11 +563,10 @@ class DemonstrationPageFragment : Fragment() {
             binding.fabUpvote.hide()
             binding.fabParticipate.hide()
 
-            toast.setText("Anda sudah menolak.")
+            toast.setText(getString(R.string.downvote_success_message))
             toast.show()
 
-            binding.chipDownvote.text =
-                "${binding.chipDownvote.text.split(" ")[0].toLong() + 1} Menolak"
+            binding.chipDownvote.text = getString(R.string.downvote_count, binding.chipDownvote.text.split(" ")[0].toLong() + 1)
             binding.chipDownvote.setChipBackgroundColorResource(R.color.light_red)
 
             hasAction = false
@@ -589,11 +580,11 @@ class DemonstrationPageFragment : Fragment() {
             Firebase.functions("asia-southeast2").getHttpsCallable("demonstrationAction").call(data)
                 .addOnSuccessListener {
                     if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                        toast.setText("Anda telah mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.")
+                        toast.setText(getString(R.string.action_already_done_message))
                         toast.show()
                     }
                 }.addOnFailureListener {
-                    toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                    toast.setText(getString(R.string.unknown_error_message, it))
                     toast.show()
                 }
         }
@@ -602,10 +593,10 @@ class DemonstrationPageFragment : Fragment() {
     private fun setupChips() {
         if (!demonstration.road_protests) binding.chipParticipant.visibility = View.GONE
 
-        binding.chipParticipant.text = "${demonstration.participation} Ikut"
-        binding.chipUpvote.text = "${demonstration.upvote} Dukung"
-        binding.chipDownvote.text = "${demonstration.downvote} Menolak"
-        binding.chipShare.text = "${demonstration.share} Membagikan"
+        binding.chipParticipant.text = getString(R.string.participation_count, demonstration.participation)
+        binding.chipUpvote.text = getString(R.string.upvote_count, demonstration.upvote)
+        binding.chipDownvote.text = getString(R.string.downvote_count, demonstration.downvote)
+        binding.chipShare.text = getString(R.string.share_count, demonstration.share)
 
         binding.chipParticipant.setOnClickListener {
             if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {

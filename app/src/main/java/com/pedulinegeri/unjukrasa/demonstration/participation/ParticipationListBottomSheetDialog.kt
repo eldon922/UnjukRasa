@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.person.Person
@@ -55,19 +56,19 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
 
         when (args.typeList) {
             TypeList.PARTICIPANT -> {
-                binding.tvTitle.text = "Partisipan Unjuk Rasa"
+                binding.tvTitle.text = getString(R.string.participant)
                 searchTypeQuery = "participation"
             }
             TypeList.UPVOTE -> {
-                binding.tvTitle.text = "Pendukung Unjuk Rasa"
+                binding.tvTitle.text = getString(R.string.upvoter)
                 searchTypeQuery = "upvote"
             }
             TypeList.DOWNVOTE -> {
-                binding.tvTitle.text = "Menolak Unjuk Rasa"
+                binding.tvTitle.text = getString(R.string.downvoter)
                 searchTypeQuery = "downvote"
             }
             TypeList.SHARE -> {
-                binding.tvTitle.text = "Membagikan Unjuk Rasa"
+                binding.tvTitle.text = getString(R.string.sharing)
                 searchTypeQuery = "share"
             }
         }

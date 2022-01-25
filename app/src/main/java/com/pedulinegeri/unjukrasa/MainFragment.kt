@@ -85,7 +85,7 @@ class MainFragment : Fragment() {
                 remove()
                 Toast.makeText(
                     requireContext(),
-                    "Tekan sekali lagi untuk keluar",
+                    getString(R.string.exit_app_confirmation),
                     Toast.LENGTH_SHORT
                 ).show()
                 lifecycleScope.launch {
@@ -154,7 +154,7 @@ class MainFragment : Fragment() {
                             R.id.navigationHomePage
                         Toast.makeText(
                             requireContext(),
-                            "Kamu sudah keluar dari akunmu.",
+                            getString(R.string.logout_success_message),
                             Toast.LENGTH_LONG
                         ).show()
                     }

@@ -95,7 +95,7 @@ class EditDemonstrationPageFragment : Fragment() {
 
             chosenDate = demonstration.datetime
         }.addOnFailureListener {
-            toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+            toast.setText(getString(R.string.unknown_error_message, it))
             toast.show()
         }
     }
@@ -107,8 +107,8 @@ class EditDemonstrationPageFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(requireContext())
-                .setTitle("Keluar")
-                .setMessage("Apakah kamu yakin ingin keluar? Perubahan yang telah dilakukan akan hilang.")
+                .setTitle(R.string.exit)
+                .setMessage(getString(R.string.exit_new_page_confirmation_message))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requireActivity().findNavController(R.id.navHostContainerMain).navigateUp()
@@ -202,29 +202,29 @@ class EditDemonstrationPageFragment : Fragment() {
                 binding.etLocation.error = null
 
                 if (binding.etTitle.text.isBlank()) {
-                    binding.etTitle.error = "Judul wajib diisi!"
+                    binding.etTitle.error = getString(R.string.title_input_empty)
                     return@setOnMenuItemClickListener false
                 } else if (binding.etTo.text.isBlank()) {
-                    binding.etTo.error = "Tujuan wajib diisi!"
+                    binding.etTo.error = getString(R.string.destination_input_empty)
                     return@setOnMenuItemClickListener false
                 } else if (binding.cbRoadProtests.isChecked) {
                     if (binding.etTime.text.isBlank()) {
-                        binding.etTime.error = "Waktu wajib diisi!"
+                        binding.etTime.error = getString(R.string.time_input_empty)
                         return@setOnMenuItemClickListener false
                     } else if (binding.etLocation.text.isBlank()) {
-                        binding.etLocation.error = "Lokasi wajib diisi!"
+                        binding.etLocation.error = getString(R.string.location_input_empty)
                         return@setOnMenuItemClickListener false
                     }
                 } else if (binding.reDescription.html == null) {
-                    toast.setText("Deskripsi wajib diisi.")
+                    toast.setText(getString(R.string.description_input_empty))
                     toast.show()
                     return@setOnMenuItemClickListener false
                 }
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Ubah Unjuk Rasa")
+                    .setTitle(getString(R.string.edit_demonstration))
                     .setMessage(
-                        "Apakah kamu yakin ingin mengubah unjuk rasa ini? Tekan cancel untuk mengubah data kembali"
+                        getString(R.string.edit_demonstration_confirmation_message)
                     )
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -252,7 +252,7 @@ class EditDemonstrationPageFragment : Fragment() {
         db.collection("demonstrations").document(args.id)
             .update(demonstrationData as Map<String, Any>)
             .addOnSuccessListener {
-                toast.setText("Unjuk rasa berhasil diubah. Terima kasih.")
+                toast.setText(getString(R.string.edit_demonstration_success_message))
                 toast.show()
 
                 if (binding.cbRoadProtests.isChecked) {
@@ -262,13 +262,13 @@ class EditDemonstrationPageFragment : Fragment() {
                         imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
 
                     uploadTask.addOnFailureListener {
-                        toast.setText("Unggah foto ijin kepolisian gagal. Silahkan coba lagi dengan mengubah unjuk rasa yang sudah dibuat. ($it)")
+                        toast.setText(getString(R.string.upload_police_permit_image_failed_message, it))
                         toast.show()
                     }
                 }
             }
             .addOnFailureListener {
-                toast.setText("Ada kesalahan, silahkan coba lagi. ($it)")
+                toast.setText(getString(R.string.unknown_error_message, it))
                 toast.show()
             }
 
@@ -290,7 +290,7 @@ class EditDemonstrationPageFragment : Fragment() {
 
             override fun onError(status: Status) {
                 if (!status.isCanceled) {
-                    toast.setText("An error occurred: $status")
+                    toast.setText(getString(R.string.unknown_error_message, status))
                     toast.show()
                 }
             }
@@ -303,7 +303,7 @@ class EditDemonstrationPageFragment : Fragment() {
         binding.reDescription.setEditorFontColor(binding.etTitle.currentTextColor)
         binding.reDescription.setEditorBackgroundColor((binding.etTitle.background as MaterialShapeDrawable).fillColor!!.defaultColor)
         binding.reDescription.setPadding(15, 15, 15, 15)
-        binding.reDescription.setPlaceholder("Deskripsikan suaramu...")
+        binding.reDescription.setPlaceholder(getString(R.string.description_input_placeholder))
 
         binding.reDescription.setOnTextChangeListener { text ->
             if (text.isNotEmpty()) {
