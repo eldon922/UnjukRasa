@@ -238,22 +238,7 @@ class DemonstrationPageFragment : Fragment() {
                             binding.chipParticipant.text = getString(R.string.participation_count, binding.chipParticipant.text.split(" ")[0].toLong() - 1)
                             binding.chipParticipant.chipBackgroundColor = chipDefaultColor
 
-                            val data = hashMapOf(
-                                "action" to "participation",
-                                "demonstrationId" to demonstration.id
-                            )
-
-                            Firebase.functions("asia-southeast2")
-                                .getHttpsCallable("cancelDemonstrationAction").call(data)
-                                .addOnSuccessListener {
-                                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                        toast.setText(getString(R.string.cancel_action_not_exist))
-                                        toast.show()
-                                    }
-                                }.addOnFailureListener {
-                                    toast.setText(getString(R.string.unknown_error_message, it))
-                                    toast.show()
-                                }
+                            cancelDemonstrationAction("participation")
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
@@ -268,22 +253,7 @@ class DemonstrationPageFragment : Fragment() {
                             binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() - 1)
                             binding.chipUpvote.chipBackgroundColor = chipDefaultColor
 
-                            val data = hashMapOf(
-                                "action" to "upvote",
-                                "demonstrationId" to demonstration.id
-                            )
-
-                            Firebase.functions("asia-southeast2")
-                                .getHttpsCallable("cancelDemonstrationAction").call(data)
-                                .addOnSuccessListener {
-                                    if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                        toast.setText(getString(R.string.cancel_action_not_exist))
-                                        toast.show()
-                                    }
-                                }.addOnFailureListener {
-                                    toast.setText(getString(R.string.unknown_error_message, it))
-                                    toast.show()
-                                }
+                            cancelDemonstrationAction("upvote")
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
@@ -293,27 +263,31 @@ class DemonstrationPageFragment : Fragment() {
                     binding.chipDownvote.text = getString(R.string.downvote_count, binding.chipDownvote.text.split(" ")[0].toLong() - 1)
                     binding.chipDownvote.chipBackgroundColor = chipDefaultColor
 
-                    val data = hashMapOf(
-                        "action" to "downvote",
-                        "demonstrationId" to demonstration.id
-                    )
-
-                    Firebase.functions("asia-southeast2")
-                        .getHttpsCallable("cancelDemonstrationAction").call(data)
-                        .addOnSuccessListener {
-                            if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
-                                toast.setText(getString(R.string.cancel_action_not_exist))
-                                toast.show()
-                            }
-                        }.addOnFailureListener {
-                            toast.setText(getString(R.string.unknown_error_message, it))
-                            toast.show()
-                        }
+                    cancelDemonstrationAction("downvote")
                 }
             }
 
             return@setOnMenuItemClickListener true
         }
+    }
+
+    private fun cancelDemonstrationAction(action: String) {
+        val data = hashMapOf(
+            "action" to action,
+            "demonstrationId" to demonstration.id
+        )
+
+        Firebase.functions("asia-southeast2")
+            .getHttpsCallable("cancelDemonstrationAction").call(data)
+            .addOnSuccessListener {
+                if (!((it.data as HashMap<String, Any>)["success"] as Boolean)) {
+                    toast.setText(getString(R.string.cancel_action_not_exist))
+                    toast.show()
+                }
+            }.addOnFailureListener {
+                toast.setText(getString(R.string.unknown_error_message, it))
+                toast.show()
+            }
     }
 
     private fun setupEditMode() {
