@@ -50,7 +50,7 @@ class DemonstrationPageFragment : Fragment() {
 
     private var editMode = false
     private var hasAction = true
-    private var showParticipate = true
+    private var showParticipate = false
 
     private lateinit var personListAdapter: PersonListAdapter
     private lateinit var demonstrationImageAdapter: DemonstrationImageAdapter
@@ -90,6 +90,8 @@ class DemonstrationPageFragment : Fragment() {
 
             binding.tvTitle.text = demonstration.title
             binding.tvTo.text = getString(R.string.demonstration_destination, demonstration.to)
+
+            showParticipate = demonstration.road_protests
 
             setupFab()
             setupEditMode()
@@ -235,7 +237,10 @@ class DemonstrationPageFragment : Fragment() {
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             toast.setText(getString(R.string.cancel_participation_success_message))
                             toast.show()
-                            binding.chipParticipant.text = getString(R.string.participation_count, binding.chipParticipant.text.split(" ")[0].toLong() - 1)
+                            binding.chipParticipant.text = getString(
+                                R.string.participation_count,
+                                binding.chipParticipant.text.split(" ")[0].toLong() - 1
+                            )
                             binding.chipParticipant.chipBackgroundColor = chipDefaultColor
 
                             cancelDemonstrationAction("participation")
@@ -250,7 +255,10 @@ class DemonstrationPageFragment : Fragment() {
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             toast.setText(getString(R.string.cancel_upvote_success_message))
                             toast.show()
-                            binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() - 1)
+                            binding.chipUpvote.text = getString(
+                                R.string.upvote_count,
+                                binding.chipUpvote.text.split(" ")[0].toLong() - 1
+                            )
                             binding.chipUpvote.chipBackgroundColor = chipDefaultColor
 
                             cancelDemonstrationAction("upvote")
@@ -260,7 +268,10 @@ class DemonstrationPageFragment : Fragment() {
                 R.id.actionCancelDownvote -> {
                     toast.setText(getString(R.string.cancel_downvote_success_message))
                     toast.show()
-                    binding.chipDownvote.text = getString(R.string.downvote_count, binding.chipDownvote.text.split(" ")[0].toLong() - 1)
+                    binding.chipDownvote.text = getString(
+                        R.string.downvote_count,
+                        binding.chipDownvote.text.split(" ")[0].toLong() - 1
+                    )
                     binding.chipDownvote.chipBackgroundColor = chipDefaultColor
 
                     cancelDemonstrationAction("downvote")
@@ -419,9 +430,7 @@ class DemonstrationPageFragment : Fragment() {
                         binding.fabDownvote.show()
                     }
 
-                    if (showParticipate) {
-                        binding.fabParticipate.show()
-                    }
+                    if (showParticipate) binding.fabParticipate.show()
                 }
                 binding.fabShare.show()
             }
@@ -446,8 +455,12 @@ class DemonstrationPageFragment : Fragment() {
                 )
             )
 
-            binding.chipParticipant.text = getString(R.string.participation_count, binding.chipParticipant.text.split(" ")[0].toLong() + 1)
-            if (hasAction) binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
+            binding.chipParticipant.text = getString(
+                R.string.participation_count,
+                binding.chipParticipant.text.split(" ")[0].toLong() + 1
+            )
+            if (hasAction) binding.chipUpvote.text =
+                getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
             binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
 
             hasAction = false
@@ -505,7 +518,8 @@ class DemonstrationPageFragment : Fragment() {
             toast.setText(getString(R.string.upvote_success_message))
             toast.show()
 
-            binding.chipUpvote.text = getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
+            binding.chipUpvote.text =
+                getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
             binding.chipUpvote.setChipBackgroundColorResource(R.color.light_green)
 
             hasAction = false
@@ -540,7 +554,10 @@ class DemonstrationPageFragment : Fragment() {
             toast.setText(getString(R.string.downvote_success_message))
             toast.show()
 
-            binding.chipDownvote.text = getString(R.string.downvote_count, binding.chipDownvote.text.split(" ")[0].toLong() + 1)
+            binding.chipDownvote.text = getString(
+                R.string.downvote_count,
+                binding.chipDownvote.text.split(" ")[0].toLong() + 1
+            )
             binding.chipDownvote.setChipBackgroundColorResource(R.color.light_red)
 
             hasAction = false
@@ -565,9 +582,10 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupChips() {
-        if (!demonstration.road_protests) binding.chipParticipant.visibility = View.GONE
+        if (showParticipate) binding.chipParticipant.visibility = View.VISIBLE
 
-        binding.chipParticipant.text = getString(R.string.participation_count, demonstration.participation)
+        binding.chipParticipant.text =
+            getString(R.string.participation_count, demonstration.participation)
         binding.chipUpvote.text = getString(R.string.upvote_count, demonstration.upvote)
         binding.chipDownvote.text = getString(R.string.downvote_count, demonstration.downvote)
         binding.chipShare.text = getString(R.string.share_count, demonstration.share)

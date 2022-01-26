@@ -90,7 +90,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/participated"
-                        app:chipIcon="@mipmap/ic_launcher_round" />
+                        android:visibility="gone"
+                        app:chipIcon="@mipmap/ic_launcher_round"
+                        tools:visibility="visible" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipUpvote"

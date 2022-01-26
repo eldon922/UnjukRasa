@@ -271,19 +271,30 @@ class NewDemonstrationPageFragment : Fragment() {
                     val uploadTask = imageRef.putFile(uri)
 
                     uploadTask.addOnFailureListener {
-                        toast.setText(getString(R.string.upload_demonstration_image_failed_message, index + 1, it))
+                        toast.setText(
+                            getString(
+                                R.string.upload_demonstration_image_failed_message,
+                                index + 1,
+                                it
+                            )
+                        )
                         toast.show()
                     }
                 }
 
-                if (binding.cbRoadProtests.isChecked) {
+                if (binding.cbRoadProtests.isChecked && binding.etPolicePermit.text.isNotBlank()) {
                     val imageRef =
                         Firebase.storage.reference.child("/police_permit_image/${it.id}/${authViewModel.uid}.png")
                     val uploadTask =
                         imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
 
                     uploadTask.addOnFailureListener {
-                        toast.setText(getString(R.string.upload_police_permit_image_failed_message, it))
+                        toast.setText(
+                            getString(
+                                R.string.upload_police_permit_image_failed_message,
+                                it
+                            )
+                        )
                         toast.show()
                     }
                 }

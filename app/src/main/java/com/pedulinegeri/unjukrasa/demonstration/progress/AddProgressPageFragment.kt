@@ -153,7 +153,13 @@ class AddProgressPageFragment : Fragment() {
                     val uploadTask = imageRef.putFile(uri)
 
                     uploadTask.addOnFailureListener {
-                        toast.setText(getString(R.string.upload_progress_image_failed_message, index + 1, it))
+                        toast.setText(
+                            getString(
+                                R.string.upload_progress_image_failed_message,
+                                index + 1,
+                                it
+                            )
+                        )
                         toast.show()
                     }
                 }
