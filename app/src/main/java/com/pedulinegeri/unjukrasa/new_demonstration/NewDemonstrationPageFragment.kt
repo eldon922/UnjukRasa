@@ -196,9 +196,11 @@ class NewDemonstrationPageFragment : Fragment() {
                     return@setOnMenuItemClickListener false
                 } else if (binding.etTitle.text.isBlank()) {
                     binding.etTitle.error = getString(R.string.title_input_empty)
+                    binding.etTitle.requestFocus()
                     return@setOnMenuItemClickListener false
                 } else if (binding.etTo.text.isBlank()) {
                     binding.etTo.error = getString(R.string.destination_input_empty)
+                    binding.etTo.requestFocus()
                     return@setOnMenuItemClickListener false
                 } else if (binding.reDescription.html == null) {
                     toast.setText(getString(R.string.description_input_empty))
@@ -207,9 +209,11 @@ class NewDemonstrationPageFragment : Fragment() {
                 } else if (binding.cbRoadProtests.isChecked) {
                     if (binding.etTime.text.isBlank()) {
                         binding.etTime.error = getString(R.string.time_input_empty)
+                        binding.etTime.requestFocus()
                         return@setOnMenuItemClickListener false
                     } else if (binding.etLocation.text.isBlank()) {
                         binding.etLocation.error = getString(R.string.location_input_empty)
+                        binding.etLocation.requestFocus()
                         return@setOnMenuItemClickListener false
                     }
                 }

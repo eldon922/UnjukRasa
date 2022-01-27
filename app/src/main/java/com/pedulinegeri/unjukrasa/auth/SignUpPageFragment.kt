@@ -52,6 +52,7 @@ class SignUpPageFragment : Fragment() {
             when {
                 binding.etName.text.isBlank() -> {
                     binding.etName.error = getString(R.string.name_input_empty)
+                    binding.etName.requestFocus()
                     binding.etEmail.error = null
                 }
                 else -> {
