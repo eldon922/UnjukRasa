@@ -14,7 +14,7 @@ data class Demonstration(
     val road_protests: Boolean = false,
     val datetime: Date = Calendar.getInstance().time,
     val location: String = "",
-    val participation: Long = 0,
+    val participate: Long = 0,
     val upvote: Long = 0,
     val downvote: Long = 0,
     val share: Long = 0,

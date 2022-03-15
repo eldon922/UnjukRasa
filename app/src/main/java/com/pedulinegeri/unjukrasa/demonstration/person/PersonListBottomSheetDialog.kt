@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.demonstration.participation
+package com.pedulinegeri.unjukrasa.demonstration.person
 
 import android.app.Dialog
 import android.os.Bundle
@@ -22,21 +22,19 @@ import com.google.firebase.ktx.Firebase
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.PersonListBottomSheetLayoutBinding
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
-import com.pedulinegeri.unjukrasa.demonstration.person.Person
-import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
 
 
-class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
+class PersonListBottomSheetDialog : BottomSheetDialogFragment() {
 
     enum class TypeList {
-        PARTICIPANT, UPVOTE, DOWNVOTE, SHARE
+        PARTICIPATE, UPVOTE, DOWNVOTE, SHARE
     }
 
     private var _binding: PersonListBottomSheetLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val args: ParticipationListBottomSheetDialogArgs by navArgs()
+    private val args: PersonListBottomSheetDialogArgs by navArgs()
 
     private lateinit var searchTypeQuery: String
 
@@ -55,9 +53,9 @@ class ParticipationListBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         when (args.typeList) {
-            TypeList.PARTICIPANT -> {
+            TypeList.PARTICIPATE -> {
                 binding.tvTitle.text = getString(R.string.participant)
-                searchTypeQuery = "participation"
+                searchTypeQuery = "participate"
             }
             TypeList.UPVOTE -> {
                 binding.tvTitle.text = getString(R.string.upvoter)

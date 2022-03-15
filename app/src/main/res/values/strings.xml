@@ -31,7 +31,7 @@
     <string name="share">Bagikan</string>
     <string name="participate">Ikut unjuk rasa</string>
     <string name="title">Judul</string>
-    <string name="participation_title">Adakan unjuk rasa ke jalan</string>
+    <string name="participate_title">Adakan unjuk rasa ke jalan</string>
     <string name="time">Waktu</string>
     <string name="location">Lokasi</string>
     <string name="upload">Unggah</string>
@@ -72,10 +72,9 @@
     <string name="progress_description_input_placeholder">Deskripsikan perkembangannya…</string>
     <string name="demonstration_destination">Unjuk rasa ini ditujukan kepada: %1$s</string>
     <string name="image_load_failed">Gagal memuat foto. (%1$s)</string>
-    <string name="cancel_participation">Batal Ikut</string>
-    <string name="cancel_participation_confirmation_message">Apakah kamu yakin ingin membatalkan partisipasi anda pada unjuk rasa ini?</string>
-    <string name="cancel_participation_success_message">Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.</string>
-    <string name="participation_count">%1$d Ikut</string>
+    <string name="cancel_participate_confirmation_message">Apakah kamu yakin ingin membatalkan partisipasi anda pada unjuk rasa ini?</string>
+    <string name="cancel_participate_success_message">Anda telah berhasil membatalkan partisipasi anda pada unjuk rasa ini.</string>
+    <string name="participate_count">%1$d Ikut</string>
     <string name="cancel_action_not_exist">Anda belum mengikuti/mendukung/menolak unjuk rasa ini sebelumnya.</string>
     <string name="cancel_upvote_confirmation_message">Apakah kamu yakin ingin membatalkan dukungan anda pada unjuk rasa ini?</string>
     <string name="cancel_upvote_success_message">Anda telah berhasil membatalkan dukungan anda pada unjuk rasa ini.</string>

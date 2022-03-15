@@ -21,8 +21,8 @@ import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.NullPointerException
 
 
 @AndroidEntryPoint

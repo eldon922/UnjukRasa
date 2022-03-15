@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.demonstration.participation
+package com.pedulinegeri.unjukrasa.demonstration
 
 import android.app.Dialog
 import android.os.Bundle

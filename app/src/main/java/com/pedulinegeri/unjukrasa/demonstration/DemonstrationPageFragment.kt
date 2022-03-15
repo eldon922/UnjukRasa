@@ -28,7 +28,7 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog
+import com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
@@ -229,21 +229,21 @@ class DemonstrationPageFragment : Fragment() {
                 }
                 R.id.actionCancelParticipate -> {
                     AlertDialog.Builder(requireContext())
-                        .setTitle(getString(R.string.cancel_participation))
+                        .setTitle(getString(R.string.cancel_participate))
                         .setMessage(
-                            getString(R.string.cancel_participation_confirmation_message)
+                            getString(R.string.cancel_participate_confirmation_message)
                         )
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
-                            toast.setText(getString(R.string.cancel_participation_success_message))
+                            toast.setText(getString(R.string.cancel_participate_success_message))
                             toast.show()
-                            binding.chipParticipant.text = getString(
-                                R.string.participation_count,
-                                binding.chipParticipant.text.split(" ")[0].toLong() - 1
+                            binding.chipParticipate.text = getString(
+                                R.string.participate_count,
+                                binding.chipParticipate.text.split(" ")[0].toLong() - 1
                             )
-                            binding.chipParticipant.chipBackgroundColor = chipDefaultColor
+                            binding.chipParticipate.chipBackgroundColor = chipDefaultColor
 
-                            cancelDemonstrationAction("participation")
+                            cancelDemonstrationAction("participate")
                         }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 }
@@ -336,17 +336,17 @@ class DemonstrationPageFragment : Fragment() {
             val user = document?.toObject<User>()!!
             hasAction = !(demonstration.id in user.upvote || demonstration.id in user.downvote)
             showParticipate =
-                demonstration.id !in user.participation && demonstration.road_protests && demonstration.id !in user.downvote
+                demonstration.id !in user.participate && demonstration.road_protests && demonstration.id !in user.downvote
 
             binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = false
-            if (demonstration.id in user.participation && demonstration.road_protests) {
+            if (demonstration.id in user.participate && demonstration.road_protests) {
                 binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = true
-                binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
+                binding.chipParticipate.setChipBackgroundColorResource(R.color.green)
             }
             if (demonstration.id in user.upvote) {
-                if (demonstration.id !in user.participation) {
+                if (demonstration.id !in user.participate) {
                     binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = true
                 }
                 binding.chipUpvote.setChipBackgroundColorResource(R.color.light_green)
@@ -455,19 +455,19 @@ class DemonstrationPageFragment : Fragment() {
                 )
             )
 
-            binding.chipParticipant.text = getString(
-                R.string.participation_count,
-                binding.chipParticipant.text.split(" ")[0].toLong() + 1
+            binding.chipParticipate.text = getString(
+                R.string.participate_count,
+                binding.chipParticipate.text.split(" ")[0].toLong() + 1
             )
             if (hasAction) binding.chipUpvote.text =
                 getString(R.string.upvote_count, binding.chipUpvote.text.split(" ")[0].toLong() + 1)
-            binding.chipParticipant.setChipBackgroundColorResource(R.color.green)
+            binding.chipParticipate.setChipBackgroundColorResource(R.color.green)
 
             hasAction = false
             showParticipate = false
 
             val data = hashMapOf(
-                "action" to "participation",
+                "action" to "participate",
                 "demonstrationId" to demonstration.id
             )
 
@@ -582,23 +582,23 @@ class DemonstrationPageFragment : Fragment() {
     }
 
     private fun setupChips() {
-        if (showParticipate) binding.chipParticipant.visibility = View.VISIBLE
+        if (showParticipate) binding.chipParticipate.visibility = View.VISIBLE
 
-        binding.chipParticipant.text =
-            getString(R.string.participation_count, demonstration.participation)
+        binding.chipParticipate.text =
+            getString(R.string.participate_count, demonstration.participate)
         binding.chipUpvote.text = getString(R.string.upvote_count, demonstration.upvote)
         binding.chipDownvote.text = getString(R.string.downvote_count, demonstration.downvote)
         binding.chipShare.text = getString(R.string.share_count, demonstration.share)
 
-        binding.chipParticipant.setOnClickListener {
+        binding.chipParticipate.setOnClickListener {
             if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                 return@setOnClickListener
             }
             lastClickTime = SystemClock.elapsedRealtime()
 
             findNavController().navigate(
-                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.PARTICIPANT,
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToPersonListBottomSheetDialog(
+                    PersonListBottomSheetDialog.TypeList.PARTICIPATE,
                     demonstration.id
                 )
             )
@@ -611,8 +611,8 @@ class DemonstrationPageFragment : Fragment() {
             lastClickTime = SystemClock.elapsedRealtime()
 
             findNavController().navigate(
-                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.UPVOTE,
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToPersonListBottomSheetDialog(
+                    PersonListBottomSheetDialog.TypeList.UPVOTE,
                     demonstration.id
                 )
             )
@@ -625,8 +625,8 @@ class DemonstrationPageFragment : Fragment() {
             lastClickTime = SystemClock.elapsedRealtime()
 
             findNavController().navigate(
-                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.DOWNVOTE,
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToPersonListBottomSheetDialog(
+                    PersonListBottomSheetDialog.TypeList.DOWNVOTE,
                     demonstration.id
                 )
             )
@@ -639,8 +639,8 @@ class DemonstrationPageFragment : Fragment() {
             lastClickTime = SystemClock.elapsedRealtime()
 
             findNavController().navigate(
-                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToParticipationListBottomSheetDialog(
-                    ParticipationListBottomSheetDialog.TypeList.SHARE,
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToPersonListBottomSheetDialog(
+                    PersonListBottomSheetDialog.TypeList.SHARE,
                     demonstration.id
                 )
             )

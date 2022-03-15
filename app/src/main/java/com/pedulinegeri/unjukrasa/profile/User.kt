@@ -3,7 +3,7 @@ package com.pedulinegeri.unjukrasa.profile
 data class User(
     var id: String = "",
     val name: String = "",
-    val participation: ArrayList<String> = arrayListOf(),
+    val participate: ArrayList<String> = arrayListOf(),
     val upvote: ArrayList<String> = arrayListOf(),
     val downvote: ArrayList<String> = arrayListOf(),
     val share: ArrayList<String> = arrayListOf(),

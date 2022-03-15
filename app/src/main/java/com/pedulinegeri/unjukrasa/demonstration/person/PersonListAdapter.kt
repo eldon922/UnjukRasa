@@ -11,7 +11,7 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.PersonListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.DemonstrationPageFragmentDirections
-import com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialogDirections
+import com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialogDirections
 import com.squareup.picasso.Picasso
 
 
@@ -48,9 +48,9 @@ class PersonListAdapter(
 
             binding.root.setOnClickListener {
                 with(mainNavController) {
-                    if (currentDestination == graph[R.id.participationListBottomSheetDialog]) {
+                    if (currentDestination == graph[R.id.personListBottomSheetDialog]) {
                         navigate(
-                            ParticipationListBottomSheetDialogDirections.actionParticipationListBottomSheetDialogToNavigationProfilePage(
+                            PersonListBottomSheetDialogDirections.actionPersonListBottomSheetDialogToNavigationProfilePage(
                                 person.uid
                             )
                         )

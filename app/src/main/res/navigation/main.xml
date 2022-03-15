@@ -86,8 +86,8 @@
             android:id="@+id/actionDemonstrationPageFragmentToParticipateBottomSheetDialog"
             app:destination="@id/participateBottomSheetDialog" />
         <action
-            android:id="@+id/actionDemonstrationPageFragmentToParticipationListBottomSheetDialog"
-            app:destination="@id/participationListBottomSheetDialog" />
+            android:id="@+id/actionDemonstrationPageFragmentToPersonListBottomSheetDialog"
+            app:destination="@id/personListBottomSheetDialog" />
         <argument
             android:name="id"
             android:defaultValue="0"
@@ -141,7 +141,7 @@
 
     <dialog
         android:id="@+id/participateBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipateBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.ParticipateBottomSheetDialog"
         android:label="ParticipateBottomSheetDialog">
         <argument
             android:name="date"
@@ -158,14 +158,14 @@
     </dialog>
 
     <dialog
-        android:id="@+id/participationListBottomSheetDialog"
-        android:name="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog"
-        android:label="ParticipationListBottomSheetDialog">
+        android:id="@+id/personListBottomSheetDialog"
+        android:name="com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialog"
+        android:label="personListBottomSheetDialog">
         <argument
             android:name="typeList"
-            app:argType="com.pedulinegeri.unjukrasa.demonstration.participation.ParticipationListBottomSheetDialog$TypeList" />
+            app:argType="com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialog$TypeList" />
         <action
-            android:id="@+id/actionParticipationListBottomSheetDialogToNavigationProfilePage"
+            android:id="@+id/actionPersonListBottomSheetDialogToNavigationProfilePage"
             app:destination="@id/navigationProfilePage"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/wait_anim"

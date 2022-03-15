@@ -86,7 +86,7 @@
                     app:singleLine="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chipParticipant"
+                        android:id="@+id/chipParticipate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/participated"
