@@ -95,7 +95,7 @@ class DemonstrationPageFragment : Fragment() {
 
             setupFab()
             setupEditMode()
-            authViewModel.isSignedIn.observe(viewLifecycleOwner, {
+            authViewModel.isSignedIn.observe(viewLifecycleOwner) {
                 if (it) {
                     updateUserData()
                 } else {
@@ -130,7 +130,7 @@ class DemonstrationPageFragment : Fragment() {
                         )
                     }
                 }
-            })
+            }
             setupImages()
             setupChips()
             setupPerson()

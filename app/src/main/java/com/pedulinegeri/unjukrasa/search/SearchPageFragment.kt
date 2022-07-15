@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.algolia.search.client.ClientSearch
@@ -22,7 +23,6 @@ import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentSearchPageBinding
 import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonObject
@@ -66,8 +66,8 @@ class SearchPageFragment : Fragment() {
 
         setupSearchEngine()
 
-        authViewModel.isSignedIn.observe(viewLifecycleOwner){
-            if (!it){
+        authViewModel.isSignedIn.observe(viewLifecycleOwner) {
+            if (!it) {
                 binding.btnCreate.visibility = View.GONE
             }
         }
@@ -92,7 +92,7 @@ class SearchPageFragment : Fragment() {
                 imm.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
 
                 return if (queryText != null) {
-                    CoroutineScope(Dispatchers.Main).launch {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         try {
                             val result = index.search(query {
                                 query = queryText
