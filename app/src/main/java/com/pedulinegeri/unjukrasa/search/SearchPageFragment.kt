@@ -52,11 +52,11 @@ class SearchPageFragment : Fragment() {
 
         imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-        binding.backButton.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        binding.createButton.setOnClickListener {
+        binding.btnCreate.setOnClickListener {
             findNavController().navigate(R.id.actionSearchPageFragmentToNewDemonstrationPageFragment)
         }
 

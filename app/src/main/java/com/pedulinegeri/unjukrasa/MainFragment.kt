@@ -172,7 +172,7 @@ class MainFragment : Fragment() {
             true
         }
 
-        authViewModel.isSignedIn.observe(viewLifecycleOwner, { signedIn ->
+        authViewModel.isSignedIn.observe(viewLifecycleOwner) { signedIn ->
             val drawerMenu = binding.navigationDrawer.menu
             val bottomNavigationMenu = binding.bottomNavigation.menu
 
@@ -189,7 +189,7 @@ class MainFragment : Fragment() {
                 bottomNavigationMenu.findItem(R.id.navigationLoginPage).isVisible = true
                 bottomNavigationMenu.findItem(R.id.navigationProfilePage).isVisible = false
             }
-        })
+        }
     }
 
     private fun setupBottomNavigation() {

@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/backButton"
+                android:id="@+id/btnBack"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingEnd="15dp"
@@ -37,15 +37,15 @@
                 android:background="@drawable/rounded_edge"
                 app:iconifiedByDefault="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/createButton"
-                app:layout_constraintStart_toEndOf="@id/backButton"
+                app:layout_constraintEnd_toStartOf="@+id/btnCreate"
+                app:layout_constraintStart_toEndOf="@id/btnBack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:queryBackground="@null"
                 app:queryHint="@string/search_bar_title"
                 app:searchIcon="@null" />
 
             <ImageView
-                android:id="@+id/createButton"
+                android:id="@+id/btnCreate"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="15dp"
