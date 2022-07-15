@@ -13,6 +13,7 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -83,7 +84,7 @@ class SignUpPageFragment : Fragment() {
                         .set(userData)
                         .addOnSuccessListener {
                             authViewModel.signedIn(Firebase.auth.currentUser!!.uid)
-                            requireActivity().onBackPressed()
+                            findNavController().popBackStack()
                         }
                         .addOnFailureListener {
                             toast.setText(getString(R.string.unknown_error_message, it))
