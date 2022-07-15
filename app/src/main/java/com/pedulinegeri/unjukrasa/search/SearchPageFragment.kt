@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.algolia.search.client.ClientSearch
@@ -18,6 +19,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.pedulinegeri.unjukrasa.R
+import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentSearchPageBinding
 import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +33,8 @@ class SearchPageFragment : Fragment() {
 
     private var _binding: FragmentSearchPageBinding? = null
     private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var toast: Toast
 
@@ -61,6 +65,12 @@ class SearchPageFragment : Fragment() {
         }
 
         setupSearchEngine()
+
+        authViewModel.isSignedIn.observe(viewLifecycleOwner){
+            if (!it){
+                binding.btnCreate.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {
