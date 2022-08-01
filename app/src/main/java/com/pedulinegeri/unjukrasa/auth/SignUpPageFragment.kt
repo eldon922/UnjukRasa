@@ -112,6 +112,7 @@ class SignUpPageFragment : Fragment() {
         super.onResume()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().onBackPressed()
             return@addCallback
         }
     }
