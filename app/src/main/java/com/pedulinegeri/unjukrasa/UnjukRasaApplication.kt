@@ -1,9 +1,6 @@
 package com.pedulinegeri.unjukrasa
 
 import android.app.Application
-import com.google.firebase.FirebaseApp
-import com.google.firebase.appcheck.FirebaseAppCheck
-import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
@@ -14,12 +11,6 @@ import java.net.SocketException
 class UnjukRasaApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
-        FirebaseApp.initializeApp(this)
-        val firebaseAppCheck = FirebaseAppCheck.getInstance()
-        firebaseAppCheck.installAppCheckProviderFactory(
-            SafetyNetAppCheckProviderFactory.getInstance()
-        )
 
         RxJavaPlugins.setErrorHandler { e: Throwable ->
             val exception = if (e is UndeliverableException) e.cause!! else e
