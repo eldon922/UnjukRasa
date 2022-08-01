@@ -43,7 +43,7 @@
     <string name="trending">Trending</string>
     <string name="most_upvoted">Paling Banyak Didukung</string>
     <string name="most_recent">Terbaru</string>
-    <string name="version_and_company">v2.1.3 • PT Peduli Negeri</string>
+    <string name="version_and_company">v%1$s • PT Peduli Negeri</string>
     <string name="new_demonstration">Unjuk Rasa Baru</string>
     <string name="to">Kepada</string>
     <string name="profile">Profil</string>

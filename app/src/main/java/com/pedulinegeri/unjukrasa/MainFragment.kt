@@ -55,6 +55,8 @@ class MainFragment : Fragment() {
         if (mainViewModel.bottomNavState != -1) {
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
+
+        binding.tvVersionAndCompany.text = getString(R.string.version_and_company, BuildConfig.VERSION_NAME)
     }
 
     override fun onResume() {
