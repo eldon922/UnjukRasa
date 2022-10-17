@@ -53,8 +53,8 @@ class ProgressListAdapter(
             val adapter = DemonstrationImageAdapter(navController)
             binding.vpImages.adapter = adapter
 
-            if (progress.youtube_video.isNotBlank()) {
-                adapter.addImageOrVideo(progress.youtube_video)
+            if (progress.youtubeVideo.isNotBlank()) {
+                adapter.addImageOrVideo(progress.youtubeVideo)
             }
 
             val imageRef =
@@ -65,7 +65,7 @@ class ProgressListAdapter(
                     it.downloadUrl.addOnSuccessListener { adapter.addImageOrVideo(it.toString()) }
                 }
 
-                if (progress.youtube_video.isBlank()) {
+                if (progress.youtubeVideo.isBlank()) {
                     if (it.items.size == 0) {
                         binding.cvImages.visibility = View.GONE
                     } else if (it.items.size > 1) {
@@ -80,8 +80,8 @@ class ProgressListAdapter(
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    if (adapter.itemCount > 1 || (adapter.itemCount > 0 && progress.youtube_video.isNotBlank())) {
-                        if (position == 0 && progress.youtube_video.isNotBlank()) {
+                    if (adapter.itemCount > 1 || (adapter.itemCount > 0 && progress.youtubeVideo.isNotBlank())) {
+                        if (position == 0 && progress.youtubeVideo.isNotBlank()) {
                             binding.intoTabLayout.visibility = View.GONE
                         } else {
                             binding.intoTabLayout.visibility = View.VISIBLE

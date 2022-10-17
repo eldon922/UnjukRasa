@@ -1,11 +1,14 @@
-package com.pedulinegeri.unjukrasa.new_demonstration
+package com.pedulinegeri.unjukrasa.newdemonstration
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -14,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
@@ -25,12 +29,11 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentNewDemonstrationPageBinding
+import com.pedulinegeri.unjukrasa.util.Status.ERROR
+import com.pedulinegeri.unjukrasa.util.Status.SUCCESS
 import java.util.*
 import java.util.regex.Pattern
 
@@ -43,6 +46,7 @@ class NewDemonstrationPageFragment : Fragment() {
     private lateinit var toast: Toast
 
     private val authViewModel: AuthViewModel by activityViewModels()
+    private val newDemonstrationViewModel: NewDemonstrationViewModel by viewModels()
 
     private val DEMONSTRATION_MEDIA_PICKER_CODE = 1
     private val POLICE_PERMIT_MEDIA_PICKER_CODE = 2
@@ -57,7 +61,7 @@ class NewDemonstrationPageFragment : Fragment() {
             }
     }
 
-    private lateinit var chosenDate: Date
+    private var chosenDate = Date()
 
     private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
@@ -87,7 +91,7 @@ class NewDemonstrationPageFragment : Fragment() {
 
         setupToolbar()
         setupImageVideoUpload()
-        setupRoadProtests()
+        setupRoadProtest()
         setupDescriptionEditor()
     }
 
@@ -144,12 +148,12 @@ class NewDemonstrationPageFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRoadProtests() {
-        binding.cbRoadProtests.setOnCheckedChangeListener { _, checked ->
+    private fun setupRoadProtest() {
+        binding.cbRoadProtest.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                binding.groupRoadProtests.visibility = View.VISIBLE
+                binding.groupRoadProtest.visibility = View.VISIBLE
             } else {
-                binding.groupRoadProtests.visibility = View.GONE
+                binding.groupRoadProtest.visibility = View.GONE
             }
         }
 
@@ -206,7 +210,7 @@ class NewDemonstrationPageFragment : Fragment() {
                     toast.setText(getString(R.string.description_input_empty))
                     toast.show()
                     return@setOnMenuItemClickListener false
-                } else if (binding.cbRoadProtests.isChecked) {
+                } else if (binding.cbRoadProtest.isChecked) {
                     if (binding.etTime.text.isBlank()) {
                         binding.etTime.error = getString(R.string.time_input_empty)
                         binding.etTime.requestFocus()
@@ -245,71 +249,63 @@ class NewDemonstrationPageFragment : Fragment() {
     }
 
     private fun submit() {
-        val db = Firebase.firestore
-
-        val demonstrationData = DemonstrationData(
+        newDemonstrationViewModel.createNewDemonstration(
             authViewModel.uid,
             binding.etTitle.text.toString(),
             binding.etTo.text.toString(),
-            binding.reDescription.html
-        )
-
-        if (getYoutubeVideoID().isNotBlank()) {
-            demonstrationData.youtube_video = getYoutubeVideoID()
-        }
-
-        if (binding.cbRoadProtests.isChecked) {
-            demonstrationData.road_protests = binding.cbRoadProtests.isChecked
-            demonstrationData.datetime = chosenDate
-            demonstrationData.location = binding.etLocation.text.toString()
-        }
-
-        db.collection("demonstrations").add(demonstrationData)
-            .addOnSuccessListener {
+            binding.reDescription.html,
+            getYoutubeVideoID(),
+            binding.cbRoadProtest.isChecked,
+            chosenDate,
+            binding.etLocation.text.toString()
+        ).observe(viewLifecycleOwner) {
+            if (it.status == SUCCESS) {
                 toast.setText(getString(R.string.create_demonstration_success))
                 toast.show()
 
-                imageAdapter.imagesUri.forEachIndexed { index, uri ->
-                    val imageRef =
-                        Firebase.storage.reference.child("demonstration_image/${it.id}/${authViewModel.uid}/$index.png")
-                    val uploadTask = imageRef.putFile(uri)
+                requireActivity().findNavController(R.id.navHostContainerMain)
+                    .navigateUp()
 
-                    uploadTask.addOnFailureListener {
-                        toast.setText(
-                            getString(
-                                R.string.upload_demonstration_image_failed_message,
-                                index + 1,
-                                it
+                it.data?.let { demonstrationId ->
+                    newDemonstrationViewModel.uploadDemonstrationImages(
+                        imageAdapter.imagesUri,
+                        demonstrationId, authViewModel.uid
+                    ).observe(viewLifecycleOwner) { imageUploadStatus ->
+                        if (imageUploadStatus.status == ERROR) {
+                            toast.setText(
+                                getString(
+                                    R.string.upload_demonstration_image_failed_message,
+                                    imageUploadStatus.data,
+                                    imageUploadStatus.message
+                                )
                             )
-                        )
-                        toast.show()
+                            toast.show()
+                        }
+                    }
+
+                    if (binding.cbRoadProtest.isChecked && binding.etPolicePermit.text.isNotBlank()) {
+                        newDemonstrationViewModel.uploadPolicePermit(
+                            demonstrationId,
+                            authViewModel.uid,
+                            binding.etPolicePermit.text.toString().toUri()
+                        ).observe(viewLifecycleOwner) { policePermitUploadStatus ->
+                            if (policePermitUploadStatus.status == ERROR) {
+                                toast.setText(
+                                    getString(
+                                        R.string.upload_police_permit_image_failed_message,
+                                        policePermitUploadStatus.message
+                                    )
+                                )
+                                toast.show()
+                            }
+                        }
                     }
                 }
-
-                if (binding.cbRoadProtests.isChecked && binding.etPolicePermit.text.isNotBlank()) {
-                    val imageRef =
-                        Firebase.storage.reference.child("/police_permit_image/${it.id}/${authViewModel.uid}.png")
-                    val uploadTask =
-                        imageRef.putFile(binding.etPolicePermit.text.toString().toUri())
-
-                    uploadTask.addOnFailureListener {
-                        toast.setText(
-                            getString(
-                                R.string.upload_police_permit_image_failed_message,
-                                it
-                            )
-                        )
-                        toast.show()
-                    }
-                }
-            }
-            .addOnFailureListener {
-                toast.setText(getString(R.string.unknown_error_message, it))
+            } else if (it.status == ERROR) {
+                toast.setText(getString(R.string.unknown_error_message, it.message))
                 toast.show()
             }
-
-        requireActivity().findNavController(R.id.navHostContainerMain)
-            .navigateUp()
+        }
     }
 
     private fun setupImageVideoUpload() {

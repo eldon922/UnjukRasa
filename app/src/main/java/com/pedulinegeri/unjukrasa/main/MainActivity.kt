@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa
+package com.pedulinegeri.unjukrasa.main
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

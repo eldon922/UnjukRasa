@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.new_demonstration
+package com.pedulinegeri.unjukrasa.newdemonstration
 
 import android.net.Uri
 import android.view.LayoutInflater

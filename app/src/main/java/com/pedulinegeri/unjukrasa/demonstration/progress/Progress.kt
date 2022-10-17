@@ -5,6 +5,6 @@ import java.util.*
 
 data class Progress(
     val description: String = "",
-    var youtube_video: String = "",
+    var youtubeVideo: String = "",
     @ServerTimestamp var creationDate: Date = Calendar.getInstance().time
 )

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
-    tools:context=".new_demonstration.NewDemonstrationPageFragment">
+    tools:context=".newdemonstration.NewDemonstrationPageFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -119,7 +119,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
-                android:id="@+id/cbRoadProtests"
+                android:id="@+id/cbRoadProtest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/participate_title"
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/time"
                 app:errorEnabled="true"
-                app:layout_constraintTop_toBottomOf="@+id/cbRoadProtests">
+                app:layout_constraintTop_toBottomOf="@+id/cbRoadProtest">
 
                 <EditText
                     android:id="@+id/etTime"
@@ -234,7 +234,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/reDescription" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/groupRoadProtests"
+                android:id="@+id/groupRoadProtest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

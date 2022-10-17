@@ -86,11 +86,11 @@ class LoginPageFragment : Fragment() {
             binding.appbar.visibility = View.VISIBLE
         }
 
-        authViewModel.isSignedIn.observe(viewLifecycleOwner, {
+        authViewModel.isSignedIn.observe(viewLifecycleOwner) {
             if (it) {
                 requireActivity().onBackPressed()
             }
-        })
+        }
     }
 
     private fun setupAuth() {

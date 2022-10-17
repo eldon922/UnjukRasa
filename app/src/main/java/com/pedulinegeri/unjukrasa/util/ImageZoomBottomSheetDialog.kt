@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa
+package com.pedulinegeri.unjukrasa.util
 
 import android.app.Dialog
 import android.os.Bundle

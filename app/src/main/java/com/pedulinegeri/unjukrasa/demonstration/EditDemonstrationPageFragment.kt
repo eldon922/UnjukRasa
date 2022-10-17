@@ -78,7 +78,7 @@ class EditDemonstrationPageFragment : Fragment() {
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
         setupToolbar()
-        setupRoadProtests()
+        setupRoadProtest()
         setupDescriptionEditor()
 
         val db = Firebase.firestore
@@ -88,7 +88,7 @@ class EditDemonstrationPageFragment : Fragment() {
 
             binding.etTitle.setText(demonstration.title)
             binding.etTo.setText(demonstration.to)
-            binding.cbRoadProtests.isChecked = demonstration.road_protests
+            binding.cbRoadProtest.isChecked = demonstration.roadProtest
             binding.etLocation.setText(demonstration.location)
             binding.etTime.setText(demonstration.datetime.toString())
             binding.reDescription.html = demonstration.description
@@ -147,12 +147,12 @@ class EditDemonstrationPageFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRoadProtests() {
-        binding.cbRoadProtests.setOnCheckedChangeListener { _, checked ->
+    private fun setupRoadProtest() {
+        binding.cbRoadProtest.setOnCheckedChangeListener { _, checked ->
             if (checked) {
-                binding.groupRoadProtests.visibility = View.VISIBLE
+                binding.groupRoadProtest.visibility = View.VISIBLE
             } else {
-                binding.groupRoadProtests.visibility = View.GONE
+                binding.groupRoadProtest.visibility = View.GONE
             }
         }
 
@@ -209,7 +209,7 @@ class EditDemonstrationPageFragment : Fragment() {
                     binding.etTo.error = getString(R.string.destination_input_empty)
                     binding.etTo.requestFocus()
                     return@setOnMenuItemClickListener false
-                } else if (binding.cbRoadProtests.isChecked) {
+                } else if (binding.cbRoadProtest.isChecked) {
                     if (binding.etTime.text.isBlank()) {
                         binding.etTime.error = getString(R.string.time_input_empty)
                         binding.etTime.requestFocus()
@@ -248,7 +248,7 @@ class EditDemonstrationPageFragment : Fragment() {
             "title" to binding.etTitle.text.toString(),
             "to" to binding.etTo.text.toString(),
             "description" to binding.reDescription.html,
-            "road_protests" to binding.cbRoadProtests.isChecked,
+            "roadProtest" to binding.cbRoadProtest.isChecked,
             "datetime" to chosenDate,
             "location" to binding.etLocation.text.toString()
         )
@@ -259,7 +259,7 @@ class EditDemonstrationPageFragment : Fragment() {
                 toast.setText(getString(R.string.edit_demonstration_success_message))
                 toast.show()
 
-                if (binding.cbRoadProtests.isChecked && binding.etPolicePermit.text.isNotBlank()) {
+                if (binding.cbRoadProtest.isChecked && binding.etPolicePermit.text.isNotBlank()) {
                     val imageRef =
                         Firebase.storage.reference.child("/police_permit_image/${args.id}/${authViewModel.uid}.png")
                     val uploadTask =

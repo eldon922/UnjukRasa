@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.pedulinegeri.unjukrasa.MainFragmentDirections
+import com.pedulinegeri.unjukrasa.main.MainFragmentDirections
 import com.pedulinegeri.unjukrasa.databinding.MostUpvotedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.demonstration.Demonstration
 import com.squareup.picasso.Picasso
@@ -34,7 +34,7 @@ class MostUpvotedDemonstrationViewHolder(
                 }
             } else {
                 Picasso.get()
-                    .load("http://img.youtube.com/vi/${demonstration.youtube_video}/0.jpg")
+                    .load("http://img.youtube.com/vi/${demonstration.youtubeVideo}/0.jpg")
                     .into(binding.ivThumbnail)
             }
         }

@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa
+package com.pedulinegeri.unjukrasa.main
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

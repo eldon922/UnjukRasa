@@ -14,7 +14,7 @@
         android:theme="@style/Theme.UnjukRasa"
         tools:replace="android:theme">
         <activity
-            android:name="com.pedulinegeri.unjukrasa.MainActivity"
+            android:name="com.pedulinegeri.unjukrasa.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">

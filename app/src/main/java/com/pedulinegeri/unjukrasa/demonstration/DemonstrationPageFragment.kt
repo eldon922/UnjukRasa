@@ -91,7 +91,7 @@ class DemonstrationPageFragment : Fragment() {
             binding.tvTitle.text = demonstration.title
             binding.tvTo.text = getString(R.string.demonstration_destination, demonstration.to)
 
-            showParticipate = demonstration.road_protests
+            showParticipate = demonstration.roadProtest
 
             setupFab()
             setupEditMode()
@@ -165,8 +165,8 @@ class DemonstrationPageFragment : Fragment() {
         demonstrationImageAdapter = DemonstrationImageAdapter(findNavController())
         binding.vpImages.adapter = demonstrationImageAdapter
 
-        if (demonstration.youtube_video.isNotBlank()) {
-            demonstrationImageAdapter.addImageOrVideo(demonstration.youtube_video)
+        if (demonstration.youtubeVideo.isNotBlank()) {
+            demonstrationImageAdapter.addImageOrVideo(demonstration.youtubeVideo)
         }
 
         val imageRef =
@@ -184,7 +184,7 @@ class DemonstrationPageFragment : Fragment() {
                 }
             }
 
-            if (it.items.size > 1 && demonstration.youtube_video.isBlank()) {
+            if (it.items.size > 1 && demonstration.youtubeVideo.isBlank()) {
                 binding.intoTabLayout.visibility = View.VISIBLE
             }
         }.addOnFailureListener {
@@ -197,8 +197,8 @@ class DemonstrationPageFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
-                if (demonstrationImageAdapter.itemCount > 1 || (demonstrationImageAdapter.itemCount > 0 && demonstration.youtube_video.isNotBlank())) {
-                    if (position == 0 && demonstration.youtube_video.isNotBlank()) {
+                if (demonstrationImageAdapter.itemCount > 1 || (demonstrationImageAdapter.itemCount > 0 && demonstration.youtubeVideo.isNotBlank())) {
+                    if (position == 0 && demonstration.youtubeVideo.isNotBlank()) {
                         binding.intoTabLayout.visibility = View.GONE
                     } else {
                         binding.intoTabLayout.visibility = View.VISIBLE
@@ -336,12 +336,12 @@ class DemonstrationPageFragment : Fragment() {
             val user = document?.toObject<User>()!!
             hasAction = !(demonstration.id in user.upvote || demonstration.id in user.downvote)
             showParticipate =
-                demonstration.id !in user.participate && demonstration.road_protests && demonstration.id !in user.downvote
+                demonstration.id !in user.participate && demonstration.roadProtest && demonstration.id !in user.downvote
 
             binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelUpvote).isVisible = false
             binding.toolbar.menu.findItem(R.id.actionCancelDownvote).isVisible = false
-            if (demonstration.id in user.participate && demonstration.road_protests) {
+            if (demonstration.id in user.participate && demonstration.roadProtest) {
                 binding.toolbar.menu.findItem(R.id.actionCancelParticipate).isVisible = true
                 binding.chipParticipate.setChipBackgroundColorResource(R.color.green)
             }

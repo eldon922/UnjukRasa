@@ -23,8 +23,7 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentAddProgressPageBinding
-import com.pedulinegeri.unjukrasa.new_demonstration.NewDemonstrationImageAdapter
-import java.util.*
+import com.pedulinegeri.unjukrasa.newdemonstration.NewDemonstrationImageAdapter
 import java.util.regex.Pattern
 
 
@@ -138,7 +137,7 @@ class AddProgressPageFragment : Fragment() {
         val progressData = Progress(binding.reDescription.html)
 
         if (getYoutubeVideoID().isNotBlank()) {
-            progressData.youtube_video = getYoutubeVideoID()
+            progressData.youtubeVideo = getYoutubeVideoID()
         }
 
         db.collection("demonstrations").document(args.demonstrationId)

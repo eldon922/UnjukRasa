@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa
+package com.pedulinegeri.unjukrasa.main
 
 import android.content.res.Configuration
 import android.graphics.Color
@@ -18,11 +18,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.pedulinegeri.unjukrasa.BuildConfig
+import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
+import com.pedulinegeri.unjukrasa.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.lang.NullPointerException
 
 
 @AndroidEntryPoint
@@ -56,7 +58,10 @@ class MainFragment : Fragment() {
             binding.bottomNavigation.selectedItemId = mainViewModel.bottomNavState
         }
 
-        binding.tvVersionAndCompany.text = getString(R.string.version_and_company, BuildConfig.VERSION_NAME)
+        binding.tvVersionAndCompany.text = getString(
+            R.string.version_and_company,
+            BuildConfig.VERSION_NAME
+        )
     }
 
     override fun onResume() {

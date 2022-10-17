@@ -55,6 +55,11 @@ class ProfilePageFragment : Fragment() {
                 .navigate(R.id.actionMainScreenToNavigationNewDemonstrationPage)
         }
 
+        checkCurrentUserOrNot()
+        loadProfileImage()
+    }
+
+    private fun checkCurrentUserOrNot() {
         if (args.userUID.isNotBlank()) {
             binding.appbar.visibility = View.VISIBLE
             binding.fabAdd.hide()
@@ -68,7 +73,9 @@ class ProfilePageFragment : Fragment() {
                 }
             })
         }
+    }
 
+    private fun loadProfileImage() {
         val imageRef =
             Firebase.storage.reference.child("profile_picture/$uid.png")
 
@@ -82,6 +89,10 @@ class ProfilePageFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        loadUserData()
+    }
+
+    private fun loadUserData() {
         val db = Firebase.firestore
         val docRef = db.collection("users").document(uid)
         userSnapshotListener = docRef.addSnapshotListener { snapshot, e ->

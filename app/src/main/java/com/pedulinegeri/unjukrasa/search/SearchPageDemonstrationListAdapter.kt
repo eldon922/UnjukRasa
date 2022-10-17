@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.pedulinegeri.unjukrasa.MainFragmentDirections
+import com.pedulinegeri.unjukrasa.main.MainFragmentDirections
 import com.pedulinegeri.unjukrasa.databinding.MostRecentCreatedDemonstrationListItemBinding
 import com.pedulinegeri.unjukrasa.profile.DemonstrationTitle
 import com.squareup.picasso.Picasso
