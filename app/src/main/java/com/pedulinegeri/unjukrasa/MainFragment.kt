@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.main
+package com.pedulinegeri.unjukrasa
 
 import android.content.res.Configuration
 import android.graphics.Color
@@ -18,11 +18,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
-import com.pedulinegeri.unjukrasa.BuildConfig
-import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
-import com.pedulinegeri.unjukrasa.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 

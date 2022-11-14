@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.main
+package com.pedulinegeri.unjukrasa
 
 import android.graphics.Rect
 import android.os.Bundle

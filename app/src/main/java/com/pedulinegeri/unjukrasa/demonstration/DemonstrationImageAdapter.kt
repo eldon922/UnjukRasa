@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.pedulinegeri.unjukrasa.main.MainFragmentDirections
+import com.pedulinegeri.unjukrasa.MainFragmentDirections
 import com.pedulinegeri.unjukrasa.databinding.DemonstrationImageItemBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
