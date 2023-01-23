@@ -11,12 +11,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentMainBinding
@@ -117,7 +120,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        (requireActivity() as MainActivity).setSupportActionBar(binding.toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         binding.hamIcon.setOnClickListener {
             binding.drawer.open()
@@ -209,6 +212,10 @@ class MainFragment : Fragment() {
             containerId = R.id.navHostContainer,
             intent = requireActivity().intent
         )
+    }
+
+    fun setBottomNavController(navController: NavController) {
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

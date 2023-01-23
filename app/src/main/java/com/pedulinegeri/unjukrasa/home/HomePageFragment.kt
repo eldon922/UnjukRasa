@@ -6,23 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.firestore.paging.FirestorePagingAdapter
-import com.firebase.ui.firestore.paging.FirestorePagingOptions
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
+import com.pedulinegeri.unjukrasa.MainFragmentDirections
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.databinding.FragmentHomePageBinding
-import com.pedulinegeri.unjukrasa.databinding.MostRecentCreatedDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.databinding.MostUpvotedDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.databinding.TrendingDemonstrationListItemBinding
-import com.pedulinegeri.unjukrasa.demonstration.Demonstration
+import com.pedulinegeri.unjukrasa.home.adapter.MostRecentCreatedDemonstrationAdapter
+import com.pedulinegeri.unjukrasa.home.adapter.MostUpvotedDemonstrationAdapter
+import com.pedulinegeri.unjukrasa.home.adapter.TrendingDemonstrationAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomePageFragment : Fragment() {
 
     private var _binding: FragmentHomePageBinding? = null
@@ -30,7 +26,7 @@ class HomePageFragment : Fragment() {
 
     private val homePageViewModel: HomePageViewModel by viewModels()
 
-    private val collectionRef = Firebase.firestore.collection("demonstrations")
+    private lateinit var demonstrationOnClickListener: DemonstrationOnClickListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,9 +40,17 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupTrendingListDemonstration()
-        setupMostVotedListDemonstration()
-        setupMostRecentCreatedListDemonstration()
+        demonstrationOnClickListener = object : DemonstrationOnClickListener {
+            override fun onClick(demonstrationId: String) {
+                requireActivity().findNavController(R.id.navHostContainerMain).navigate(
+                    MainFragmentDirections.actionGlobalDemonstrationPageFragment(demonstrationId)
+                )
+            }
+        }
+
+        setupTrendingDemonstrationList()
+        setupMostUpvotedDemonstrationList()
+        setupMostRecentCreatedDemonstrationList()
     }
 
     override fun onPause() {
@@ -55,165 +59,53 @@ class HomePageFragment : Fragment() {
         homePageViewModel.nsvScrollPosition = binding.nsv.scrollY
     }
 
-    private fun setupTrendingListDemonstration() {
-        val baseQuery = collectionRef.orderBy("numberOfAction", Query.Direction.DESCENDING)
-        val config = PagingConfig(10, 5, true)
-        val options = FirestorePagingOptions.Builder<Demonstration>()
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setQuery(baseQuery, config) {
-                val demonstration = it.toObject<Demonstration>()!!
-                demonstration.id = it.id
-                return@setQuery demonstration
-            }
-            .build()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
-        val adapter = object :
-            FirestorePagingAdapter<Demonstration, TrendingDemonstrationViewHolder>(
-                options
-            ) {
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): TrendingDemonstrationViewHolder {
-                val binding = TrendingDemonstrationListItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-
-                return TrendingDemonstrationViewHolder(
-                    binding, requireActivity().findNavController(
-                        R.id.navHostContainerMain
-                    )
-                )
-            }
-
-            override fun onBindViewHolder(
-                holder: TrendingDemonstrationViewHolder,
-                position: Int,
-                model: Demonstration
-            ) {
-                holder.bind(model)
-            }
-
-        }
+    private fun setupTrendingDemonstrationList() {
+        val adapter = TrendingDemonstrationAdapter(demonstrationOnClickListener)
 
         binding.rvTrending.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = adapter
         }
+
+        lifecycleScope.launch {
+            homePageViewModel.trendingDemonstrationFlow.collect {
+                adapter.submitData(it)
+            }
+        }
     }
 
-    private fun setupMostVotedListDemonstration() {
-        val baseQuery = collectionRef.orderBy("upvote", Query.Direction.DESCENDING)
-        val config = PagingConfig(10, 5, true)
-        val options = FirestorePagingOptions.Builder<Demonstration>()
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setQuery(baseQuery, config) {
-                val demonstration = it.toObject<Demonstration>()!!
-                demonstration.id = it.id
-                return@setQuery demonstration
-            }
-            .build()
-
-        val adapter = object :
-            FirestorePagingAdapter<Demonstration, MostUpvotedDemonstrationViewHolder>(
-                options
-            ) {
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): MostUpvotedDemonstrationViewHolder {
-                val binding = MostUpvotedDemonstrationListItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-
-                return MostUpvotedDemonstrationViewHolder(
-                    binding, requireActivity().findNavController(
-                        R.id.navHostContainerMain
-                    )
-                )
-            }
-
-            override fun onBindViewHolder(
-                holder: MostUpvotedDemonstrationViewHolder,
-                position: Int,
-                model: Demonstration
-            ) {
-                holder.bind(model)
-            }
-
-        }
+    private fun setupMostUpvotedDemonstrationList() {
+        val adapter = MostUpvotedDemonstrationAdapter(demonstrationOnClickListener)
 
         binding.rvMostUpvoted.apply {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = adapter
         }
+
+        lifecycleScope.launch {
+            homePageViewModel.mostUpvotedDemonstrationFlow.collect {
+                adapter.submitData(it)
+            }
+        }
     }
 
-    private fun setupMostRecentCreatedListDemonstration() {
-        val baseQuery = collectionRef.orderBy("creationDate", Query.Direction.DESCENDING)
-        val config = PagingConfig(10, 5, true)
-        val options = FirestorePagingOptions.Builder<Demonstration>()
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setQuery(baseQuery, config) {
-                val demonstration = it.toObject<Demonstration>()!!
-                demonstration.id = it.id
-                return@setQuery demonstration
-            }
-            .build()
-
-        val adapter = object :
-            FirestorePagingAdapter<Demonstration, MostRecentCreatedDemonstrationViewHolder>(
-                options
-            ) {
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): MostRecentCreatedDemonstrationViewHolder {
-                val binding = MostRecentCreatedDemonstrationListItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-
-                return MostRecentCreatedDemonstrationViewHolder(
-                    binding, requireActivity().findNavController(
-                        R.id.navHostContainerMain
-                    )
-                )
-            }
-
-            override fun onBindViewHolder(
-                holder: MostRecentCreatedDemonstrationViewHolder,
-                position: Int,
-                model: Demonstration
-            ) {
-                holder.bind(model)
-            }
-
-        }
+    private fun setupMostRecentCreatedDemonstrationList() {
+        val adapter = MostRecentCreatedDemonstrationAdapter(demonstrationOnClickListener)
 
         binding.rvMostRecentCreated.apply {
-            this.layoutManager = object : LinearLayoutManager(context, VERTICAL, false) {
-                override fun onLayoutCompleted(state: RecyclerView.State?) {
-                    super.onLayoutCompleted(state)
-
-                    if (this.height != homePageViewModel.rvMostRecentCreatedDemonstrationLastHeight) {
-                        binding.nsv.scrollY = homePageViewModel.nsvScrollPosition
-                    }
-
-                    homePageViewModel.rvMostRecentCreatedDemonstrationLastHeight = this.height
-                }
-            }
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = adapter
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        lifecycleScope.launch {
+            homePageViewModel.mostRecentCreatedDemonstrationFlow.collect {
+                adapter.submitData(it)
+            }
+        }
     }
 }

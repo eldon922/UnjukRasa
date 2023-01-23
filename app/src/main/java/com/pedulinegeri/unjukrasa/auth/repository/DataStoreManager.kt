@@ -1,4 +1,4 @@
-package com.pedulinegeri.unjukrasa.auth
+package com.pedulinegeri.unjukrasa.auth.repository
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
