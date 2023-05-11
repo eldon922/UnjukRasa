@@ -5,7 +5,9 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.SystemClock
 import android.text.Html
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
@@ -28,14 +30,17 @@ import com.google.firebase.storage.ktx.storage
 import com.pedulinegeri.unjukrasa.R
 import com.pedulinegeri.unjukrasa.auth.AuthViewModel
 import com.pedulinegeri.unjukrasa.databinding.FragmentDemonstrationPageBinding
-import com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.person.PersonListAdapter
+import com.pedulinegeri.unjukrasa.demonstration.person.PersonListBottomSheetDialog
 import com.pedulinegeri.unjukrasa.demonstration.progress.ProgressListAdapter
 import com.pedulinegeri.unjukrasa.profile.User
-import kotlinx.coroutines.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
-
+@AndroidEntryPoint
 class DemonstrationPageFragment : Fragment() {
 
     private var _binding: FragmentDemonstrationPageBinding? = null
@@ -82,70 +87,56 @@ class DemonstrationPageFragment : Fragment() {
 
         toast = Toast.makeText(requireActivity().applicationContext, "", Toast.LENGTH_LONG)
 
-        val db = Firebase.firestore
-        val docRef = db.collection("demonstrations").document(args.id)
-        docRef.get().addOnSuccessListener {
-            demonstration = it?.toObject<Demonstration>()!!
-            demonstration.id = args.id
+        demonstrationPageViewModel.getDemonstration(args.id).observe(viewLifecycleOwner) {
+            if (it.data != null) {
+                demonstration = it.data
+                binding.tvTitle.text = demonstration.title
+                binding.tvTo.text = getString(R.string.demonstration_destination, demonstration.to)
 
-            binding.tvTitle.text = demonstration.title
-            binding.tvTo.text = getString(R.string.demonstration_destination, demonstration.to)
+                showParticipate = demonstration.roadProtest
 
-            showParticipate = demonstration.roadProtest
-
-            setupFab()
-            setupEditMode()
-            authViewModel.isSignedIn.observe(viewLifecycleOwner) {
-                if (it) {
-                    updateUserData()
-                } else {
-                    binding.fabParticipate.setOnClickListener {
-                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
-                            return@setOnClickListener
-                        }
-                        lastClickTime = SystemClock.elapsedRealtime()
-
-                        findNavController().navigate(
-                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
-                        )
-                    }
-                    binding.fabUpvote.setOnClickListener {
-                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
-                            return@setOnClickListener
-                        }
-                        lastClickTime = SystemClock.elapsedRealtime()
-
-                        findNavController().navigate(
-                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
-                        )
-                    }
-                    binding.fabDownvote.setOnClickListener {
-                        if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
-                            return@setOnClickListener
-                        }
-                        lastClickTime = SystemClock.elapsedRealtime()
-
-                        findNavController().navigate(
-                            DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
-                        )
+                setupFab()
+                setupEditMode()
+                authViewModel.isSignedIn.observe(viewLifecycleOwner) {
+                    if (it) {
+                        updateUserData()
+                    } else {
+                        setupFabSignedOut()
                     }
                 }
-            }
-            setupImages()
-            setupChips()
-            setupPerson()
-            binding.tvDescription.text = Html.fromHtml(demonstration.description)
-            setupProgress()
+                setupImages()
+                setupChips()
+                setupPerson()
+                binding.tvDescription.text = Html.fromHtml(demonstration.description)
+                setupProgress()
 
-            binding.nsv.post {
-                binding.nsv.scrollY = demonstrationPageViewModel.nsvScrollPosition
+                binding.nsv.post {
+                    binding.nsv.scrollY = demonstrationPageViewModel.nsvScrollPosition
+                }
+            } else {
+                toast.setText(getString(R.string.unknown_error_message))
+                toast.show()
             }
-        }.addOnFailureListener {
-            toast.setText(getString(R.string.unknown_error_message, it))
-            toast.show()
         }
 
         setupToolbar()
+    }
+
+    private fun setupFabSignedOut() {
+        val onClickListenerToSignIn = View.OnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
+                return@OnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
+            findNavController().navigate(
+                DemonstrationPageFragmentDirections.actionDemonstrationPageFragmentToNavigationLoginPage()
+            )
+        }
+
+        binding.fabParticipate.setOnClickListener(onClickListenerToSignIn)
+        binding.fabUpvote.setOnClickListener(onClickListenerToSignIn)
+        binding.fabDownvote.setOnClickListener(onClickListenerToSignIn)
     }
 
     private fun setupPerson() {

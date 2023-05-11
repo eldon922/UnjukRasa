@@ -1,6 +1,7 @@
 package com.pedulinegeri.unjukrasa.newdemonstration
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
@@ -23,7 +24,7 @@ class NewDemonstrationViewModel : ViewModel() {
         roadProtest: Boolean,
         roadProtestDate: Date,
         roadProtestLocation: String
-    ): MutableLiveData<Resource<String>> {
+    ): LiveData<Resource<String>> {
         val demonstrationData = DemonstrationData(
             uid,
             title,
@@ -64,7 +65,7 @@ class NewDemonstrationViewModel : ViewModel() {
         imagesUri: List<Uri>,
         demonstrationId: String,
         uid: String
-    ): MutableLiveData<Resource<Int>> {
+    ): LiveData<Resource<Int>> {
         imagesUri.forEachIndexed { index, uri ->
             val imageRef =
                 Firebase.storage.reference.child("demonstration_image/$demonstrationId/$uid/$index.png")
@@ -90,7 +91,7 @@ class NewDemonstrationViewModel : ViewModel() {
     private val uploadPolicePermitStatus =
         MutableLiveData(Resource.loading(null))
 
-    fun uploadPolicePermit(demonstrationId: String, uid: String, uri: Uri): MutableLiveData<Resource<Nothing>> {
+    fun uploadPolicePermit(demonstrationId: String, uid: String, uri: Uri): LiveData<Resource<Nothing>> {
         val imageRef =
             Firebase.storage.reference.child("/police_permit_image/$demonstrationId/$uid.png")
         val uploadTask =

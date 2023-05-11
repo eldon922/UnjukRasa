@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pedulinegeri.unjukrasa
+package com.pedulinegeri.unjukrasa.util
 
 import android.content.Intent
 import android.util.SparseArray
@@ -25,6 +25,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.pedulinegeri.unjukrasa.R
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].
